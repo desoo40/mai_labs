@@ -1,6 +1,10 @@
 #ifndef __TREE_H__
 #define __TREE_H__
 
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -27,7 +31,7 @@ Tree *tree_create();
 Node *node_create();
 Data *data_create();
 void node_add(Data *data, Node *node);
-int max(int a, int b);
+int _max(int a, int b);
 int tree_depht(Tree *tree);
 int node_depht(Node *node, int d);
 Node *tree_find_elem(Node *node, Key key);

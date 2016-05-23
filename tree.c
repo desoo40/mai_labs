@@ -60,6 +60,7 @@ Node *node_create()
 
 	node->left = NULL;
 	node->right = NULL;
+	node->data = NULL;
 
 	return node;
 }
@@ -101,7 +102,7 @@ void tree_print_2(Node *node, int lvl)
 	}
 }
 
-int max(int a, int b)
+int _max(int a, int b)
 {
 	return a > b ? a : b;
 }
