@@ -82,10 +82,69 @@ Node *tree_find_elem(Node *node, Key key)
 		return tree_find_elem(node->right, key);
 }
 
-void tree_delete_elem(Tree *tree, Node *node)
+void tree_delete_elem(Node *node, Node *parent)
 {
-	
+	if (node == NULL) return;
+
+	if (node->left == NULL && node->right == NULL)
+	{
+		if (parent->left == node) parent->left = NULL;
+		else parent->right = NULL;
+		//free node
+	}
+
+	if (node->left != NULL && node->right == NULL)
+	{
+		if (parent->left == node) parent->left = node->left;
+		else parent->right = node->left;
+		//free node
+	}
+	if (node->right != NULL && node->left == NULL)
+	{
+		if (parent->left == node) parent->left = node->right;
+		else parent->right = node->right;
+		//free node
+	}
+
+	if (node->left != NULL && node->right != NULL)
+	{
+		Node *r = node->right;
+		Node *l = r->left;
+		Node *min_val = NULL;
+		if (l == NULL)
+		{
+			min_val = r;
+
+			if(parent != NULL) parent->right = min_val;
+			min_val->left = node->left;
+			//free node
+		}
+		else
+		{
+			Node *l_parent = r; 
+			min_val = l;
+			while (min_val->left != NULL)
+			{
+				l_parent = min_val;
+				min_val = min_val->left;
+			}
+			l_parent->left = NULL;
+			
+			if (parent != NULL) 
+			{
+				if (parent->left == node) parent->left = min_val;
+				else parent->right = min_val;
+			}
+
+			min_val->left = node->left;
+			min_val->right = node->right;
+			//free node
+		}
+
+	}
 }
+
+
 
 void tree_print_2(Node *node, int lvl)
 {
