@@ -37,6 +37,8 @@ int node_depht(Node *node, int d);
 Node *tree_find_elem(Node *node, Key key);
 Node *tree_find_parent(Node *parent, Node *child);
 void tree_delete_elem(Tree *tree, Node *node, Node *parent);
+int _print_t(Node *node, int is_left, int offset, int depth, char s[20][255]);
+int print_t(Tree *tree);
 void tree_print_2(Node *node, int lvl);
 
 #endif

@@ -73,7 +73,7 @@ Node *tree_find_elem(Node *node, Key key)
 	}
 
 	if (node->data == NULL) {
-		printf("No data in node %d\n", key);
+		printf("No data in node\n");
 		return NULL;
 	}
 
@@ -184,7 +184,7 @@ Node *tree_find_parent(Node *parent, Node *child)
 		return tree_find_parent(parent->right, child);
 }
 
-void tree_print_2(Node *node, int lvl)
+void tree_print_2(Node *node, int lvl) // my code
 {
 	for (int i = 0; i < lvl; ++i) {
 		printf("+	");
@@ -197,6 +197,53 @@ void tree_print_2(Node *node, int lvl)
 		tree_print_2(node->left, lvl + 1);
 		tree_print_2(node->right, lvl + 1);
 	}
+}
+
+int _print_t(Node *node, int is_left, int offset, int depth, char s[20][255]) //somebody code
+{
+    char b[20];
+    int width = 5;
+
+    if (!node) return 0;
+
+    sprintf(b, "(%03d)", node->data->value);
+
+    int left  = _print_t(node->left,  1, offset,                depth + 1, s);
+    int right = _print_t(node->right, 0, offset + left + width, depth + 1, s);
+
+    for (int i = 0; i < width; i++)
+        s[2 * depth][offset + left + i] = b[i];
+
+    if (depth && is_left) {
+
+        for (int i = 0; i < width + right; i++)
+            s[2 * depth - 1][offset + left + width/2 + i] = '-';
+
+        s[2 * depth - 1][offset + left + width/2] = '+';
+        s[2 * depth - 1][offset + left + width + right + width/2] = '+';
+
+    } else if (depth && !is_left) {
+
+        for (int i = 0; i < left + width; i++)
+            s[2 * depth - 1][offset - width/2 + i] = '-';
+
+        s[2 * depth - 1][offset + left + width/2] = '+';
+        s[2 * depth - 1][offset - width/2 - 1] = '+';
+    }
+
+    return left + width + right;
+}
+
+int print_t(Tree *tree)
+{
+    char s[20][255];
+    for (int i = 0; i < 20; i++)
+        sprintf(s[i], "%80s", " ");
+
+    _print_t(tree->root, 0, 0, 0, s);
+
+    for (int i = 0; i < 20; i++)
+        printf("%s\n", s[i]);
 }
 
 int _max(int a, int b)

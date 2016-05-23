@@ -74,7 +74,7 @@ void interface(Tree *tree, int *l, int *r)
 		}
 
 		if (s == 2) {
-			tree_print_2(tree->root, 0);
+			print_t(tree);
 			continue;
 		}
 
