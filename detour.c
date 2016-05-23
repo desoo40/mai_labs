@@ -95,7 +95,14 @@ void interface(Tree *tree, int *l, int *r)
 			printf("Insert key of deleted element:\n");
 			scanf("%d", &key);
 
-			tree_delete_elem(tree, tree_find_elem(tree->root, key));
+			Node *find = tree_find_elem(tree->root, key);
+
+			if (find == NULL) {
+				printf("NOOOOO\n");
+				continue;
+			}
+
+			printf("%d\n", find->data->key);
 			continue;
 		}
 

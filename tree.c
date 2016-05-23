@@ -124,5 +124,5 @@ int node_depht(Node *node, int d)
 	if (node->right)
 		right_d = node_depht(node->right, d + 1);
 
-	return max(left_d, right_d);
+	return _max(left_d, right_d);
 }
