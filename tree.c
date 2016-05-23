@@ -72,6 +72,11 @@ Node *tree_find_elem(Node *node, Key key)
 		return NULL;
 	}
 
+	if (node->data == NULL) {
+		printf("No data in node %d\n", key);
+		return NULL;
+	}
+
 	if (node->data->key == key)
 		return node;
 
@@ -160,13 +165,6 @@ Node *tree_find_parent(Node *parent, Node *child)
 	if (parent->data->key < child->data->key)
 		return tree_find_parent(parent->right, child);
 }
-
-void tree_delete_elem(Node *node, Node *parent)
-{
-	
-}
-
-
 
 void tree_print_2(Node *node, int lvl)
 {
