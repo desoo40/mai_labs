@@ -42,7 +42,8 @@ void annotation()
 	printf("2 - print tree\n");
 	printf("3 - lie in area?\n");
 	printf("4 - change bords\n");
-	printf("5 - delete element\n");
+	printf("5 - find element\n");
+	printf("6 - delete element\n");
 	printf("9 - tips\n");
 }
 
@@ -54,7 +55,7 @@ void interface(Tree *tree, int *l, int *r)
 	annotation();
 
 	while(1) {
-		printf("Num of action: ");
+		printf("Num of action: \n");
 		scanf("%d", &s);
 		Key key = 0;
 		Value value = 0;
@@ -92,17 +93,42 @@ void interface(Tree *tree, int *l, int *r)
 		}
 
 		if (s == 5) {
-			printf("Insert key of deleted element:\n");
+			printf("Insert key of finding element:\n");
 			scanf("%d", &key);
 
 			Node *find = tree_find_elem(tree->root, key);
 
-			if (find == NULL) {
-				printf("NOOOOO\n");
+			if (find == NULL)
+				continue;
+
+			printf("Key: %d Value: %d\n", find->data->key, find->data->value);
+
+			Node *parent = tree_find_parent(tree->root, find);
+
+			if (parent == NULL) {
+				printf("No parent, it's root of tree\n");
 				continue;
 			}
 
-			printf("%d\n", find->data->key);
+
+			printf("Parent\nKey: %d Value: %d\n", parent->data->key, parent->data->value);
+
+			continue;
+		}
+
+		if (s == 6) {
+			printf("Insert key of deleted element:\n");
+			scanf("%d", &key);
+
+			Node *child = tree_find_elem(tree->root, key);
+
+			if (child == NULL)
+				continue;
+
+			Node *parent = tree_find_parent(tree->root, child);
+
+			tree_delete_elem(child, parent);
+
 			continue;
 		}
 

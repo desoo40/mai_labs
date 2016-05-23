@@ -143,13 +143,35 @@ void tree_delete_elem(Node *node, Node *parent)
 
 	}
 }
+Node *tree_find_parent(Node *parent, Node *child)
+{
+	if (parent == NULL)
+		return NULL;
+
+	if (parent == child)
+		return NULL;
+
+	if (parent->left == child || parent->right == child)
+		return parent;
+
+	if (parent->data->key > child->data->key)
+		return tree_find_parent(parent->left, child);
+
+	if (parent->data->key < child->data->key)
+		return tree_find_parent(parent->right, child);
+}
+
+void tree_delete_elem(Node *node, Node *parent)
+{
+	
+}
 
 
 
 void tree_print_2(Node *node, int lvl)
 {
 	for (int i = 0; i < lvl; ++i) {
-		printf("-");
+		printf("+	");
 	}
 
 	if (node == NULL) {
