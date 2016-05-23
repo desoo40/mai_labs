@@ -76,10 +76,10 @@ Node *tree_find_elem(Node *node, Key key)
 		return node;
 
 	if (node->data->key > key)
-		return tree_find_elem(node->right, key);
+		return tree_find_elem(node->left, key);
 
 	if (node->data->key < key)
-		return tree_find_elem(node->left, key);
+		return tree_find_elem(node->right, key);
 }
 
 void tree_delete_elem(Tree *tree, Node *node)
