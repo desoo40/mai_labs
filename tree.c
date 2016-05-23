@@ -87,27 +87,39 @@ Node *tree_find_elem(Node *node, Key key)
 		return tree_find_elem(node->right, key);
 }
 
-void tree_delete_elem(Node *node, Node *parent)
+void tree_delete_elem(Tree *tree, Node *node, Node *parent)
 {
 	if (node == NULL) return;
 
 	if (node->left == NULL && node->right == NULL)
 	{
-		if (parent->left == node) parent->left = NULL;
-		else parent->right = NULL;
+		if (parent != NULL)
+		{
+			if (parent->left == node) parent->left = NULL;
+			else parent->right = NULL;
+		}
+		else tree->root = NULL;
 		//free node
 	}
 
 	if (node->left != NULL && node->right == NULL)
 	{
-		if (parent->left == node) parent->left = node->left;
-		else parent->right = node->left;
+		if (parent != NULL)
+		{
+			if (parent->left == node) parent->left = node->left;
+			else parent->right = node->left;
+		}
+		else tree->root = node->left;
 		//free node
 	}
 	if (node->right != NULL && node->left == NULL)
 	{
-		if (parent->left == node) parent->left = node->right;
-		else parent->right = node->right;
+		if (parent != NULL)
+		{
+			if (parent->left == node) parent->left = node->right;
+			else parent->right = node->right;
+		}
+		else tree->root = node->right;
 		//free node
 	}
 
@@ -121,6 +133,8 @@ void tree_delete_elem(Node *node, Node *parent)
 			min_val = r;
 
 			if(parent != NULL) parent->right = min_val;
+			else tree->root = min_val;
+
 			min_val->left = node->left;
 			//free node
 		}
@@ -139,6 +153,10 @@ void tree_delete_elem(Node *node, Node *parent)
 			{
 				if (parent->left == node) parent->left = min_val;
 				else parent->right = min_val;
+			}
+			else
+			{
+				tree->root = min_val;
 			}
 
 			min_val->left = node->left;

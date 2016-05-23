@@ -110,7 +110,6 @@ void interface(Tree *tree, int *l, int *r)
 				continue;
 			}
 
-
 			printf("Parent\nKey: %d Value: %d\n", parent->data->key, parent->data->value);
 
 			continue;
@@ -127,7 +126,7 @@ void interface(Tree *tree, int *l, int *r)
 
 			Node *parent = tree_find_parent(tree->root, child);
 
-			tree_delete_elem(child, parent);
+			tree_delete_elem(tree, child, parent);
 
 			continue;
 		}
