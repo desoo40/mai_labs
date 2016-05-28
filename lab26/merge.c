@@ -45,29 +45,6 @@
 //     return merge(first, second, result);
 // }
 
-List *merge_sort(List *list)
-{
-    if (list->head == NULL)
-        return NULL;
-
-    if (list_lenght(list) < 2)
-        return list;
-
-    if (list_lenght(list) == 2) {
-        if (list->head->data->key < list->tail->data->key)
-            two_elem_list_reverse(list);
-
-        return list;
-    }
-
-    if (list_lenght(list) > 2) {
-
-    }
-    
-    return NULL;
-
-}
-
 int main(void)
 {
     List *list = list_create();

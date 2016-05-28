@@ -8,8 +8,8 @@ void two_elem_list_reverse(List *list)
     sData *tmp_data = list->head->data;
 
     list->head = list->tail;
-    list->head->next = list->tail->next;
-    list->head->prev = list->tail->prev;
+    list->head->next = list->tail->prev;
+    list->head->prev = list->tail->next;
     list->head->data = list->tail->data;
 
     list->tail = tmp;
@@ -17,6 +17,30 @@ void two_elem_list_reverse(List *list)
     list->tail->prev = tmp_next;
     list->tail->data = tmp_data;
 }
+
+List *merge_sort(List *list)
+{
+    if (list->head == NULL)
+        return NULL;
+
+    if (list_lenght(list) < 2)
+        return list;
+
+    if (list_lenght(list) == 2) {
+        if (list->head->data->key > list->tail->data->key)
+            two_elem_list_reverse(list);
+
+        return list;
+    }
+
+    if (list_lenght(list) > 2) {
+
+    }
+    
+    return NULL;
+
+}
+
 void annotation()
 {
     printf("0 - break \n");
@@ -69,6 +93,11 @@ void interface_1(List *list)
             continue;
         }
 
+        if (interact == 3) {
+            list = merge_sort(list);
+            continue;
+        }
+
         if (interact == 4) {
             list_print(list);
             continue;
@@ -103,7 +132,7 @@ void interface_2(List *list)
             printf("Key after each add\n");
 
             int find_key = 0;
-            scanf("%d", &find_key); // прописать случай возможного ненахожждения ключа
+            scanf("%d", &find_key);
 
             if (!find_elem(list, find_key)) {
                 printf("Try again, press 1\n");
@@ -127,7 +156,7 @@ void interface_2(List *list)
             printf("Key before each add\n");
 
             int find_key = 0;
-            scanf("%d", &find_key); // прописать случай возможного ненахожждения ключа
+            scanf("%d", &find_key);
 
             if (!find_elem(list, find_key)) {
                 printf("Try again, press 1\n");

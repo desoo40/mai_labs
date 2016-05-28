@@ -13,7 +13,7 @@ List *list_create()
 
 	return list;
 }
-sData *list_node_data_create(size_t key, size_t value)
+sData *list_node_data_create(int key, int value)
 {
 	sData *data = (sData*) malloc(sizeof(sData));
 
@@ -183,7 +183,7 @@ void list_print(List *list)
 	}
 }
 
-size_t list_size(List *list)
+int list_size(List *list)
 {
 	ListNode *node = list->head;
 	int i = 0;
@@ -196,7 +196,7 @@ size_t list_size(List *list)
 	return i * sizeof(List);
 }
 
-ListNode *find_elem(List *list, size_t key)
+ListNode *find_elem(List *list, int key)
 {
 	ListNode *node = list->head;
 
@@ -208,11 +208,11 @@ ListNode *find_elem(List *list, size_t key)
 		node = node->next;
 	}
 	
-	printf("Node by key %lu not found\n", key);
+	printf("Node by key %d not found\n", key);
 	return NULL;
 }
 
-size_t list_lenght(List *list)
+int list_lenght(List *list)
 {
 	return list_size(list) / sizeof(List);
 }

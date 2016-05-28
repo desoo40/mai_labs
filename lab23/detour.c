@@ -69,6 +69,9 @@ void interface(Tree *tree, int *l, int *r)
 
 			Data *node_data = data_create(key, value);
 
+			if (tree->root == NULL) {
+				tree->root = node_create();
+			}
 			node_add(node_data, tree->root);
 			continue;
 		}

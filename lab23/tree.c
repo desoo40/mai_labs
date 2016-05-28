@@ -27,6 +27,9 @@ Data *data_create(Key key, Value value)
 
 void node_add(Data *data, Node *node)
 {
+	if (node == NULL) {
+		return;
+	}
 	if (node->data == NULL) {
 		node->data = data;
 		return;
@@ -102,6 +105,7 @@ void tree_delete_elem(Tree *tree, Node *node, Node *parent)
 		else 
 			tree->root = NULL;
 		free(node);
+		return;
 	}
 
 	if (node->left != NULL && node->right == NULL) {
@@ -114,6 +118,7 @@ void tree_delete_elem(Tree *tree, Node *node, Node *parent)
 		else
 			tree->root = node->left;
 		free(node);
+		return;
 	}
 
 	if (node->right != NULL && node->left == NULL) {
@@ -126,6 +131,7 @@ void tree_delete_elem(Tree *tree, Node *node, Node *parent)
 		else 
 			tree->root = node->right;
 		free(node);
+		return;
 	}
 
 	if (node->left != NULL && node->right != NULL) {
@@ -144,6 +150,7 @@ void tree_delete_elem(Tree *tree, Node *node, Node *parent)
 
 			min_val->left = node->left;
 			free(node);
+			return;
 		}
 
 		else {
@@ -170,6 +177,7 @@ void tree_delete_elem(Tree *tree, Node *node, Node *parent)
 			min_val->left = node->left;
 			min_val->right = node->right;
 			free(node);
+			return;
 		}
 	}
 }
@@ -244,8 +252,13 @@ int _print_t(Node *node, int is_left, int offset, int depth, char s[20][255]) //
 
 void print_t(Tree *tree)
 {
-	if (tree->root->data == NULL || tree->root == NULL) {
+	if (tree->root == NULL) {
 		printf("No tree\n");
+		return;
+	}
+	if (tree->root->data == NULL)
+	{
+		printf("No data\n");
 		return;
 	}
     char s[20][255];
