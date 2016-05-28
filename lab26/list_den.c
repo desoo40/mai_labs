@@ -3,19 +3,19 @@
 void two_elem_list_reverse(List *list)
 {
     ListNode *tmp = list->head;
-    ListNode *tmp_prev = head->prev;
-    ListNode *tmp_next = head->next;
-    sData *tmp_data = head->data;
+    ListNode *tmp_prev = list->head->prev;
+    ListNode *tmp_next = list->head->next;
+    sData *tmp_data = list->head->data;
 
     list->head = list->tail;
     list->head->next = list->tail->next;
     list->head->prev = list->tail->prev;
     list->head->data = list->tail->data;
 
-    list->teail = tmp;
-    list->teail->next = tmp_prev;
-    list->teail->prev = tmp_next;
-    list->teail->data = tmp_data;
+    list->tail = tmp;
+    list->tail->next = tmp_prev;
+    list->tail->prev = tmp_next;
+    list->tail->data = tmp_data;
 }
 void annotation()
 {

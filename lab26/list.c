@@ -1,20 +1,5 @@
 #include "list.h"
-
-struct list {
-    ListNode *head;
-    ListNode *tail;
-};
-
-struct listnode {
-    sData *data;
-    ListNode *next;
-    ListNode *prev;
-};
-
-struct sdata {
-    int key;
-    int value;
-};
+#include "list_den.h"
 
 List *list_create()
 {

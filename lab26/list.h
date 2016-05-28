@@ -5,9 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct sdata sData;
-typedef struct listnode ListNode;
-typedef struct list List;
+typedef struct _sdata sData;
+typedef struct _listnode ListNode;
+typedef struct _list List;
 
 List *list_create(); // создает 
 sData *list_node_data_create(size_t key, size_t value); // создает и инициализирует структуру данных узла

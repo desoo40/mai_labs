@@ -63,6 +63,8 @@ List *merge_sort(List *list)
     if (list_lenght(list) > 2) {
 
     }
+    
+    return NULL;
 
 }
 

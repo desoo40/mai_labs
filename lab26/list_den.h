@@ -3,6 +3,22 @@
 
 #include "list.h"
 
+struct _list {
+    ListNode *head;
+    ListNode *tail;
+};
+
+struct _listnode {
+    sData *data;
+    ListNode *next;
+    ListNode *prev;
+};
+
+struct _sdata {
+    int key;
+    int value;
+};
+
 void annotation();
 void annotation_2();
 void interface_1(List *list);
