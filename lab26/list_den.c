@@ -3,24 +3,24 @@
 void two_elem_list_reverse(List *list)
 {
     ListNode *tmp = list->head;
-    ListNode *tmp_prev = list->head->prev;
+    //ListNode *tmp_prev = list->head->prev;
     ListNode *tmp_next = list->head->next;
     sData *tmp_data = list->head->data;
 
     list->head = list->tail;
     list->head->next = list->tail->prev;
-    list->head->prev = list->tail->next;
+    list->head->prev = NULL;
     list->head->data = list->tail->data;
 
     list->tail = tmp;
-    list->tail->next = tmp_prev;
+    list->tail->next = NULL;
     list->tail->prev = tmp_next;
     list->tail->data = tmp_data;
 }
 
 List *merge(List *first, List *second, List *result)
 {
-    if (list_is_empty(first) && list_is_empty(second)) 
+    if (list_is_empty(first) && list_is_empty(second))
         return result;
 
     if (list_is_empty(first)) {
@@ -53,7 +53,8 @@ List *merge(List *first, List *second, List *result)
     if (first->head->data->key <= second->head->data->key) {
         list_insert_last(result, first->head->data);
         list_delete_elem(first, first->head);
-    } else {
+    }
+    else {
         list_insert_last(result, second->head->data);
         list_delete_elem(second, second->head);
     }
@@ -81,10 +82,12 @@ List *merge_sort(List *list)
         List *list_1 = list_create();
         List *list_2 = list_create();
 
-        for (int i = 0; i < list_lenght(list); ++i) {
+        int lenght = list_lenght(list);
+
+        for (int i = 0; i < lenght; ++i) {
             ListNode *tmp = list->head;
 
-            if (i > list_lenght(list) / 2)
+            if (i + 1 > lenght/ 2)
                 list_insert_last(list_2, tmp->data);
             else
                 list_insert_last(list_1, tmp->data);
@@ -96,9 +99,6 @@ List *merge_sort(List *list)
         list_2 = merge_sort(list_2);
 
         list = merge(list_1, list_2, list);
-
-        list_delete(list_1);
-        list_delete(list_2);
     }
     return list;
 }
@@ -237,45 +237,45 @@ void interface_2(List *list)
 
             list_insert_before_elem(find_elem(list, find_key), ins_data);
             continue;
-            }
+        }
 
-            if (n == 3) {
-                printf("Key - Value\n");
-                scanf("%d%d", &key_1, &value_1);
+        if (n == 3) {
+            printf("Key - Value\n");
+            scanf("%d%d", &key_1, &value_1);
 
-                sData *ins_data = list_node_data_create(key_1, value_1);
-                if (ins_data == NULL) {
-                    printf("ERRROR\n");
-                    continue;
-                }
-
-                list_insert_front(list, ins_data);
+            sData *ins_data = list_node_data_create(key_1, value_1);
+            if (ins_data == NULL) {
+                printf("ERRROR\n");
                 continue;
             }
 
-            if (n == 4) {
-                printf("Key - Value\n");
-                scanf("%d%d", &key_1, &value_1);
+            list_insert_front(list, ins_data);
+            continue;
+        }
 
-                sData *ins_data = list_node_data_create(key_1, value_1);
-                if (ins_data == NULL) {
-                    printf("ERRROR\n");
-                    continue;
-                }
+        if (n == 4) {
+            printf("Key - Value\n");
+            scanf("%d%d", &key_1, &value_1);
 
-                list_insert_last(list, ins_data);
+            sData *ins_data = list_node_data_create(key_1, value_1);
+            if (ins_data == NULL) {
+                printf("ERRROR\n");
                 continue;
             }
 
-            if (n == 5) {
-                list_print(list);
-                continue;
-            }
+            list_insert_last(list, ins_data);
+            continue;
+        }
 
-            if (n == 9) {
-                annotation_2();
-                continue;
-            }
+        if (n == 5) {
+            list_print(list);
+            continue;
+        }
+
+        if (n == 9) {
+            annotation_2();
+            continue;
+        }
         printf("Wrong input try again\n");
     }
 }

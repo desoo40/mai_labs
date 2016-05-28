@@ -4,19 +4,19 @@
 #include "list.h"
 
 struct _list {
-    ListNode *head;
-    ListNode *tail;
+	ListNode *head;
+	ListNode *tail;
 };
 
 struct _listnode {
-    sData *data;
-    ListNode *next;
-    ListNode *prev;
+	sData *data;
+	ListNode *next;
+	ListNode *prev;
 };
 
 struct _sdata {
-    int key;
-    int value;
+	int key;
+	int value;
 };
 
 void annotation();

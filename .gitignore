@@ -245,3 +245,5 @@ ModelManifest.xml
 .fake/
 /lab23/a.out
 /lab26/merge_sort
+/lab26/a.out
+/lab26/tst.s

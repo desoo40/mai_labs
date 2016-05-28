@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <vector>
 #include <map>
+#include <ctime>
+
 
 using namespace std;
 
@@ -12,25 +14,27 @@ int main()
 	ios::sync_with_stdio(false);
     cin.tie(NULL);
 
+    srand( time( 0 ) );
+
     int size = 0;
-    int size2 = 0;
-    int step = 0;
+    int diap = 0;
 
-    cin >> size >> size2 >> step;
+    cin >> size >> diap;
 
-    for (int i = 0; i <= size; i += step)
+    cout << 1 << ' ';
+
+    for (int i = 0; i < size; ++i)
     {
-    	cout << 1 << " " << i << " " << i << endl;
+        int dig = rand() % diap;
+
+        cout << 4 << ' ' << diap << ' ' << diap;
     }
 
-    cout << 0 << endl;
-
-    for (int i = 0; i <= size2; i += step + 1)
+    while(1)
     {
-    	cout << 1 << " " << i << " " << i << endl;
+        cout << rand() % diap << endl;
     }
 
-    cout << 0 << endl;
-
+    cout << 0 << ' ' << 4;
     return 0;
 }
