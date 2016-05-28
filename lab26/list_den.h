@@ -21,6 +21,8 @@ struct _sdata {
 
 void annotation();
 void annotation_2();
+List *merge(List *first, List *second, List *result);
+List *merge_sort(List *list);
 void interface_1(List *list);
 void interface_2(List *list);
 void two_elem_list_reverse(List *list);

@@ -18,6 +18,50 @@ void two_elem_list_reverse(List *list)
     list->tail->data = tmp_data;
 }
 
+List *merge(List *first, List *second, List *result)
+{
+    if (list_is_empty(first) && list_is_empty(second)) 
+        return result;
+
+    if (list_is_empty(first)) {
+        if (list_is_empty(result))
+            return second;
+
+        result->tail->next = second->head;
+        second->head->prev = result->tail;
+
+        list_delete(first);
+        list_delete(second);
+
+        return result;
+    }
+
+    if (list_is_empty(second)) {
+        if (list_is_empty(result))
+            return first;
+
+        result->tail->next = first->head;
+        first->head->prev = result->tail;
+
+        list_delete(first);
+        list_delete(second);
+
+        return result;
+    }
+
+
+    if (first->head->data->key <= second->head->data->key) {
+        list_insert_last(result, first->head->data);
+        list_delete_elem(first, first->head);
+    } else {
+        list_insert_last(result, second->head->data);
+        list_delete_elem(second, second->head);
+    }
+
+    // list_print(result);
+    return merge(first, second, result);
+}
+
 List *merge_sort(List *list)
 {
     if (list->head == NULL)
@@ -34,11 +78,29 @@ List *merge_sort(List *list)
     }
 
     if (list_lenght(list) > 2) {
+        List *list_1 = list_create();
+        List *list_2 = list_create();
 
+        for (int i = 0; i < list_lenght(list); ++i) {
+            ListNode *tmp = list->head;
+
+            if (i > list_lenght(list) / 2)
+                list_insert_last(list_2, tmp->data);
+            else
+                list_insert_last(list_1, tmp->data);
+
+            list_delete_elem(list, tmp);
+        }
+
+        list_1 = merge_sort(list_1);
+        list_2 = merge_sort(list_2);
+
+        list = merge(list_1, list_2, list);
+
+        list_delete(list_1);
+        list_delete(list_2);
     }
-    
-    return NULL;
-
+    return list;
 }
 
 void annotation()
@@ -58,6 +120,7 @@ void annotation_2()
     printf("2 - add elem before node\n");
     printf("3 - add elem front\n");
     printf("4 - add elem back\n");
+    printf("5 - print list\n");
     printf("9 - tips\n");
 }
 
@@ -201,6 +264,11 @@ void interface_2(List *list)
                 }
 
                 list_insert_last(list, ins_data);
+                continue;
+            }
+
+            if (n == 5) {
+                list_print(list);
                 continue;
             }
 
