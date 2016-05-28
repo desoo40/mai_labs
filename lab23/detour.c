@@ -44,6 +44,7 @@ void annotation()
 	printf("4 - change bords\n");
 	printf("5 - find element\n");
 	printf("6 - delete element\n");
+	printf("7 - print tree(2)\n");
 	printf("9 - tips\n");
 }
 
@@ -131,6 +132,11 @@ void interface(Tree *tree, int *l, int *r)
 
 			tree_delete_elem(tree, child, parent);
 
+			continue;
+		}
+
+		if (s == 7) {
+			tree_print_2(tree->root, 0);
 			continue;
 		}
 
