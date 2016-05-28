@@ -1,5 +1,22 @@
 #include "list_den.h"
 
+void two_elem_list_reverse(List *list)
+{
+    ListNode *tmp = list->head;
+    ListNode *tmp_prev = head->prev;
+    ListNode *tmp_next = head->next;
+    sData *tmp_data = head->data;
+
+    list->head = list->tail;
+    list->head->next = list->tail->next;
+    list->head->prev = list->tail->prev;
+    list->head->data = list->tail->data;
+
+    list->teail = tmp;
+    list->teail->next = tmp_prev;
+    list->teail->prev = tmp_next;
+    list->teail->data = tmp_data;
+}
 void annotation()
 {
     printf("0 - break \n");
@@ -29,6 +46,7 @@ void interface_1(List *list)
         int interact = 0;
         int key = 0;
 
+        printf("Num of actinon:\n");
         scanf("%d", &interact);
 
         if (interact == 0)
@@ -75,6 +93,7 @@ void interface_2(List *list)
         int value_1 = 0;
         int n = 0;
 
+        printf("Num of actinon(2):\n");
         scanf("%d", &n);
 
         if (n == 0)
@@ -94,9 +113,11 @@ void interface_2(List *list)
             printf("Key - Value\n");
             scanf("%d%d", &key_1, &value_1);
 
-            sData ins_data = {
-                key_1, value_1
-            };
+            sData *ins_data = list_node_data_create(key_1, value_1);
+            if (ins_data == NULL) {
+                printf("ERRROR\n");
+                continue;
+            }
 
             list_insert_after_elem(find_elem(list, find_key), ins_data);
             continue;
@@ -116,21 +137,25 @@ void interface_2(List *list)
             printf("Key - Value\n");
             scanf("%d%d", &key_1, &value_1);
 
-            sData ins_data = {
-                key_1, value_1
-                };
+            sData *ins_data = list_node_data_create(key_1, value_1);
+            if (ins_data == NULL) {
+                printf("ERRROR\n");
+                continue;
+            }
 
             list_insert_before_elem(find_elem(list, find_key), ins_data);
-                continue;
+            continue;
             }
 
             if (n == 3) {
                 printf("Key - Value\n");
                 scanf("%d%d", &key_1, &value_1);
 
-                sData ins_data = {
-                     key_1, value_1
-                };
+                sData *ins_data = list_node_data_create(key_1, value_1);
+                if (ins_data == NULL) {
+                    printf("ERRROR\n");
+                    continue;
+                }
 
                 list_insert_front(list, ins_data);
                 continue;
@@ -140,9 +165,11 @@ void interface_2(List *list)
                 printf("Key - Value\n");
                 scanf("%d%d", &key_1, &value_1);
 
-                sData ins_data = {
-                    key_1, value_1
-                };
+                sData *ins_data = list_node_data_create(key_1, value_1);
+                if (ins_data == NULL) {
+                    printf("ERRROR\n");
+                    continue;
+                }
 
                 list_insert_last(list, ins_data);
                 continue;

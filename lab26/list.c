@@ -1,5 +1,21 @@
 #include "list.h"
 
+struct list {
+    ListNode *head;
+    ListNode *tail;
+};
+
+struct listnode {
+    sData *data;
+    ListNode *next;
+    ListNode *prev;
+};
+
+struct sdata {
+    int key;
+    int value;
+};
+
 List *list_create()
 {
 	List *list = (List*) malloc(sizeof(List));
@@ -11,6 +27,18 @@ List *list_create()
 	list->tail = NULL;
 
 	return list;
+}
+sData *list_node_data_create(size_t key, size_t value)
+{
+	sData *data = (sData*) malloc(sizeof(sData));
+
+	if (data == NULL)
+		return NULL;
+
+	data->key = key;
+	data->value = value;
+
+	return data;
 }
 
 void list_destroy(List **plist)
@@ -46,7 +74,7 @@ void list_insert_first_elem(ListNode *inserted, List *list)
 	list->tail = inserted;
 }
 
-ListNode *list_insert_front(List *list, sData ins_data)
+ListNode *list_insert_front(List *list, sData *ins_data)
 {
 	ListNode *inserted = (ListNode*) malloc(sizeof(ListNode));
 
@@ -67,7 +95,7 @@ ListNode *list_insert_front(List *list, sData ins_data)
 	return inserted;
 }
 
-ListNode *list_insert_last(List *list, sData ins_data)
+ListNode *list_insert_last(List *list, sData *ins_data)
 {
 	ListNode *inserted = (ListNode*) malloc(sizeof(ListNode));
 
@@ -88,7 +116,7 @@ ListNode *list_insert_last(List *list, sData ins_data)
 	return inserted;
 }
 
-ListNode *list_insert_after_elem(ListNode *prevnode, sData ins_data)
+ListNode *list_insert_after_elem(ListNode *prevnode, sData *ins_data)
 {
 	ListNode *inserted = (ListNode*) malloc(sizeof(ListNode));
 
@@ -107,7 +135,7 @@ ListNode *list_insert_after_elem(ListNode *prevnode, sData ins_data)
 	return inserted;
 }
 
-ListNode *list_insert_before_elem(ListNode *nextnode, sData ins_data)
+ListNode *list_insert_before_elem(ListNode *nextnode, sData *ins_data)
 {
 	ListNode *inserted = (ListNode*) malloc(sizeof(ListNode));
 
@@ -164,7 +192,7 @@ void list_print(List *list)
 
 	int i=0;
 	while (node != NULL) {
-		printf("Node: %d Key: %d Value: %d\n", i, node->data.key, node->data.value);
+		printf("Node: %d Key: %d Value: %d\n", i, node->data->key, node->data->value);
 		node = node->next;
 		++i;
 	}
@@ -189,47 +217,17 @@ ListNode *find_elem(List *list, size_t key)
 
 	while (node != NULL)
 	{
-		if (node->data.key == key)
+		if (node->data->key == key)
 			return node;
 
 		node = node->next;
 	}
 	
-	printf("Node by key %u not found\n", key);
+	printf("Node by key %lu not found\n", key);
 	return NULL;
 }
 
 size_t list_lenght(List *list)
 {
 	return list_size(list) / sizeof(List);
-}
-
-void list_insert(List *list)
-{
-	printf("1 - add element back, 0 - enough\n");
-	
-    while(1)
-    {
-        int n = 0;
-
-        scanf("%d", &n);
-
-        if (n == 1) {
-            int key = 0;
-            int value = 0;
-            
-            scanf("%d%d", &key, &value);
-
-            sData ins_data = {
-                key, value
-            };
-
-            list_insert_last(list, ins_data);
-            continue;
-        } 
-        if (n == 0)
-            break;
-
-        printf("Wrong input, try again\n");
-    }
 }

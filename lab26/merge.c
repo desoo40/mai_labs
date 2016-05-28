@@ -1,49 +1,49 @@
 #include "list.h"
 #include "list_den.h"
 
-List *merge(List *first, List *second, List *result)
-{
-	if (list_is_empty(first) && list_is_empty(second)) 
-		return result;
+// List *merge(List *first, List *second, List *result)
+// {
+// 	if (list_is_empty(first) && list_is_empty(second)) 
+// 		return result;
 
-	if (list_is_empty(first)) {
-		if (list_is_empty(result))
-			return second;
+// 	if (list_is_empty(first)) {
+// 		if (list_is_empty(result))
+// 			return second;
 
-		result->tail->next = second->head;
-		second->head->prev = result->tail;
+// 		result->tail->next = second->head;
+// 		second->head->prev = result->tail;
 
-        list_delete(first);
-        list_delete(second);
+//         list_delete(first);
+//         list_delete(second);
 
-		return result;
-	}
+// 		return result;
+// 	}
 
-	if (list_is_empty(second)) {
-		if (list_is_empty(result))
-			return first;
+// 	if (list_is_empty(second)) {
+// 		if (list_is_empty(result))
+// 			return first;
 
-		result->tail->next = first->head;
-		first->head->prev = result->tail;
+// 		result->tail->next = first->head;
+// 		first->head->prev = result->tail;
 
-        list_delete(first);
-        list_delete(second);
+//         list_delete(first);
+//         list_delete(second);
 
-		return result;
-	}
+// 		return result;
+// 	}
 
 
-    if (first->head->data.key <= second->head->data.key) {
-    	list_insert_last(result, first->head->data);
-    	list_delete_elem(first, first->head);
-    } else {
-    	list_insert_last(result, second->head->data);
-    	list_delete_elem(second, second->head);
-    }
+//     if (first->head->data->key <= second->head->data->key) {
+//     	list_insert_last(result, first->head->data);
+//     	list_delete_elem(first, first->head);
+//     } else {
+//     	list_insert_last(result, second->head->data);
+//     	list_delete_elem(second, second->head);
+//     }
 
-    // list_print(result);
-    return merge(first, second, result);
-}
+//     // list_print(result);
+//     return merge(first, second, result);
+// }
 
 List *merge_sort(List *list)
 {
@@ -54,7 +54,10 @@ List *merge_sort(List *list)
         return list;
 
     if (list_lenght(list) == 2) {
-        if (list->head < list->tail)
+        if (list->head->data->key < list->tail->data->key)
+            two_elem_list_reverse(list);
+
+        return list;
     }
 
     if (list_lenght(list) > 2) {
