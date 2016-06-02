@@ -1,5 +1,3 @@
-
-
 #include <string>
 #include <iostream>
 #include <stdio.h>
@@ -8,7 +6,7 @@
 
 using namespace std;
 
-long long calc(long long* first, size_t size)
+long long calc(int* first, size_t size)
 {
 	long long sum = 0;
 	for (size_t i = 0; i < size; ++i)
@@ -17,50 +15,41 @@ long long calc(long long* first, size_t size)
 	}
 	return sum;
 }
-void invers_min(long long* first, size_t size)
-{
-	int min = *first;
-	int ind_of_min = 0;
-	for (size_t i = 1; i < size; ++i)
-	{
-		if (*(first + i) < min)
-		{
-			min = *(first + i);
-			ind_of_min = i;
-		}
-	}
-
-	*(first + ind_of_min) *= -1;
-}
 
 int main(void)
 {
-	ios::sync_with_stdio(false);
-    cin.tie(NULL);
-
-	long long dig_num = 0;
-	long long rechange = 0;
+	int dig_num = 0;
+	int rechange = 0;
 	long long sum = 0;
+	int ind_of_null = -1;
 
 	cin >> dig_num >> rechange;
 
-	vector<long long> line(dig_num);
+	vector<int> line(dig_num);
 	
 	for (size_t i = 0; i < line.size(); ++i)
 	{
-		long long dig = 0;
+		int dig = 0;
 		cin >> dig;
 
 		if (dig < 0 && rechange) {
 			line[i] = -1 * dig;
 			--rechange;
+		}
+		else if (dig == 0) {
+			line[i] = dig;
+			ind_of_null = i;
 		} else
 			line[i] = dig;
 	}
 
-	if(rechange % 2) {
-		invers_min(&line[0], line.size());
-		sum += calc(&line[0], line.size());
+	if(rechange && ind_of_null != -1) {
+		sum = calc(&line[0], line.size());
+		cout << sum << endl;
+		return 0;
+	} else if(rechange % 2) {
+		sum -= line[0];
+		sum += calc(&line[1], line.size() - 1);
 		cout << sum << endl;
 		return 0;
 	}
