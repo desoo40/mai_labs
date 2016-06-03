@@ -8,10 +8,13 @@ void interface(Tree *tree)
 	printf("Default values of bords - l = 0, r = 0\n");
 
 	while(1) {
+		
 		annotation();
-		char s;
+		char buf[10];
+		scanf("%s", &buf);
+		char s = buf[0];
+
 		int element = 0;
-		scanf("%s", &s);
 
 		if (s == 'e')
 			return;
@@ -78,7 +81,6 @@ void interface(Tree *tree)
 		}
 
 		if (s == 'h') {
-			annotation();
 			continue;
 		}
 
@@ -87,7 +89,9 @@ void interface(Tree *tree)
 				printf("Tree is empty\n");
 			else {
 				tree_free(tree->root);
+				tree->root = NULL;				
 				free(tree);
+				tree = NULL;
 			}
 			continue;
 		}	

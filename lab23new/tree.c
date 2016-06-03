@@ -80,7 +80,10 @@ void tree_free(Node *node)
 	tree_free(node->left);
 	tree_free(node->right);
 
-	free(node);
+	node->left = NULL;
+	node->right = NULL;	
+
+	free(node);	
 }
 
 bool lie_in_area(int value, int l, int r)
