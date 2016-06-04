@@ -7,12 +7,12 @@ void interface(Tree *tree)
 
 	printf("Default values of bords - l = 0, r = 0\n");
 
+	annotation();
+
 	while(1) {
-		
-		annotation();
-		char buf[10];
-		scanf("%s", &buf);
-		char s = buf[0];
+		printf("--------------------------------------\n");
+		char s;
+		scanf("%s", &s);
 
 		int element = 0;
 
@@ -81,6 +81,10 @@ void interface(Tree *tree)
 		}
 
 		if (s == 'l') {
+			if (tree == NULL) {
+				printf("Tree is empty\n");
+				continue;
+			}
 			if (detour(tree->root, left_bord, right_bord)) {
 				printf("Yes\n");
 			} else {

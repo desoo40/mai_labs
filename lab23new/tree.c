@@ -236,19 +236,6 @@ bool detour(Node *node, int l, int r)
 		return NULL;
 	}
 
-	if (l == 0 && r == 0) {
-		printf("You may be forgot insert bords...\n");
-		printf("Press [y] to insert bords, or some else button to continue\n");
-
-		char s;
-
-		scanf("%s", &s);
-
-		if (s == 'y')
-			bords_insert(&l, &r);
-	}
-
-
 	if (node->left == NULL && node->right == NULL)
 		return lie_in_area(node->data, l, r);
 
@@ -268,9 +255,14 @@ bool detour(Node *node, int l, int r)
 
 void bords_insert(int *l, int *r)
 {
+	printf("Current bords:\n");
+	printf("LEFT: %d   RIGHT: %d\n", *l, *r);
+
 	printf("Insert bords:\n");
+
 	printf("Left bord: "); 
 	scanf("%d", l);
+	
 	printf("Right bord: ");
 	scanf("%d", r);
 
