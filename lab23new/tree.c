@@ -190,8 +190,6 @@ void tree_elem_delete(Tree *tree, Node *del)
 			return;
 		}
 
-		// поправить удаление по указателю
-
 		if (del->right->left != NULL) {
 
 			Node *min = find_min(del->right);
