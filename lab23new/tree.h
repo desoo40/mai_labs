@@ -22,7 +22,10 @@ typedef struct {
 Tree *tree_create(int val);
 void tree_elem_add(Node *node, int val);
 Node *node_create(int val);
-void tree_elem_delete(Tree *tree, int val);
+void tree_elem_delete(Tree *tree, Node *del);
+Node* tree_find_parent(Node* node, Node *del);
+Node* tree_find_elem(Node* node, int val);
+Node* find_min(Node* node);
 void tree_print(Node *node, int lvl);
 bool detour(Node *node, int l, int r);
 bool lie_in_area(int value, int l, int r);

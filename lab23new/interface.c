@@ -23,8 +23,12 @@ void interface(Tree *tree)
 			printf("Insert element:\n");
 			scanf("%d", &element);
 
-			if (tree == NULL)
+			if (tree == NULL) {
 				tree = tree_create(element);
+				continue;
+			}
+			if (tree->root == NULL)
+				tree->root = node_create(element);
 			else
 				tree_elem_add(tree->root, element);
 			continue;
@@ -42,8 +46,12 @@ void interface(Tree *tree)
 				printf("%d - ", i);
 				scanf("%d", &element);
 
-				if (tree == NULL)
+				if (tree == NULL) {
 					tree = tree_create(element);
+					continue;
+				}
+				if (tree->root == NULL)
+					tree->root = node_create(element);
 				else 
 					tree_elem_add(tree->root, element);
 			}
@@ -54,7 +62,13 @@ void interface(Tree *tree)
 			printf("Insert deleted element:\n");
 			scanf("%d", &element);
 
-			tree_elem_delete(tree, element);
+			Node *del = tree_find_elem(tree->root, element);
+			if (del == NULL) {
+				printf("No such element\n");
+				continue;
+			}
+			tree_elem_delete(tree, del);
+
 			continue;
 		}
 
@@ -86,7 +100,7 @@ void interface(Tree *tree)
 
 		if (s == 'f') {
 			if (tree == NULL)
-				printf("Tree is empty\n");
+				printf("Tree is empty(under root)\n");
 			else {
 				tree_free(tree->root);
 				tree->root = NULL;				

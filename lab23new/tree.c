@@ -68,9 +68,140 @@ void tree_print(Node *node, int lvl)
 			tree_print(node->right, lvl + 1);
 }
 
-void tree_elem_delete(Tree *tree, int val)
+Node *tree_find_elem(Node *node, int val)
 {
-	printf("Hello\n");
+	if (node == NULL)
+		return NULL;
+
+	if (node->data == val)
+		return node;
+
+	if (val > node->data)
+		return tree_find_elem(node->right, val);
+
+	if (val <= node->data)
+		return tree_find_elem(node->left, val);
+}
+
+Node *tree_find_parent(Node *node, Node *del)
+{
+	if (node == NULL)
+		return NULL;
+
+	if (node == del)
+		return NULL;
+
+	if (node->left != NULL)
+		if (node->left == del)
+			return node;
+	if (node->right != NULL)
+		if (node->right == del)
+			return node;
+
+	if (del->data > node->data)
+		return tree_find_parent(node->right, del);
+
+	if (del->data <= node->data)
+		return tree_find_parent(node->left, del);
+}
+
+Node* find_min(Node* node)
+{
+	if (node == NULL)
+		return NULL;
+
+	return node->left ? find_min(node->left) : node;
+}
+
+void tree_elem_delete(Tree *tree, Node *del)
+{
+	Node *par = tree_find_parent(tree->root, del);
+
+	if (del == NULL) {
+		printf("No such element\n");
+		return;
+	}
+
+	if (del->left == NULL && del->right == NULL) {
+		if (par != NULL) {
+			if (par->left == del)
+				par->left = NULL;
+
+			if (par->right == del)
+				par->right = NULL;
+
+			free(del);
+			del = NULL;
+		}
+		else {
+			free(tree->root);
+			tree->root = NULL;
+		}
+		return;
+	}
+
+	if (del->left != NULL && del->right == NULL) {
+		if (par != NULL) {
+			if (par->left == del)
+				par->left = del->left;
+			if (par->right == del)
+				par->right = del->left;
+		} 
+		else
+			tree->root = del->left;
+
+		free(del);
+		del = NULL;
+		return;
+	}
+
+	if (del->left == NULL && del->right != NULL) {
+		if (par != NULL) {
+			if (par->left == del)
+				par->left = del->right;
+			if (par->right == del)
+				par->right = del->right;
+		}
+		else
+			tree->root = del->right;
+
+		free(del);
+		del = NULL;
+		return;
+	}
+
+	if (del->left != NULL && del->right != NULL) {
+		if (del->right->left == NULL) {
+			if (par != NULL) {
+				if (par->left == del)
+					par->left = del->right;
+
+				if (par->right == del)
+					par->right = del->right;
+			}
+			else {
+				Node *tmp = tree->root->left;
+				tree->root = del->right;
+				tree->root->left = tmp;
+			}
+
+			free(del);
+			del = NULL;
+			return;
+		}
+
+		// поправить удаление по указателю
+
+		if (del->right->left != NULL) {
+
+			Node *min = find_min(del->right);
+
+			del->data = min->data;
+
+			tree_elem_delete(tree, min);
+			return;
+		}
+	}
 }
 
 void tree_free(Node *node) 
