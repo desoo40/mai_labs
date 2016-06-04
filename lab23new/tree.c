@@ -98,10 +98,13 @@ Node *tree_find_parent(Node *node, Node *del)
 		if (node->right == del)
 			return node;
 
+	/*if (del->data == node->data)
+		return node;*/
+
 	if (del->data > node->data)
 		return tree_find_parent(node->right, del);
 
-	if (del->data <= node->data)
+	if (del->data < node->data)
 		return tree_find_parent(node->left, del);
 }
 
@@ -173,11 +176,16 @@ void tree_elem_delete(Tree *tree, Node *del)
 	if (del->left != NULL && del->right != NULL) {
 		if (del->right->left == NULL) {
 			if (par != NULL) {
-				if (par->left == del)
+				if (par->left == del) {
 					par->left = del->right;
+					par->left->left = del->left;
+				}
 
-				if (par->right == del)
+				if (par->right == del) {
 					par->right = del->right;
+					par->right->left = del->left;
+				}
+
 			}
 			else {
 				Node *tmp = tree->root->left;
@@ -194,9 +202,10 @@ void tree_elem_delete(Tree *tree, Node *del)
 
 			Node *min = find_min(del->right);
 
-			del->data = min->data;
-
+			int tmp = min->data;
 			tree_elem_delete(tree, min);
+
+			del->data = tmp;
 			return;
 		}
 	}
