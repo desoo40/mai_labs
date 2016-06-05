@@ -59,6 +59,12 @@ void interface(Tree *tree)
 		}
 
 		if (s == 'd') {
+
+			if (tree == NULL) {
+				printf("Tree is empty\n");
+				continue;
+			}
+
 			printf("Insert deleted element:\n");
 			scanf("%d", &element);
 
