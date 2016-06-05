@@ -1,0 +1,85 @@
+cmp - сравнивает два файла, сообщает первый байт и строку, где обнаружено различие
+
+comm - читает два предварительно отсортированных лексически файла и разбивает вывод на три колонки, 
+	1 - строки только из первого
+	2 - строки только из второго
+	3 - строки которые в обоих
+
+wc - 
+		wc -l <filename> вывести количество строк
+		wc -c <filename> вывести количество байт
+		wc -m <filename> вывести количество символов
+		wc -L <filename> вывести длину самой длинной строки
+		wc -w <filename> вывести количество слов
+		;
+dd
+
+diff
+
+grep 
+
+join
+
+sort
+
+tail
+
+tee
+
+tr
+
+uniq
+
+od
+
+sum
+
+cut
+
+nroff
+
+vi/vim
+
+mc
+
+tar
+
+gzip
+
+ed
+
+awk
+
+sed
+
+bzip2
+
+head
+
+iconv
+
+patch
+
+md5
+
+du
+
+file
+
+touch
+
+find
+
+xargs
+
+df
+
+paste
+
+cpp
+
+indent
+ 
+split
+
+mktemp
