@@ -224,50 +224,10 @@ void tree_free(Node *node)
 	free(node);	
 }
 
-bool lie_in_area(int value, int l, int r)
+void tree_destroy(Tree **tree)
 {
-	return value >= l && value <= r;
-}
-
-bool detour(Node *node, int l, int r)
-{
-	if (node == NULL) {
-		printf("Tree is empty\n");
-		return NULL;
-	}
-
-	if (node->left == NULL && node->right == NULL)
-		return lie_in_area(node->data, l, r);
-
-	if (node->left == NULL && node->right)
-		return detour(node->right, l, r);
-
-	if (node->right == NULL && node->left)
-		return detour(node->left, l, r);
-
-	if (node->left && node->right) {
-		if (detour(node->left, l, r) && detour(node->right, l, r))
-			return true;
-		else
-			return false;
-	}
-}
-
-void bords_insert(int *l, int *r)
-{
-	printf("Current bords:\n");
-	printf("LEFT: %d   RIGHT: %d\n", *l, *r);
-
-	printf("Insert bords:\n");
-
-	printf("Left bord: "); 
-	scanf("%d", l);
-	
-	printf("Right bord: ");
-	scanf("%d", r);
-
-	if (*l > *r) {
-		printf("Wrong input, try again\n");
-		bords_insert(l, r);
-	}
+	tree_free((*tree)->root);
+	(*tree)->root = NULL;				
+	free(*tree);
+	*tree = NULL;
 }
