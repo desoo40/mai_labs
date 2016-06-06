@@ -43,6 +43,8 @@ bool detour(Node *node, int l, int r)
 		else
 			return false;
 	}
+
+	return NULL; // we shouldn't be here
 }
 
 int main(void)

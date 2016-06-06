@@ -18,7 +18,7 @@ void tree_elem_add(Node *node, int val)
 		return;
 	}
 
-	if (val > node->data) {
+	if (val >= node->data) {
 		if (node->right == NULL) {
 			node->right = node_create(val);
 			return;
@@ -81,6 +81,8 @@ Node *tree_find_elem(Node *node, int val)
 
 	if (val <= node->data)
 		return tree_find_elem(node->left, val);
+
+	return NULL; // we shouldn't be here
 }
 
 Node *tree_find_parent(Node *node, Node *del)
@@ -101,11 +103,13 @@ Node *tree_find_parent(Node *node, Node *del)
 	/*if (del->data == node->data)
 		return node;*/
 
-	if (del->data > node->data)
+	if (del->data >= node->data)
 		return tree_find_parent(node->right, del);
 
 	if (del->data < node->data)
 		return tree_find_parent(node->left, del);
+
+	return NULL; // we shouldn't be here
 }
 
 Node* find_min(Node* node)
@@ -203,9 +207,11 @@ void tree_elem_delete(Tree *tree, Node *del)
 			Node *min = find_min(del->right);
 
 			int tmp = min->data;
-			tree_elem_delete(tree, min);
 
+			tree_elem_delete(tree,min);
+			
 			del->data = tmp;
+
 			return;
 		}
 	}
