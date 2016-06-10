@@ -1,6 +1,6 @@
 #!/bin/bash
 
-find ./test > tmp
+find ./* > tmp
 
 max=`wc -l < tmp`
 i=1
