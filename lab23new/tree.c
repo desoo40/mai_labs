@@ -18,7 +18,7 @@ void tree_elem_add(Node *node, int val)
 		return;
 	}
 
-	if (val > node->data) {
+	if (val >= node->data) {
 		if (node->right == NULL) {
 			node->right = node_create(val);
 			return;
@@ -81,6 +81,8 @@ Node *tree_find_elem(Node *node, int val)
 
 	if (val <= node->data)
 		return tree_find_elem(node->left, val);
+
+	return NULL; // we shouldn't be here
 }
 
 Node *tree_find_parent(Node *node, Node *del)
@@ -101,11 +103,13 @@ Node *tree_find_parent(Node *node, Node *del)
 	/*if (del->data == node->data)
 		return node;*/
 
-	if (del->data > node->data)
+	if (del->data >= node->data)
 		return tree_find_parent(node->right, del);
 
 	if (del->data < node->data)
 		return tree_find_parent(node->left, del);
+
+	return NULL; // we shouldn't be here
 }
 
 Node* find_min(Node* node)
@@ -203,9 +207,11 @@ void tree_elem_delete(Tree *tree, Node *del)
 			Node *min = find_min(del->right);
 
 			int tmp = min->data;
-			tree_elem_delete(tree, min);
 
+			tree_elem_delete(tree,min);
+			
 			del->data = tmp;
+
 			return;
 		}
 	}
@@ -224,50 +230,10 @@ void tree_free(Node *node)
 	free(node);	
 }
 
-bool lie_in_area(int value, int l, int r)
+void tree_destroy(Tree **tree)
 {
-	return value >= l && value <= r;
-}
-
-bool detour(Node *node, int l, int r)
-{
-	if (node == NULL) {
-		printf("Tree is empty\n");
-		return NULL;
-	}
-
-	if (node->left == NULL && node->right == NULL)
-		return lie_in_area(node->data, l, r);
-
-	if (node->left == NULL && node->right)
-		return detour(node->right, l, r);
-
-	if (node->right == NULL && node->left)
-		return detour(node->left, l, r);
-
-	if (node->left && node->right) {
-		if (detour(node->left, l, r) && detour(node->right, l, r))
-			return true;
-		else
-			return false;
-	}
-}
-
-void bords_insert(int *l, int *r)
-{
-	printf("Current bords:\n");
-	printf("LEFT: %d   RIGHT: %d\n", *l, *r);
-
-	printf("Insert bords:\n");
-
-	printf("Left bord: "); 
-	scanf("%d", l);
-	
-	printf("Right bord: ");
-	scanf("%d", r);
-
-	if (*l > *r) {
-		printf("Wrong input, try again\n");
-		bords_insert(l, r);
-	}
+	tree_free((*tree)->root);
+	(*tree)->root = NULL;				
+	free(*tree);
+	*tree = NULL;
 }

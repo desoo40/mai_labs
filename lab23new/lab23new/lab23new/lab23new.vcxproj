@@ -150,7 +150,6 @@
     <ClInclude Include="..\..\tree.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\interface.c" />
     <ClCompile Include="..\..\main.c" />
     <ClCompile Include="..\..\tree.c" />
   </ItemGroup>

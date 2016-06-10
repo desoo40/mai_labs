@@ -27,9 +27,10 @@ Node* tree_find_parent(Node* node, Node *del);
 Node* tree_find_elem(Node* node, int val);
 Node* find_min(Node* node);
 void tree_print(Node *node, int lvl);
-bool detour(Node *node, int l, int r);
-bool lie_in_area(int value, int l, int r);
-void bords_insert(int *left, int *right);
+// bool detour(Node *node, int l, int r);
+// bool lie_in_area(int value, int l, int r);
+// void bords_insert(int *left, int *right);
 void tree_free(Node *node);
+void tree_destroy(Tree **tree);
 
 #endif
