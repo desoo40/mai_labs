@@ -35,11 +35,11 @@ int main(int argc, char **argv)
     if (!in)
         fprintf(stderr, "Error: can't open file\n");
 
-	Avl_tree* year_tree = avl_tree_create();
+	Avl_tree* year_tree = year_tree_create();
 	Graduate graduate;
 
 	while (graduate_read_bin(&graduate, in))
-		avl_tree_add_grad(year_tree, &graduate);
+		year_tree_add_grad(year_tree->root, &graduate);
 
 	find_male_dominate_classes(year_tree);
 
