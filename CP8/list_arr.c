@@ -7,31 +7,64 @@ List *list_create()
 	if (!list)
 		return NULL;
 
-	list->count = 0;
-	list->nodes = NULL;
+	for (int i = 0; i < POOL_SIZE; ++i) 
+		l->data[i].next = &(l->data[i+1]);
+
+	l->data[POOL_SIZE - 1].next = NULL;
+	l->head->next = l->head;
+	l->top = &(l->data[0]);
+	l->size = 0;
 
 	return list;
 }
-void list_add_element(List *list, char add)
+
+Iterator list_add_element(List *list, Iterator *i, Letter elem)
 {
-	if (!count)
-		list->nodes = (Node *) malloc(sizeof(Node));
-	else
-		list->nodes = (Node *) realloc(list->nodes, sizeof(Node) * (count + 1));
+	Iterator res = list->top;
 
-	++count;
+	if(!res.node)
+		return last(list);
 
-	list->nodes[count - 1] = add;
+	l->top = l->top->next;
+
+	res.node->data = elem;
+	res.node->next = i->node->next;
+	i->node->next = res.node;
+
+	++l->size;
+
+	return res;
 }
-void list_delete_element(List *list, char del);
+
+Iterator list_delete_element(List *list, Iterator del);
 {
-	int i = 0;
-	while (i < list->count) {
-		if (del == list->nodes[i])
+	Iterator res = last(l);
+	if (equal(del, &res))
+		return res;
 
-	}
+	i->node = i->node->next;
+	res.node = i->node;
+
+	res.node->next = l->top;
+	res.node->next = NULL;
+
+	return res;
 }
-void list_print(List *list);
+
+Iterator first(List *list)
+{
+	return *list->head;
+}
+
+Iterator last(List *list)
+{
+	return 
+}
+
+void list_print(List *list)
+{
+
+}
 
 int list_lenght(List *list)
 {
