@@ -1,5 +1,9 @@
 #ifndef _GRADUATE_H_
-#define _GRADUATE_H_
+#define _GRADUATE_H
+
+#ifdef _MSC_VER 
+#define _CRT_SECURE_NO_WARNINGS 
+#endif_
 
 #define STR_SIZE 24
 
