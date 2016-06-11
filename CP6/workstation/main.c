@@ -64,13 +64,11 @@ int main(int argc, char **argv)
 			year_tree_add_grad(year_tree->root, &graduate);
 	}
 
-	printf("Date   Letter     Male      Female\n");
+	printf("Date   Letter     Male    Female\n");
 	find_male_dominate_classes(year_tree);
 
-	int a;
-	scanf("%d", &a);
-
 	year_tree_destroy(&year_tree);
+	fclose(in);
 
 	return 0;
 }
