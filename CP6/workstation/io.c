@@ -1,16 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "graduate.h"
 #include "io.h"
 
 int graduate_read_txt(Graduate *gr, FILE *in)
 {
     fscanf(in, "%s", gr->surname);
     fscanf(in, "%s", gr->initials);
-    fscanf(in, "%c", &(gr->gender));
+    fscanf(in, " %c", &(gr->gender));
     fscanf(in, "%d", &(gr->issue));
-    fscanf(in, "%c", &(gr->class_letter));
+    fscanf(in, " %c", &(gr->class_letter));
     fscanf(in, "%s", gr->university);
 
     return !feof(in);

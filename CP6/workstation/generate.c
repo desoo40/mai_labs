@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "graduate.h"
 #include "io.h"
 
 int main(int argc, char **argv)
@@ -22,7 +18,7 @@ int main(int argc, char **argv)
     Graduate gr;
 
     while (graduate_read_txt(&gr, in))
-        graduate_write_bin(&gr, out);
+		graduate_write_bin(&gr, out);
 
     fclose(in);
     fclose(out);

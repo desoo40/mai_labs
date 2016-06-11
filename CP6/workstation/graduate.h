@@ -1,13 +1,15 @@
 #ifndef _GRADUATE_H_
-#define _GRADUATE_H
+#define _GRADUATE_H_
 
 #ifdef _MSC_VER 
 #define _CRT_SECURE_NO_WARNINGS 
-#endif_
+#endif
 
 #define STR_SIZE 24
 
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef uint32_t Date;
 

@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8E21FD62-8964-4640-B19D-7743989161B9}</ProjectGuid>
+    <ProjectGuid>{19C9123B-E2B4-46D6-A07C-CE5F40E6CF1B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>cp6</RootNamespace>
+    <RootNamespace>cp6_gen</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -146,16 +146,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\graduate.h" />
-    <ClInclude Include="..\..\class.h" />
-    <ClInclude Include="..\..\io.h" />
-    <ClInclude Include="..\..\trees.h" />
+    <ClCompile Include="..\..\generate.c" />
+    <ClCompile Include="..\..\io.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\class.c" />
-    <ClCompile Include="..\..\io.c" />
-    <ClCompile Include="..\..\main.c" />
-    <ClCompile Include="..\..\trees.c" />
+    <ClInclude Include="..\..\io.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </Text>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

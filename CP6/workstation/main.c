@@ -1,24 +1,40 @@
 #include "graduate.h"
+#include "trees.h"
+#include "class.h"
+#include "io.h"
 
-typedef struct {
-	Date issue;
-	char letter;
-	uint16_t male_qty;
-	uint16_t female_qty;
-} Class;
-
-void detour_year(Avl_node *node)
+void detour_letter(Letter_node *node)
 {
-	detour_letter(node->letter_tree->root);
+	if (node == NULL)
+		return;
+
+	if (node->class->male_qty > node->class->female_qty)
+		class_print(node->class);
+
+	if (node->left != NULL)
+		detour_letter(node->left);
+	if (node->right != NULL)
+		detour_letter(node->right);
+
+	return;
 }
 
-void detour_letter(Avl_leteer_node *node)
+void detour_year(Year_node *node)
 {
-	if (node->class->m > node->class->f)
-		print_class(node->class);
+	if (node == NULL)
+		return;
+
+	detour_letter(node->l_tree->root);
+
+	if (node->left != NULL)
+		detour_year(node->left);
+	if (node->right != NULL)
+		detour_year(node->right);
+	
+	return;
 }
 
-void find_male_dominate_classes(Avl_tree *tree)
+void find_male_dominate_classes(Year_tree *tree)
 {
 	detour_year(tree->root);
 }
@@ -32,16 +48,27 @@ int main(int argc, char **argv)
 
 	FILE *in = fopen(argv[1], "r");
 
-    if (!in)
-        fprintf(stderr, "Error: can't open file\n");
+	if (!in) {
+		fprintf(stderr, "Error: can't open file\n");
+		return 0;
+	}
 
-	Avl_tree* year_tree = year_tree_create();
+	Year_tree *year_tree = NULL;
 	Graduate graduate;
 
-	while (graduate_read_bin(&graduate, in))
-		year_tree_add_grad(year_tree->root, &graduate);
+	while (graduate_read_bin(&graduate, in)) {
 
+		if (year_tree == NULL)
+			year_tree = year_tree_create(&graduate);
+		else
+			year_tree_add_grad(year_tree->root, &graduate);
+	}
+
+	printf("Date   Letter     Male      Female\n");
 	find_male_dominate_classes(year_tree);
+
+	getchar();
+	getchar();
 
 	return 0;
 }
