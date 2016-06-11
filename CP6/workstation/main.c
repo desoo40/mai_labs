@@ -67,8 +67,8 @@ int main(int argc, char **argv)
 	printf("Date   Letter     Male      Female\n");
 	find_male_dominate_classes(year_tree);
 
-	getchar();
-	getchar();
+	int a;
+	scanf("%d", &a);
 
 	return 0;
 }

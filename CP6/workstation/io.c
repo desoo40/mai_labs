@@ -36,6 +36,6 @@ void graduate_write_bin(Graduate *gr, FILE *out)
 
 void class_print(Class *cl)
 {
-    printf("  %d      %c        %d        %d\n", cl->issue, cl->letter, cl->male_qty, cl->female_qty);
+    printf("%d      %c        %d        %d\n", cl->issue, cl->letter, cl->male_qty, cl->female_qty);
 }
 

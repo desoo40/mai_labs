@@ -39,7 +39,7 @@ Letter_node *letter_node_create(Graduate *graduate)
 
 	node->left = NULL;
 	node->right = NULL;
-	node->class = class_create();
+	node->class = class_create(graduate);
 
 	if (graduate->gender == 'M')
 		++node->class->male_qty;
