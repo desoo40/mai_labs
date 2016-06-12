@@ -31,9 +31,9 @@ void stack_push(Stack *stack, char sym)
 		stack->current = node_create(sym);
 		return;
 	}
-	
+
 	Node *tmp = node_create(sym);
-	
+
 	tmp->prev = stack->current;
 	stack->current = tmp;
 
@@ -67,6 +67,22 @@ void stack_print(Node *node)
 		node = node->prev;
 	}
 	printf("BOTTOM\n");
+
+	return;
+}
+
+char stack_top(Stack *stack)
+{
+	if (stack->current == NULL)
+		return 0;
+
+	return stack->current->symbol;
+}
+
+void stack_free(Stack *stack)
+{
+	while (!(stack_is_empty(stack)))
+		stack_pop(stack);
 
 	return;
 }
