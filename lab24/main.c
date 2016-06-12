@@ -12,9 +12,9 @@ int main(void)
 		if (s == 1)
 		{
 			char *c;
-			scanf("%s", &c);
+			scanf("%s", c);
 
-			stack_push(stack, c);
+			stack_push(stack, c[0]);
 			continue;
 		}
 
