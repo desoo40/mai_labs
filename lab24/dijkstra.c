@@ -40,6 +40,48 @@ void io_free(Stack *out, Stack *tmp)
 	return;
 }
 
+bool is_input_right(char *c)
+{
+	bool prev_operator = true;
+	int operator_qty = 0;
+	int operand_qty = 0;
+
+	for(int i = 0; c[i] != '\0'; ++i)
+	{
+		if (c[i] == ')' || c[i] == '(')
+			continue;
+
+		if (i == 0 && is_char_operator(c[i]))
+			return false;
+
+		if (c[i + 1] == '\0' && is_char_operator(c[i]))
+			return false;
+
+		if (is_char_operator(c[i]))
+		{
+			if (prev_operator)
+				return false;
+
+			prev_operator = true;
+			++operator_qty;
+		}
+
+		if (is_char_operand(c[i]))
+		{
+			if (!prev_operator)
+				return false;
+
+			prev_operator = false;
+			++operand_qty;
+		}
+	}
+
+	if (operand_qty - 1 != operator_qty)
+		return false;
+
+	return true;
+}
+
 void get_string(Stack *out)
 {
 	Stack *tmp = stack_create();
@@ -47,6 +89,11 @@ void get_string(Stack *out)
 
 	printf("Print polynomial:\n");
 	scanf("%100[^\n]", c);
+
+	if(!is_input_right(c)) {
+		printf("Wrong input\n");
+		return;
+	}
 
 	for (int i = 0; c[i] != '\0'; ++i)
 	{
