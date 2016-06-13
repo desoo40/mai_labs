@@ -31,10 +31,19 @@ void tree_add_elem(Tree *tree, Data *data)
 			
 		if (is_d(tree->right->data)) {
 			if (tree->left != NULL) {
+				//BUG WAS HERE!
+				//tested via 1+2-3*4-(6*7+8)
 				if (is_t(tree->left->data))
+				{
 					tree_add_elem(tree->left, data);
-				if (is_d(tree->left->data))
 					return;
+				}
+				if (is_d(tree->left->data));
+				{
+					tree_add_elem(tree->right, data);
+					return;
+				}
+				// o_O
 			}
 
 			if (tree->left == NULL) {
