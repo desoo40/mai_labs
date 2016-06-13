@@ -103,7 +103,7 @@ void get_string(Stack *out)
 		{
 			stack_push(out, c[i]);
 
-			for (i; is_dig(c[i + 1]); ++i)
+			for (; is_dig(c[i + 1]); ++i)
 			{
 				out->current->symbol *= 10;
 				out->current->symbol += c[i + 1] - '0';
@@ -129,6 +129,9 @@ void get_string(Stack *out)
 		stack_push(out, stack_top(tmp));
 		stack_pop(tmp);
 	}
+
+	free(tmp);
+	tmp = NULL;
 
 	return;
 }
