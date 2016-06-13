@@ -326,3 +326,7 @@ ModelManifest.xml
 /CP6/workstation/exe
 /CP6/workstation/gen
 /CP6/workstation/test
+/CP6/workstation/tst
+/CP6/workstation/tstb
+/lab24/in.c
+/lab24/in.h
