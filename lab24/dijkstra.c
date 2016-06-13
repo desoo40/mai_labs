@@ -41,7 +41,7 @@ bool is_input_right(char *c)
 
 	for(int i = 0; c[i] != '\0'; ++i)
 	{
-		if (c[i] == ')' || c[i] == '(')
+		if (c[i] == ')' || c[i] == '(' || c[i] == ' ')
 			continue;
 
 		if (i == 0 && is_char_operator(c[i]))
@@ -63,6 +63,8 @@ bool is_input_right(char *c)
 		{
 			if (!prev_operator)
 				return false;
+
+			for (; is_dig(c[i + 1]); ++i);
 
 			prev_operator = false;
 			++operand_qty;
