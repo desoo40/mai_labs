@@ -87,7 +87,7 @@ void get_string(Stack *out)
 
 	if(!is_input_right(c)) {
 		printf("Wrong input\n");
-		stack_destroy(tmp);
+		stack_destroy(&tmp);
 		return;
 	}
 
@@ -109,7 +109,7 @@ void get_string(Stack *out)
 				if (tmp->current == NULL)
 				{
 					printf("Incorrectly placed parentheses\n");
-					stack_destroy(tmp);
+					stack_destroy(&tmp);
 					return;
 				}
 				stack_push(out, stack_top(tmp));
@@ -156,7 +156,7 @@ void get_string(Stack *out)
 		}
 
 		printf("Wrong letter in polynomial %c\n", c[i]);
-		stack_destroy(tmp);
+		stack_destroy(&tmp);
 		return;
 	}
 
@@ -165,7 +165,7 @@ void get_string(Stack *out)
 		if (stack_top(tmp) == '(' || stack_top(tmp) == ')')
 		{
 			printf("Incorrectly placed parentheses\n");
-			stack_destroy(tmp);
+			stack_destroy(&tmp);
 			return;
 		}
 
@@ -173,6 +173,6 @@ void get_string(Stack *out)
 		stack_pop(tmp);
 	}
 
-	stack_destroy(tmp);
+	stack_destroy(&tmp);
 	return;
 }

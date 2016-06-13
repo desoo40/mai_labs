@@ -103,9 +103,10 @@ void stack_free(Stack *stack)
 	return;
 }
 
-void stack_destroy(Stack *stack)
+void stack_destroy(Stack **stack)
 {
-	stack_free(stack);
-	stack = NULL;
+	stack_free(*stack);
+	free(*stack);
+	*stack = NULL;
 	return;
 }

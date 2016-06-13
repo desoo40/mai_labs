@@ -8,7 +8,6 @@ int main(void)
 	get_string(out);
 	stack_print(out->current);
 
-	stack_free(out);
-	out = NULL;
+	stack_destroy(&out);
 	return 0;
 }
