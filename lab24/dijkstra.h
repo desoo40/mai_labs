@@ -1,5 +1,5 @@
-#ifndef _IN_H_
-#define _IN_H_
+#ifndef _DIJKSTRA_H_
+#define _DIJKSTRA_H_
 
 #include "stack.h"
 

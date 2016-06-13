@@ -146,12 +146,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\in.c" />
+    <ClCompile Include="..\dijkstra.c" />
     <ClCompile Include="..\main.c" />
     <ClCompile Include="..\stack.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\in.h" />
+    <ClInclude Include="..\dijkstra.h" />
     <ClInclude Include="..\stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

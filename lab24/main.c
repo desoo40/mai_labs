@@ -1,5 +1,5 @@
 #include "stack.h"
-#include "in.h"
+#include "dijkstra.h"
 
 int main(void)
 {

@@ -21,15 +21,15 @@
     <ClCompile Include="..\main.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\in.c">
+    <ClCompile Include="..\dijkstra.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\in.h">
+    <ClInclude Include="..\stack.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\stack.h">
+    <ClInclude Include="..\dijkstra.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
