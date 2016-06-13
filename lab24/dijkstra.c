@@ -104,7 +104,7 @@ void get_string(Stack *out)
 
 		if (c[i] == ')')
 		{
-			while (stack_top(tmp) != '(')
+			while (stack_top(tmp)->symbol != '(')
 			{
 				if (tmp->current == NULL)
 				{
@@ -112,7 +112,7 @@ void get_string(Stack *out)
 					stack_destroy(&tmp);
 					return;
 				}
-				stack_push(out, stack_top(tmp));
+				stack_push(out, stack_top(tmp)->symbol);
 				stack_pop(tmp);
 			}
 
@@ -123,7 +123,9 @@ void get_string(Stack *out)
 		if (is_char_operator(c[i]))
 		{
 			int priority_curr = get_priority(c[i]);
-			int priority_top = get_priority(stack_top(tmp));
+			int priority_top = -1;
+			if (stack_top(tmp) != NULL)
+				priority_top = get_priority(stack_top(tmp)->symbol);
 
 			if (stack_is_empty(tmp) || priority_curr > priority_top)
 			{
@@ -133,9 +135,12 @@ void get_string(Stack *out)
 			
 			while (priority_curr <= priority_top)
 			{
-				stack_push(out, stack_top(tmp));
+				stack_push(out, stack_top(tmp)->symbol);
 				stack_pop(tmp);
-				priority_top = get_priority(stack_top(tmp));
+				if (stack_top(tmp) != NULL)
+					priority_top = get_priority(stack_top(tmp)->symbol);
+				else
+					priority_top = -1;
 			}
 
 			stack_push(tmp, c[i]);
@@ -148,8 +153,8 @@ void get_string(Stack *out)
 
 			for (; is_dig(c[i + 1]); ++i)
 			{
-				out->current->symbol *= 10;
-				out->current->symbol += c[i + 1] - '0';
+				out->current->data->symbol *= 10;
+				out->current->data->symbol += c[i + 1] - '0';
 			}
 
 			continue;
@@ -162,14 +167,14 @@ void get_string(Stack *out)
 
 	while (!stack_is_empty(tmp))
 	{
-		if (stack_top(tmp) == '(' || stack_top(tmp) == ')')
+		if (stack_top(tmp)->symbol == '(' || stack_top(tmp)->symbol == ')')
 		{
 			printf("Incorrectly placed parentheses\n");
 			stack_destroy(&tmp);
 			return;
 		}
 
-		stack_push(out, stack_top(tmp));
+		stack_push(out, stack_top(tmp)->symbol);
 		stack_pop(tmp);
 	}
 

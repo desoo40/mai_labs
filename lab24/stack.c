@@ -15,22 +15,29 @@ bool stack_is_empty(Stack *stack)
 	return !(stack->current);
 }
 
+Data* data_create(int sym)
+{
+	Data *data = (Data*)malloc(sizeof(Data));
+
+	if (is_dig(sym))
+	{
+		data->symbol = sym - '0';
+		data->is_char = false;
+	}
+	else
+	{
+		data->symbol = sym;
+		data->is_char = true;
+	}
+
+	return data;
+}
+
 Node *node_create(int sym)
 {
 	Node *node = (Node*)malloc(sizeof(Node));
 
-	if (is_dig(sym))
-	{
-		node->symbol = sym - '0';
-		node->is_char = false;
-	}
-	else
-	{
-		node->symbol = sym;
-		node->is_char = true;
-	}
-
-
+	node->data = data_create(sym);
 	node->prev = NULL;
 
 	return node;
@@ -62,7 +69,7 @@ void stack_pop(Stack *stack)
 
 	Node *tmp = stack->current->prev;
 
-	free(stack->current);
+	free(stack->current); // don't delete data because of it used forward
 	stack->current = NULL;
 
 	stack->current = tmp;
@@ -75,10 +82,10 @@ void stack_print(Node *node)
 	printf("TOP\n");
 	while (node != NULL)
 	{
-		if (node->is_char)
-			printf("%c\n", node->symbol);
+		if (node->data->is_char)
+			printf("%c\n", node->data->symbol);
 		else 
-			printf("%d\n", node->symbol);
+			printf("%d\n", node->data->symbol);
 
 		node = node->prev;
 	}
@@ -87,12 +94,12 @@ void stack_print(Node *node)
 	return;
 }
 
-char stack_top(Stack *stack)
+Data *stack_top(Stack *stack)
 {
 	if (stack->current == NULL)
-		return 0;
+		return NULL;
 
-	return stack->current->symbol;
+	return stack->current->data;
 }
 
 void stack_free(Stack *stack)
