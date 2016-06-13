@@ -29,5 +29,6 @@ void stack_pop(Stack *stack);
 void stack_print(Node *node);
 char stack_top(Stack *stack);
 void stack_free(Stack *stack);
+void stack_destroy(Stack *stack);
 
 #endif

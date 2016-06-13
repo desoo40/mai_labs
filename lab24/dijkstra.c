@@ -33,13 +33,6 @@ bool is_char_operand(int c)
 	return (c == 'x' || is_dig(c));
 }
 
-void io_free(Stack *out, Stack *tmp)
-{
-	stack_free(out);
-	stack_free(tmp);
-	return;
-}
-
 bool is_input_right(char *c)
 {
 	bool prev_operator = true;
@@ -92,6 +85,7 @@ void get_string(Stack *out)
 
 	if(!is_input_right(c)) {
 		printf("Wrong input\n");
+		stack_destroy(tmp);
 		return;
 	}
 
@@ -113,7 +107,7 @@ void get_string(Stack *out)
 				if (tmp->current == NULL)
 				{
 					printf("Incorrectly placed parentheses\n");
-					io_free(out, tmp);
+					stack_destroy(tmp);
 					return;
 				}
 				stack_push(out, stack_top(tmp));
@@ -160,7 +154,7 @@ void get_string(Stack *out)
 		}
 
 		printf("Wrong letter in polynomial %c\n", c[i]);
-		io_free(out, tmp);
+		stack_destroy(tmp);
 		return;
 	}
 
@@ -169,7 +163,7 @@ void get_string(Stack *out)
 		if (stack_top(tmp) == '(' || stack_top(tmp) == ')')
 		{
 			printf("Incorrectly placed parentheses\n");
-			io_free(out, tmp);
+			stack_destroy(tmp);
 			return;
 		}
 
@@ -177,8 +171,6 @@ void get_string(Stack *out)
 		stack_pop(tmp);
 	}
 
-	free(tmp);
-	tmp = NULL;
-
+	stack_destroy(tmp);
 	return;
 }

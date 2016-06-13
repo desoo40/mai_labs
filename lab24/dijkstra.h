@@ -7,7 +7,6 @@ void get_string(Stack *out);
 bool is_char_operator(int c);
 bool is_char_operand(int c);
 bool is_dig(int c);
-void io_free(Stack *out, Stack *tmp);
 bool is_input_right(char *c);
 
 #endif
