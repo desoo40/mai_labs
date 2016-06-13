@@ -1,6 +1,6 @@
 #include "in.h"
 
-bool is_char_operator(char c)
+bool is_char_operator(int c)
 {
 	return (c == '-' ||
 		c == '+' ||
@@ -11,7 +11,7 @@ bool is_char_operator(char c)
 		c == ')');
 }
 
-int get_priority(char c)
+int get_priority(int c)
 {
 	if (c == '-' || c == '+')
 		return 1;
@@ -23,17 +23,20 @@ int get_priority(char c)
 	return -1;
 }
 
-bool is_char_operand(char c)
+bool is_dig(int c)
 {
-	return ((c >= 'a' && c <= 'z') || (c >= '0' || c <= '9'));
+	return (c >= '0' && c <= '9');
+}
+
+bool is_char_operand(int c)
+{
+	return (c == 'x' || is_dig(c));
 }
 
 void io_free(Stack *out, Stack *tmp)
 {
 	stack_free(out);
 	stack_free(tmp);
-	printf("Insert polynomial again:\n");
-	get_string(out);
 	return;
 }
 
@@ -99,16 +102,30 @@ void get_string(Stack *out)
 		if (is_char_operand(c[i]))
 		{
 			stack_push(out, c[i]);
+
+			for (i; is_dig(c[i + 1]); ++i)
+			{
+				out->current->symbol *= 10;
+				out->current->symbol += c[i + 1] - '0';
+			}
+
 			continue;
 		}
 
-		printf("Wrong letter is polynomial %c\n", c[i]);
+		printf("Wrong letter in polynomial %c\n", c[i]);
 		io_free(out, tmp);
 		return;
 	}
 
 	while (!stack_is_empty(tmp))
 	{
+		if (stack_top(tmp) == '(' || stack_top(tmp) == ')')
+		{
+			printf("Incorrectly placed parentheses\n");
+			io_free(out, tmp);
+			return;
+		}
+
 		stack_push(out, stack_top(tmp));
 		stack_pop(tmp);
 	}

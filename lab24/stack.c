@@ -1,4 +1,5 @@
 #include "stack.h"
+#include "in.h"
 
 Stack *stack_create()
 {
@@ -14,17 +15,28 @@ bool stack_is_empty(Stack *stack)
 	return !(stack->current);
 }
 
-Node *node_create(char sym)
+Node *node_create(int sym)
 {
 	Node *node = (Node*)malloc(sizeof(Node));
 
-	node->symbol = sym;
+	if (is_dig(sym))
+	{
+		node->symbol = sym - '0';
+		node->is_char = false;
+	}
+	else
+	{
+		node->symbol = sym;
+		node->is_char = true;
+	}
+
+
 	node->prev = NULL;
 
 	return node;
 }
 
-void stack_push(Stack *stack, char sym)
+void stack_push(Stack *stack, int sym)
 {
 	if (stack_is_empty(stack))
 	{
@@ -63,7 +75,11 @@ void stack_print(Node *node)
 	printf("TOP\n");
 	while (node != NULL)
 	{
-		printf("%c\n", node->symbol);
+		if (node->is_char)
+			printf("%c\n", node->symbol);
+		else 
+			printf("%d\n", node->symbol);
+
 		node = node->prev;
 	}
 	printf("BOTTOM\n");

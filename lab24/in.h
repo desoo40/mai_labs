@@ -4,8 +4,9 @@
 #include "stack.h"
 
 void get_string(Stack *out);
-bool is_char_operator(char c);
-bool is_char_operand(char c);
+bool is_char_operator(int c);
+bool is_char_operand(int c);
+bool is_dig(int c);
 void io_free(Stack *out, Stack *tmp);
 
 #endif
