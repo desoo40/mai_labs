@@ -20,7 +20,7 @@
 Pupkin VI M 2003 Z Sharaga
 Botanov MA M 2009 A MSU
 Ivanov II M 1984 H MFTI
-Sorokina YA F 2015 MGMSU
+Sorokina YA F 2015 B MGMSU
 etc.
 ```
 
