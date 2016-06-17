@@ -12,16 +12,6 @@ Tree *tree_create(Data *data)
 	return tree;
 }
 
-bool is_d(Data *data)
-{
-	return (!data->is_char || data->symbol == 'x');
-}
-
-bool is_t(Data *data)
-{
-	return data->is_char && data->symbol != 'x';
-}
-
 void tree_print(Tree *tree, int lvl)
 {
 	if (tree == NULL)
@@ -45,6 +35,20 @@ void tree_print(Tree *tree, int lvl)
 		tree_print(tree->right, lvl + 1);
 }
 
+//int find_tree_depht(Tree* tree, int d)
+//{
+//	if (tree == NULL)
+//		return d;
+//
+//	return max(find_tree_depht(tree->left, d + 1),
+//			   find_tree_depht(tree->right, d + 1));
+//}
+
+int two_power(int lvl)
+{
+	return lvl == 0 ? 1 : 2 * two_power(lvl - 1);
+}
+
 void tree_BFS_print(Tree *tree)
 {
 	if (tree == NULL)
@@ -55,22 +59,56 @@ void tree_BFS_print(Tree *tree)
 
 	Queue *que = queue_create(tree);
 
+	Tree *for_print = (Tree*)malloc(sizeof(Tree));
+	for_print->left = NULL;
+	for_print->right = NULL;
+	for_print->data = (Data*)malloc(sizeof(Data));
+	for_print->data->symbol = '#';
+	for_print->data->is_char = true;
+
+	/*int tree_depht = find_tree_depht(tree, -1);*/
+	int lvl = 0;
+	int print_times = two_power(lvl);
+	int hash = 0;
+
 	while (!queue_is_empty(que))
 	{
 		Tree *tmp = queue_top(que)->tree;
 		queue_pop(que);
 
-		if (tree->data->is_char)
-			printf(" %c\n", tree->data->symbol);
+		if (print_times == 0)
+		{
+			if (hash == two_power(lvl + 1))
+				return;
+
+			print_times = two_power(++lvl);
+			hash = 0;
+			printf("\n");
+		}
+
+		if (tmp->data->is_char)
+			printf("%c ", tmp->data->symbol);
 		else
-			printf(" %d\n", tree->data->symbol);
+			printf("%d ", tmp->data->symbol);
+
+		--print_times;
 
 		if (tmp->left)
 			queue_push(que, tmp->left);
+		else {
+			queue_push(que, for_print);
+			++hash;
+		}
+
 		if (tmp->right)
 			queue_push(que, tmp->right);
+		else {
+			queue_push(que, for_print);
+			++hash;
+		}
 	}
 
+	printf("\n");
 	queue_destroy(&que);
 }
 

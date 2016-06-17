@@ -17,8 +17,7 @@ void tree_add_elem(Tree *tree, Data *data);
 void tree_print(Tree *tree, int lvl);
 Tree *tree_build(Stack *out);
 void tree_BFS_print(Tree *tree);
-bool is_d(Data *data);
-bool is_t(Data *data);
+int find_tree_depht(Tree* tree, int d);
 
 
 #endif

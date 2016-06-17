@@ -11,6 +11,16 @@ bool is_char_operator(int c)
 		c == ')');
 }
 
+bool is_d(Data *data)
+{
+	return (!data->is_char || data->symbol == 'x');
+}
+
+bool is_t(Data *data)
+{
+	return data->is_char && data->symbol != 'x';
+}
+
 int get_priority(int c)
 {
 	if (c == '-' || c == '+')
