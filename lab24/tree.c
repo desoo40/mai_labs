@@ -1,4 +1,5 @@
 #include "tree.h"
+#include "queue.h"
 
 Tree *tree_create(Data *data)
 {
