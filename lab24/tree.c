@@ -21,6 +21,37 @@ bool is_t (Data *data)
 	return data->is_char && data->symbol != 'x';
 }
 
+void tree_add_elem(Tree *tree, Data *data)
+{
+	if (tree->right != NULL) {
+		if (is_t(tree->right->data)) {
+			tree_add_elem(tree->right, data);
+			return;
+		}
+			
+		if (is_d(tree->right->data)) {
+			if (tree->left != NULL) {
+				if (is_t(tree->left->data))
+					tree_add_elem(tree->left, data);
+				if (is_d(tree->left->data))
+					return;
+			}
+
+			if (tree->left == NULL) {
+				tree->left = tree_create(data);
+				return;
+			}
+		}
+
+		
+	}
+
+	if (tree->right == NULL)
+	{
+		tree->right = tree_create(data);
+	}
+}
+
 void tree_print(Tree *tree, int lvl)
 {
 	if (tree == NULL)
