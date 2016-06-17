@@ -1,6 +1,7 @@
 #include "stack.h"
 #include "dijkstra.h"
 #include "tree.h"
+#include "queue.h"
 
 int main(void)
 {
@@ -10,8 +11,8 @@ int main(void)
 	stack_print(out->current);
 
 	Tree *tree = NULL;
-	tree = tree_build(tree, out);
-	tree_print(tree, 0);
+	tree = tree_build(out);
+	tree_BFS_print(tree);
 
 	stack_destroy(&out);
 	return 0;

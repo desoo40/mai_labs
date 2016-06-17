@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{428D01BD-D2AB-4896-A262-E87A23EFD97D}</ProjectGuid>
+    <ProjectGuid>{4F1FCE3A-AD76-4019-B3B6-D8945A0C9993}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>lab24</RootNamespace>
+    <RootNamespace>Olymp52</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -146,17 +146,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\dijkstra.c" />
-    <ClCompile Include="..\main.c" />
-    <ClCompile Include="..\queue.c" />
-    <ClCompile Include="..\stack.c" />
-    <ClCompile Include="..\tree.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\dijkstra.h" />
-    <ClInclude Include="..\queue.h" />
-    <ClInclude Include="..\stack.h" />
-    <ClInclude Include="..\tree.h" />
+    <ClCompile Include="2E.cpp" />
+    <ClCompile Include="A.cpp" />
+    <ClCompile Include="1A.cpp" />
+    <ClCompile Include="Bugs.cpp" />
+    <ClCompile Include="dots.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
