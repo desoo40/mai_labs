@@ -47,11 +47,18 @@ void tree_print(Tree *tree, int lvl)
 
 void tree_BFS_print(Tree *tree)
 {
+	if (tree == NULL)
+	{
+		printf("Tree is empty\n");
+		return;
+	}
+
 	Queue *que = queue_create(tree);
 
 	while (!queue_is_empty(que))
 	{
 		Tree *tmp = queue_top(que)->tree;
+		queue_pop(que);
 
 		if (tree->data->is_char)
 			printf(" %c\n", tree->data->symbol);

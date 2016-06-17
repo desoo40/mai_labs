@@ -37,7 +37,7 @@ void queue_push(Queue *queue, Tree *tree)
 		Que_node *node = que_node_create(tree);
 
 		node->next = queue->first;
-		node = queue->first;
+		queue->first = node;
 	}
 
 	return;
@@ -52,6 +52,7 @@ void queue_pop(Queue *queue)
 	{
 		free(queue->first);
 		queue->first = NULL;
+		queue->last = NULL;
 		return;
 	}
 
@@ -64,6 +65,7 @@ void queue_pop(Queue *queue)
 	queue->last = NULL;
 
 	queue->last = tmp;
+	queue->last->next = NULL;
 	return;
 }
 
@@ -74,7 +76,7 @@ Que_node *queue_top(Queue *queue)
 
 bool queue_is_empty(Queue *queue)
 {
-	return queue->first;
+	return !queue->first;
 }
 
 void queue_destroy(Queue **queue)
