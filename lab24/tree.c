@@ -12,45 +12,14 @@ Tree *tree_create(Data *data)
 	return tree;
 }
 
-bool is_d (Data *data)
+bool is_d(Data *data)
 {
 	return (!data->is_char || data->symbol == 'x');
 }
 
-bool is_t (Data *data)
+bool is_t(Data *data)
 {
 	return data->is_char && data->symbol != 'x';
-}
-
-void tree_add_elem(Tree *tree, Data *data)
-{
-	if (tree->right != NULL) {
-		if (is_t(tree->right->data)) {
-			tree_add_elem(tree->right, data);
-			return;
-		}
-			
-		if (is_d(tree->right->data)) {
-			if (tree->left != NULL) {
-				if (is_t(tree->left->data))
-					tree_add_elem(tree->left, data);
-				if (is_d(tree->left->data))
-					return;
-			}
-
-			if (tree->left == NULL) {
-				tree->left = tree_create(data);
-				return;
-			}
-		}
-
-		
-	}
-
-	if (tree->right == NULL)
-	{
-		tree->right = tree_create(data);
-	}
 }
 
 void tree_print(Tree *tree, int lvl)
@@ -80,10 +49,10 @@ void tree_BFS_print(Tree *tree)
 {
 	Queue *que = queue_create(tree);
 
-	while(!queue_is_empty(que))
+	while (!queue_is_empty(que))
 	{
 		Tree *tmp = queue_top(que)->tree;
-		
+
 		if (tree->data->is_char)
 			printf(" %c\n", tree->data->symbol);
 		else
@@ -106,7 +75,7 @@ Tree *tree_build(Stack *out)
 	Tree *tree = tree_create(stack_top(out));
 	stack_pop(out);
 
-	if(is_t(tree->data))
+	if (is_t(tree->data))
 	{
 		tree->right = tree_build(out);
 		tree->left = tree_build(out);
