@@ -35,18 +35,26 @@ void tree_print(Tree *tree, int lvl)
 		tree_print(tree->right, lvl + 1);
 }
 
-//int find_tree_depht(Tree* tree, int d)
-//{
-//	if (tree == NULL)
-//		return d;
-//
-//	return max(find_tree_depht(tree->left, d + 1),
-//			   find_tree_depht(tree->right, d + 1));
-//}
+int find_tree_depht(Tree* tree, int d)
+{
+	if (tree == NULL)
+		return d;
+
+	return max(find_tree_depht(tree->left, d + 1),
+			   find_tree_depht(tree->right, d + 1));
+}
 
 int two_power(int lvl)
 {
 	return lvl == 0 ? 1 : 2 * two_power(lvl - 1);
+}
+
+void do_spaces(int spaces)
+{
+	for (int i = 0; i < spaces; ++i)
+	{
+		printf(" ");
+	}
 }
 
 void tree_BFS_print(Tree *tree)
@@ -66,9 +74,11 @@ void tree_BFS_print(Tree *tree)
 	for_print->data->symbol = '#';
 	for_print->data->is_char = true;
 
-	/*int tree_depht = find_tree_depht(tree, -1);*/
+	int tree_depht = find_tree_depht(tree, -1);
 	int lvl = 0;
 	int print_times = two_power(lvl);
+	int spaces = two_power(tree_depht) - 1;
+	do_spaces(spaces);
 	int hash = 0;
 
 	while (!queue_is_empty(que))
@@ -79,11 +89,18 @@ void tree_BFS_print(Tree *tree)
 		if (print_times == 0)
 		{
 			if (hash == two_power(lvl + 1))
+			{
+				printf("\n");
+				queue_destroy(&que);
 				return;
+			}
+
+			hash = 0;
+			spaces -= two_power(lvl);
+			printf("\n");
+			do_spaces(spaces);
 
 			print_times = two_power(++lvl);
-			hash = 0;
-			printf("\n");
 		}
 
 		if (tmp->data->is_char)
@@ -107,9 +124,6 @@ void tree_BFS_print(Tree *tree)
 			++hash;
 		}
 	}
-
-	printf("\n");
-	queue_destroy(&que);
 }
 
 Tree *tree_build(Stack *out)
