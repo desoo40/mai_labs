@@ -148,12 +148,14 @@
   <ItemGroup>
     <ClCompile Include="..\dijkstra.c" />
     <ClCompile Include="..\main.c" />
+    <ClCompile Include="..\matem.c" />
     <ClCompile Include="..\queue.c" />
     <ClCompile Include="..\stack.c" />
     <ClCompile Include="..\tree.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dijkstra.h" />
+    <ClInclude Include="..\matem.h" />
     <ClInclude Include="..\queue.h" />
     <ClInclude Include="..\stack.h" />
     <ClInclude Include="..\tree.h" />

@@ -1,5 +1,6 @@
 #include "tree.h"
 #include "queue.h"
+#include "matem.h"
 
 Tree *tree_create(Data *data)
 {
@@ -7,7 +8,14 @@ Tree *tree_create(Data *data)
 
 	tree->left = NULL;
 	tree->right = NULL;
-	tree->data = data;
+	tree->data = (Data*)malloc(sizeof(Data));
+
+	if (is_t(data))
+		tree->data->is_char = true;
+	if (is_d(data))
+		tree->data->is_char = false;
+	
+	tree->data->symbol = data->symbol;
 
 	return tree;
 }
@@ -40,13 +48,8 @@ int find_tree_depht(Tree* tree, int d)
 	if (tree == NULL)
 		return d;
 
-	return max(find_tree_depht(tree->left, d + 1),
+	return _max(find_tree_depht(tree->left, d + 1),
 			   find_tree_depht(tree->right, d + 1));
-}
-
-int two_power(int lvl)
-{
-	return lvl == 0 ? 1 : 2 * two_power(lvl - 1);
 }
 
 void do_spaces(int spaces)
@@ -80,12 +83,7 @@ void tree_BFS_print(Tree *tree)
 
 	Queue *que = queue_create(tree);
 
-	Tree *for_print = (Tree*)malloc(sizeof(Tree));
-	for_print->left = NULL;
-	for_print->right = NULL;
-	for_print->data = (Data*)malloc(sizeof(Data));
-	for_print->data->symbol = '#';
-	for_print->data->is_char = true;
+	Tree *for_print = tree_create(data_create('#'));
 
 	int tree_depht = find_tree_depht(tree, -1);
 	int lvl = 0;

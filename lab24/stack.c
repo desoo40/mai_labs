@@ -69,7 +69,9 @@ void stack_pop(Stack *stack)
 
 	Node *tmp = stack->current->prev;
 
-	free(stack->current); // don't delete data because of it used forward
+	free(stack->current->data);
+	stack->current->data = NULL;
+	free(stack->current);
 	stack->current = NULL;
 
 	stack->current = tmp;
