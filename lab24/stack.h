@@ -33,7 +33,7 @@ Data* data_create(int sym);
 Node *node_create(int sym);
 bool stack_is_empty(Stack *stack);
 void stack_push(Stack *stack, int sym);
-void stack_pop(Stack *stack);
+void stack_pop(Stack *stack, char s); // s == 'd' - data delete, s == 'n' don't
 void stack_print(Node *node);
 Data *stack_top(Stack *stack);
 void stack_free(Stack *stack);

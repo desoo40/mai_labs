@@ -59,7 +59,7 @@ void stack_push(Stack *stack, int sym)
 	return;
 }
 
-void stack_pop(Stack *stack)
+void stack_pop(Stack *stack, char s)
 {
 	if (stack_is_empty(stack))
 	{
@@ -69,7 +69,13 @@ void stack_pop(Stack *stack)
 
 	Node *tmp = stack->current->prev;
 
-	free(stack->current); // don't delete data because of it used forward
+	if (s == 'd')
+	{
+		free(stack->current->data);
+		stack->current->data = NULL;
+	}
+	
+	free(stack->current); 
 	stack->current = NULL;
 
 	stack->current = tmp;
@@ -105,7 +111,7 @@ Data *stack_top(Stack *stack)
 void stack_free(Stack *stack)
 {
 	while (!(stack_is_empty(stack)))
-		stack_pop(stack);
+		stack_pop(stack, 'd');
 
 	return;
 }
