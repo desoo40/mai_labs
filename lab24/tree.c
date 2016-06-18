@@ -57,6 +57,19 @@ void do_spaces(int spaces)
 	}
 }
 
+void tree_destroy(Tree** tree)
+{
+	if (*tree == NULL)
+		return;
+
+	tree_destroy(&((*tree)->left));
+	tree_destroy(&((*tree)->right));
+	free((*tree)->data);
+	(*tree)->data = NULL;
+	free(*tree);
+	*tree = NULL;
+}
+
 void tree_BFS_print(Tree *tree)
 {
 	if (tree == NULL)
@@ -92,6 +105,7 @@ void tree_BFS_print(Tree *tree)
 			{
 				printf("\n");
 				queue_destroy(&que);
+				tree_destroy(&for_print);
 				return;
 			}
 

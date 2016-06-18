@@ -16,5 +16,6 @@ int main(void)
 	tree_BFS_print(tree);
 
 	stack_destroy(&out);
+	tree_destroy(&tree);
 	return 0;
 }
