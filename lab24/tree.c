@@ -82,8 +82,8 @@ void tree_BFS_print(Tree *tree)
 	}
 
 	Queue *que = queue_create(tree);
-
-	Tree *for_print = tree_create(data_create('#'));
+	Data *tmp_data = data_create('#');
+	Tree *for_print = tree_create(tmp_data);
 
 	int tree_depht = find_tree_depht(tree, -1);
 	int lvl = 0;
@@ -104,6 +104,8 @@ void tree_BFS_print(Tree *tree)
 				printf("\n");
 				queue_destroy(&que);
 				tree_destroy(&for_print);
+				free(tmp_data);
+				tmp_data = NULL;
 				return;
 			}
 
