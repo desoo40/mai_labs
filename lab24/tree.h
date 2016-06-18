@@ -19,6 +19,8 @@ Tree *tree_build(Stack *out);
 void tree_BFS_print(Tree *tree);
 int find_tree_depht(Tree* tree, int d);
 void tree_destroy(Tree** tree);
+void *tree_simplifier(Tree *tree);
+void tree_DFS_print(Tree *tree);
 
 
 #endif

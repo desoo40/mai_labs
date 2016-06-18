@@ -13,6 +13,12 @@ int main(void)
 	Tree *tree = NULL;
 	tree = tree_build(out);
 	/*tree_print(tree, 0);*/
+
+	tree_simplifier(tree);
+
+	printf(" = ");
+	tree_DFS_print(tree);
+	printf("\n");
 	tree_BFS_print(tree);
 
 	stack_destroy(&out);
