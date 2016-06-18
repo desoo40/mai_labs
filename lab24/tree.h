@@ -2,6 +2,7 @@
 #define _TREE_H_
 
 #include "dijkstra.h"
+#include "matem.h"
 
 typedef struct _tree Tree;
 
