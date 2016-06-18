@@ -144,7 +144,7 @@ Tree *tree_build(Stack *out)
 		return NULL;
 
 	Tree *tree = tree_create(stack_top(out));
-	stack_pop(out, 'n');
+	stack_pop(out);
 
 	if (is_t(tree->data))
 	{

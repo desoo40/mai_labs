@@ -123,10 +123,10 @@ void get_string(Stack *out)
 					return;
 				}
 				stack_push(out, stack_top(tmp)->symbol);
-				stack_pop(tmp, 'd');
+				stack_pop(tmp);
 			}
 
-			stack_pop(tmp, 'd');
+			stack_pop(tmp);
 			continue;
 		}
 
@@ -146,7 +146,7 @@ void get_string(Stack *out)
 			while (priority_curr <= priority_top)
 			{
 				stack_push(out, stack_top(tmp)->symbol);
-				stack_pop(tmp, 'd');
+				stack_pop(tmp);
 				if (stack_top(tmp) != NULL)
 					priority_top = get_priority(stack_top(tmp)->symbol);
 				else
@@ -185,7 +185,7 @@ void get_string(Stack *out)
 		}
 
 		stack_push(out, stack_top(tmp)->symbol);
-		stack_pop(tmp, 'd');
+		stack_pop(tmp);
 	}
 
 	stack_destroy(&tmp);
