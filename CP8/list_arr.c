@@ -15,19 +15,20 @@ List *list_create()
 	l->top = &(l->data[0]);
 	l->size = 0;
 
-	return list;
+	return l;
 }
 
-Iterator list_add_element(List *list, Iterator *i, Letter elem)
+Iterator list_add_element(List *l, Iterator *i, char letter)
 {
-	Iterator res = list->top;
+	Iterator res = { l->top };
 
 	if(!res.node)
-		return last(list);
+		return last(l);
 
 	l->top = l->top->next;
 
-	res.node->data = elem;
+	res.node->letter = letter;
+
 	res.node->next = i->node->next;
 	i->node->next = res.node;
 
@@ -36,30 +37,41 @@ Iterator list_add_element(List *list, Iterator *i, Letter elem)
 	return res;
 }
 
-Iterator list_delete_element(List *list, Iterator del);
+Iterator list_delete_element(List *l, Iterator* i)
 {
 	Iterator res = last(l);
-	if (equal(del, &res))
+	if (equal(i, &res))
 		return res;
 
-	i->node = i->node->next;
-	res.node = i->node;
+	res.node = i->node->next;
+	i->node->next = l->top;
 
-	res.node->next = l->top;
-	res.node->next = NULL;
+	l->top = i->node;
+	i->node = NULL;
+
+	--l->size;
 
 	return res;
 }
 
 Iterator first(List *list)
 {
-	return list->head;
+	Iterator i = { list->head->next };
+	return i;
 }
 
 Iterator last(List *list)
 {
-	return 
+	Iterator i = { list->head };
+	return i;
 }
+
+Iterator next(Iterator *i)
+{
+	i->node = i->node->next;
+	return *i;
+}
+
 
 void list_print(List *list)
 {
@@ -68,5 +80,22 @@ void list_print(List *list)
 
 int list_lenght(List *list)
 {
-	return sizeof(list->nodes) / sizeof(Node);
+	Iterator i, _last = last(list);
+	int dlinna = 0;
+	for (i = first(list); not_equal(&i, &_last); next(&i))
+	{
+		++dlinna;
+	}
+
+	return dlinna;
+}
+
+bool not_equal(Iterator *i, Iterator *j)
+{
+	return !equal(i, j);
+}
+
+bulochka equal(Iterator *i, Iterator *j)
+{
+	return !not_equal(i, j);
 }

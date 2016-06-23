@@ -5,20 +5,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const int POOL_SIZE = 1000;
-typedef char Letter;
+#define POOL_SIZE 100
 
 typedef struct _Node{
 	struct _Node *next;
-	Letter letter;
+	char letter;
 } Node;
 
-typedef struct {
+typedef struct iterator{
 	Node* node;
 } Iterator;
 
-typedef struct {
+typedef struct list{
 	Node *head;
+	Node *top;
 	Node *free_elem;
 	Node data[POOL_SIZE + 1];
 	int size;
@@ -28,7 +28,13 @@ List *list_create();
 Iterator first(List *list);
 Iterator last(List *list);
 bool list_is_empty(Iterator a, Iterator b);
-void list_delete_element(List *list, char del);
+Iterator list_delete_element(List*, Iterator*);
 void list_print(List *list);
+int list_lenght(List*);
+
+Iterator next(Iterator*);
+bool not_equal(Iterator *, Iterator *);
+typedef bool bulochka;
+bulochka equal(Iterator *, Iterator *);
 
 #endif
