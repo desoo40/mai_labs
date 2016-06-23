@@ -21,6 +21,7 @@ int find_tree_depht(Tree* tree, int d);
 void tree_destroy(Tree** tree);
 void *tree_simplifier(Tree *tree);
 void tree_DFS_print(Tree *tree);
+//Tree *tree_on_x(Tree *tree);
 
 
 #endif

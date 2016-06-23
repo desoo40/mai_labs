@@ -49,7 +49,7 @@ bool is_input_right(char *c)
 	int operator_qty = 0;
 	int operand_qty = 0;
 
-	for(int i = 0; c[i] != '\0'; ++i)
+	for (int i = 0; c[i] != '\0'; ++i)
 	{
 		if (c[i] == ')' || c[i] == '(' || c[i] == ' ')
 			continue;
@@ -75,7 +75,12 @@ bool is_input_right(char *c)
 				return false;
 
 			for (; is_dig(c[i + 1]); ++i);
-
+			
+			if (c[i + 1] == 'x')
+			{
+				prev_operator = true;
+				continue;
+			}
 			prev_operator = false;
 			++operand_qty;
 		}
@@ -101,78 +106,128 @@ void get_string(Stack *out)
 		return;
 	}
 
-	for (int i = 0; c[i] != '\0'; ++i)
+	int state = 1;
+	int priority_curr = 0;
+	int priority_top = 0;
+	int i = 0;
+
+	while (c[i] != '\0')
 	{
-		if (c[i] == '\n' || c[i] == ' ')
-			continue;
-
-		if (c[i] == '(')
+		switch (state)
 		{
-			stack_push(tmp, c[i]);
-			continue;
-		}
+			case 1:
 
-		if (c[i] == ')')
-		{
-			while (stack_top(tmp)->symbol != '(')
-			{
-				if (tmp->current == NULL)
+				if (c[i] == '\n' || c[i] == ' ')
 				{
-					printf("Incorrectly placed parentheses\n");
-					stack_destroy(&tmp);
-					return;
+					state = 9;
+					break;
 				}
-				stack_push(out, stack_top(tmp)->symbol);
-				stack_pop(tmp);
-			}
 
-			stack_pop(tmp);
-			continue;
-		}
+				if (c[i] == '(')
+				{
+					state = 2;
+					break;
+				}
 
-		if (is_char_operator(c[i]))
-		{
-			int priority_curr = get_priority(c[i]);
-			int priority_top = -1;
-			if (stack_top(tmp) != NULL)
-				priority_top = get_priority(stack_top(tmp)->symbol);
+				if (c[i] == ')')
+				{
+					state = 3;
+					break;
+				}
 
-			if (stack_is_empty(tmp) || priority_curr > priority_top)
-			{
+				if (is_char_operator(c[i]))
+				{
+					state = 4;
+					break;
+				}
+
+				if (is_char_operand(c[i]))
+				{
+					state = 5;
+					break;
+				}
+
+				printf("Wrong letter in polynomial %c\n", c[i]);
+				stack_destroy(&tmp);
+				return;
+
+			case 2:
 				stack_push(tmp, c[i]);
-				continue;
-			}
-			
-			while (priority_curr <= priority_top)
-			{
-				stack_push(out, stack_top(tmp)->symbol);
+				state = 1;
+				++i;
+				break;
+
+			case 3:
+				while (stack_top(tmp)->symbol != '(')
+				{
+					if (tmp->current == NULL)
+					{
+						printf("Incorrectly placed parentheses\n");
+						stack_destroy(&tmp);
+						return;
+					}
+					stack_push(out, stack_top(tmp)->symbol);
+					stack_pop(tmp);
+				}
+
 				stack_pop(tmp);
+				state = 1;
+				++i;
+				break;
+
+			case 4:
+
+				priority_curr = get_priority(c[i]);
+				priority_top = -1;
+
 				if (stack_top(tmp) != NULL)
 					priority_top = get_priority(stack_top(tmp)->symbol);
-				else
-					priority_top = -1;
-			}
 
-			stack_push(tmp, c[i]);
-			continue;
+				if (stack_is_empty(tmp) || priority_curr > priority_top)
+				{
+					state = 2;
+					break;
+				}
+
+				while (priority_curr <= priority_top)
+				{
+					stack_push(out, stack_top(tmp)->symbol);
+					stack_pop(tmp);
+					if (stack_top(tmp) != NULL)
+						priority_top = get_priority(stack_top(tmp)->symbol);
+					else
+						priority_top = -1;
+				}
+
+				state = 2;
+				break;
+
+			case 5:
+
+				stack_push(out, c[i]);
+
+				for (; is_dig(c[i + 1]); ++i)
+				{
+					out->current->data->symbol *= 10;
+					out->current->data->symbol += c[i + 1] - '0';
+				}
+
+				if (c[i + 1] == 'x')
+				{
+					stack_push(out, 'x');
+					c[i + 1] = '*';
+				}
+
+				state = 1;
+				++i;
+				break;
+
+			case 9:
+				state = 1;
+				++i;
+				break;
+
 		}
-
-		if (is_char_operand(c[i]))
-		{
-			stack_push(out, c[i]);
-
-			for (; is_dig(c[i + 1]); ++i)
-			{
-				out->current->data->symbol *= 10;
-				out->current->data->symbol += c[i + 1] - '0';
-			}
-
-			continue;
-		}
-
-		printf("Wrong letter in polynomial %c\n", c[i]);
-		stack_destroy(&tmp);
-		return;
 	}
 
 	while (!stack_is_empty(tmp))

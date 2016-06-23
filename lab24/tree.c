@@ -198,3 +198,16 @@ void *tree_simplifier(Tree *tree)
 		}
 	}
 }
+
+//Tree *tree_on_x(Tree *tree)
+//{
+//	Data *mul_data = data_create('*');
+//	Tree *mul_tree = tree_create(mul_data);
+//	Data *x_data = data_create('x');
+//	Tree *x_tree = tree_create(x_data);
+//
+//	mul_tree->left = tree;
+//	mul_tree->right = x_tree;
+//
+//	return mul_tree;
+//}

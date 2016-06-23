@@ -15,6 +15,7 @@ int main(void)
 	/*tree_print(tree, 0);*/
 
 	tree_simplifier(tree);
+	/*tree = tree_on_x(tree);*/
 
 	printf(" = ");
 	tree_DFS_print(tree);

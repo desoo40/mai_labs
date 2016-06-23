@@ -2,9 +2,9 @@
 
 List *list_create()
 {
-	List *list = (List*) malloc(sizeof(List));
+	List *l = (List*) malloc(sizeof(List));
 
-	if (!list)
+	if (!l)
 		return NULL;
 
 	for (int i = 0; i < POOL_SIZE; ++i) 
@@ -53,7 +53,7 @@ Iterator list_delete_element(List *list, Iterator del);
 
 Iterator first(List *list)
 {
-	return *list->head;
+	return list->head;
 }
 
 Iterator last(List *list)
