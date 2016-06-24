@@ -6,7 +6,7 @@ int main(void)
 
 	List *list = list_create();
 	Iterator it = { list->head };
-	printf(" 1 - add, 2 - print, 3 - delete letterochek, 4 - dlinna\n");
+	printf(" 1 - add element, 2 - print, 3 - delete element, 4 - lenght, 5 - add last elem k times\n");
 	while (1)
 	{
 		int s = 0;
@@ -68,4 +68,6 @@ int main(void)
 			continue;
 		}
 	}
+
+	free(list);
 }
