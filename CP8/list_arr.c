@@ -11,6 +11,7 @@ List *list_create()
 		l->data[i].next = &(l->data[i+1]);
 
 	l->data[POOL_SIZE - 1].next = NULL;
+	l->head = &l->data[POOL_SIZE];
 	l->head->next = l->head;
 	l->top = &(l->data[0]);
 	l->size = 0;
@@ -25,14 +26,27 @@ Iterator list_add_element(List *l, Iterator *i, char letter)
 	if(!res.node)
 		return last(l);
 
+	if (empty(l))
+	{
+		l->top = l->top->next;
+
+		res.node->letter = letter;
+		res.node->next = i->node;
+
+		l->size++;
+
+		//!!!!
+		l->head->next = res.node;
+
+		return res;
+	}
+
 	l->top = l->top->next;
 
 	res.node->letter = letter;
+	res.node->next = i->node;
 
-	res.node->next = i->node->next;
-	i->node->next = res.node;
-
-	++l->size;
+	l->size++;
 
 	return res;
 }
@@ -75,7 +89,11 @@ Iterator next(Iterator *i)
 
 void list_print(List *list)
 {
-
+	Iterator i, _last = last(list);
+	for (i = first(list); not_equal(&i, &_last); next(&i))
+	{
+		printf("%c \n", i.node->letter);
+	}
 }
 
 int list_lenght(List *list)
@@ -95,7 +113,14 @@ bool not_equal(Iterator *i, Iterator *j)
 	return !equal(i, j);
 }
 
+bool empty(List *l)
+{
+	Iterator fi = first(l);
+	Iterator la = last(l);
+	return equal(&fi, &la);
+}
+
 bulochka equal(Iterator *i, Iterator *j)
 {
-	return !not_equal(i, j);
+	return (i->node == j->node);
 }

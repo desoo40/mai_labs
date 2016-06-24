@@ -1,14 +1,16 @@
 #include "list_arr.h"
 
+
 int main(void)
 {
 
 	List *list = list_create();
-
+	Iterator it = { list->head };
+	printf(" 1 - add, 2 - print, 3 - delete letterochek, 4 - dlinna\n");
 	while (1)
 	{
 		int s = 0;
-		char c = 0;
+		char c[100];
 
 		scanf("%d", &s);
 
@@ -17,8 +19,8 @@ int main(void)
 
 		if (s == 1)
 		{
-			scanf("%c", &c);
-			list_add_element(list, c);
+			scanf("%s", &c);
+			it = list_add_element(list, &it, c[0]);
 			continue;
 		}
 
@@ -30,7 +32,11 @@ int main(void)
 
 		if (s == 3)
 		{
-			list_delete_element(list);
+			scanf("%s", &c);
+			Iterator i, _last = last(list);
+			for (i = first(list); i.node->letter != c[0] || not_equal(&i, &_last); next(&i));
+
+			list_delete_element(list, &i);
 			continue;
 		}
 
