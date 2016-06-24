@@ -19,8 +19,12 @@ int main(void)
 
 		if (s == 1)
 		{
+			printf("Insert char: \n");
 			scanf("%s", &c);
-			it = list_add_element(list, &it, c[0]);
+			printf("Insert after each to add: \n");
+			scanf("%d", &s);
+
+			it = list_add_element(list, c[0], s);
 			continue;
 		}
 
@@ -32,17 +36,35 @@ int main(void)
 
 		if (s == 3)
 		{
-			scanf("%s", &c);
-			Iterator i, _last = last(list);
-			for (i = first(list); i.node->letter != c[0] || not_equal(&i, &_last); next(&i));
-
-			list_delete_element(list, &i);
+			printf("Num of deleted element? \n");
+			scanf("%d", &s);
+			list_delete_element(list, s);
 			continue;
 		}
 
 		if (s == 4)
 		{
 			printf("Size if list: %d", list_lenght(list));
+			continue;
+		}
+
+		if (s == 5)
+		{
+			if (empty(list))
+			{
+				printf("List is empty \n");
+				return;
+			}
+
+			printf("How many times add?\n");
+			scanf("%d", &s);
+
+			if (POOL_SIZE - list_lenght(list) <= s) {
+				printf("No no no mon petit cherie, you want's too many...\n");
+				break;
+			}
+
+			insert_k_times(list, s);
 			continue;
 		}
 	}

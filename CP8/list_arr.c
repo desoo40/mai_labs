@@ -1,126 +1,162 @@
 #include "list_arr.h"
 
-List *list_create()
+bool equal(Iterator *first, Iterator *second)
 {
-	List *l = (List*) malloc(sizeof(List));
-
-	if (!l)
-		return NULL;
-
-	for (int i = 0; i < POOL_SIZE; ++i) 
-		l->data[i].next = &(l->data[i+1]);
-
-	l->data[POOL_SIZE - 1].next = NULL;
-	l->head = &l->data[POOL_SIZE];
-	l->head->next = l->head;
-	l->top = &(l->data[0]);
-	l->size = 0;
-
-	return l;
+	return first->node == second->node;
 }
 
-Iterator list_add_element(List *l, Iterator *i, char letter)
+bool not_equal(Iterator *first,Iterator *second)
 {
-	Iterator res = { l->top };
-
-	if(!res.node)
-		return last(l);
-
-	if (empty(l))
-	{
-		l->top = l->top->next;
-
-		res.node->letter = letter;
-		res.node->next = i->node;
-
-		l->size++;
-
-		//!!!!
-		l->head->next = res.node;
-
-		return res;
-	}
-
-	l->top = l->top->next;
-
-	res.node->letter = letter;
-	res.node->next = i->node;
-
-	l->size++;
-
-	return res;
+	return !equal(first, second);
 }
 
-Iterator list_delete_element(List *l, Iterator* i)
+Iterator next(Iterator *iter, List *list)
 {
-	Iterator res = last(l);
-	if (equal(i, &res))
-		return res;
-
-	res.node = i->node->next;
-	i->node->next = l->top;
-
-	l->top = i->node;
-	i->node = NULL;
-
-	--l->size;
-
-	return res;
+	iter->node = list->data[iter->node].next;
+	return *iter;
 }
 
-Iterator first(List *list)
+char fetch(Iterator *i, List *l)
 {
-	Iterator i = { list->head->next };
-	return i;
+	return l->data[i->node].letter;
 }
 
-Iterator last(List *list)
+void store(Iterator *i, List *l, char c)
 {
-	Iterator i = { list->head };
-	return i;
-}
-
-Iterator next(Iterator *i)
-{
-	i->node = i->node->next;
-	return *i;
-}
-
-
-void list_print(List *list)
-{
-	Iterator i, _last = last(list);
-	for (i = first(list); not_equal(&i, &_last); next(&i))
-	{
-		printf("%c \n", i.node->letter);
-	}
-}
-
-int list_lenght(List *list)
-{
-	Iterator i, _last = last(list);
-	int dlinna = 0;
-	for (i = first(list); not_equal(&i, &_last); next(&i))
-	{
-		++dlinna;
-	}
-
-	return dlinna;
-}
-
-bool not_equal(Iterator *i, Iterator *j)
-{
-	return !equal(i, j);
+	l->data[i->node].letter=c;
 }
 
 bool empty(List *l)
 {
-	Iterator fi = first(l);
-	Iterator la = last(l);
-	return equal(&fi, &la);
+	return l->head == l->last;
 }
 
-bulochka equal(Iterator *i, Iterator *j)
+List *list_create()
 {
-	return (i->node == j->node);
+	List *list = (List*) malloc(sizeof(List));
+
+	int i;
+	for (i = 0; i < POOL_SIZE; i++)
+		list->data[i].next = i + 1;
+
+	list->data[POOL_SIZE - 1].next= -1;
+	list->head = list->last = POOL_SIZE;
+	list->size = 0;
+	list->top = 0;
+}
+
+Iterator first(List *l)
+{
+	Iterator res = { l->head };
+	return res;
+}
+
+Iterator last(List *l)
+{
+	Iterator res = { l->last };
+	return res;
+}
+
+
+int list_lenght(List *l)
+{
+	return l->size;
+}
+
+Iterator list_add_element(List *list, char elem, int before_elem)
+{
+	Iterator res = { list->top };
+	Iterator tmp, tmp1;
+
+	int i = 1;
+
+	if (res.node == -1)
+		return last(list);
+
+	list->top = list->data[list->top].next;
+	list->data[res.node].letter = elem;
+
+	for(tmp = first(list); ((before_elem != i) && (tmp.node!= last(list).node)); next(&tmp,list))
+	{
+		tmp1=tmp;
+		i++;
+	}
+
+	if (tmp.node == first(list).node)
+	{
+		list->data[res.node].next = tmp.node;
+		list->head=res.node;
+	}
+
+	else
+	{
+		list->data[tmp1.node].next = res.node;
+		list->data[res.node].next = tmp.node;
+	}
+
+	++list->size;
+	return res;
+}
+
+void list_print(List *l)
+{
+	if(empty(l))
+		printf("List is empty\n");
+	
+	else
+	{
+		printf("List: \n");
+
+		Iterator i = first(l);
+		Iterator j = last(l);
+
+		for (i; not_equal(&i, &j); next(&i, l))
+			printf("%c ",fetch(&i, l));
+
+		printf("\n");
+	}
+}
+
+void list_delete_element(List *list, int del_num)
+{
+	if (empty(list))
+	{
+		printf("List is empty\n");
+		return;
+	}	
+
+	Iterator tmp,tmp1;
+	int i = 1;
+	
+	for(tmp = first(list); del_num != i && (tmp.node!=last(list).node); next(&tmp, list))
+	{
+		tmp1 = tmp;
+		++i;
+	}
+
+	if (tmp.node == first(list).node)
+		list->head = list->data[tmp.node].next;
+
+	else if (tmp.node == last(list).node)
+	{
+		printf("Cannot find element\n");
+		return;
+	}
+
+	else
+		list->data[tmp1.node].next = list->data[tmp.node].next;
+
+	list->data[tmp.node].next = list->top;
+	list->top = tmp.node;
+	--list->size;
+}
+
+void insert_k_times(List *l, int times)
+{
+	char ins = l->data[list_lenght(l) - 1].letter;
+
+	for (int i = 0; i < times; ++i)
+	{
+		list_add_element(l, ins, 1);
+	}
 }
