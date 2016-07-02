@@ -1,23 +1,18 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using System;
 
-//namespace Olymps_Shrrap
-//{
-//    class Program
-//    {
-//        static void Main(string[] args)
-//        {
-//            string sum = Console.ReadLine();
+namespace Olymps_Shrrap
+{
+    class Program
+    {
+        static void Main()
+        {
+			int sum = 0;
+			foreach (var a in (Console.ReadLine()).Split(' '))
+			{
+				sum += int.Parse(a);
+			}
 
-//            string[] gopa = sum.Split(' ');
-
-//            int a = Convert.ToInt32(gopa[0]);
-//            int b = Convert.ToInt32(gopa[1]);
-
-//            Console.WriteLine(a + b);
-//        }
-//    }
-//}
+            Console.WriteLine(sum);
+        }
+    }
+}
