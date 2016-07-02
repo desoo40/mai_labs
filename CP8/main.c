@@ -39,5 +39,10 @@ int main(void)
 			printf("Size if list: %d", list_lenght(list));
 			continue;
 		}
+
+		if (s == 5)
+		{
+			add_k_of_last_to_begin(list);
+		}
 	}
 }
