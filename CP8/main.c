@@ -1,14 +1,16 @@
 #include "list_arr.h"
 
+
 int main(void)
 {
 
 	List *list = list_create();
-
+	Iterator it = { list->head };
+	printf(" 1 - add element, 2 - print, 3 - delete element, 4 - lenght, 5 - add last elem k times\n");
 	while (1)
 	{
 		int s = 0;
-		char c = 0;
+		char c[100];
 
 		scanf("%d", &s);
 
@@ -17,8 +19,12 @@ int main(void)
 
 		if (s == 1)
 		{
-			scanf("%c", &c);
-			list_add_element(list, c);
+			printf("Insert char: \n");
+			scanf("%s", &c);
+			printf("Insert after each to add: \n");
+			scanf("%d", &s);
+
+			it = list_add_element(list, c[0], s);
 			continue;
 		}
 
@@ -30,7 +36,9 @@ int main(void)
 
 		if (s == 3)
 		{
-			list_delete_element(list);
+			printf("Num of deleted element? \n");
+			scanf("%d", &s);
+			list_delete_element(list, s);
 			continue;
 		}
 
@@ -42,7 +50,24 @@ int main(void)
 
 		if (s == 5)
 		{
-			add_k_of_last_to_begin(list);
+			if (empty(list))
+			{
+				printf("List is empty \n");
+				return;
+			}
+
+			printf("How many times add?\n");
+			scanf("%d", &s);
+
+			if (POOL_SIZE - list_lenght(list) <= s) {
+				printf("No no no mon petit cherie, you want's too many...\n");
+				break;
+			}
+
+			insert_k_times(list, s);
+			continue;
 		}
 	}
+
+	free(list);
 }
