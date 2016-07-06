@@ -146,7 +146,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="21A.cpp" />
+    <ClCompile Include="21F.cpp" />
     <ClCompile Include="2E.cpp" />
+    <ClCompile Include="3.cpp" />
+    <ClCompile Include="32D.cpp" />
+    <ClCompile Include="4.cpp" />
+    <ClCompile Include="41A.cpp" />
+    <ClCompile Include="41J.cpp" />
     <ClCompile Include="A.cpp" />
     <ClCompile Include="1A.cpp" />
     <ClCompile Include="Bugs.cpp" />
