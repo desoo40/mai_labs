@@ -33,7 +33,7 @@ typedef struct list
 
 bool equal(Iterator *first, Iterator *second);
 bool not_equal(Iterator *first, Iterator *second);
-Iterator next(Iterator *iter);
+Iterator next(Iterator *iter, List *list);
 char fetch(Iterator *iter, List *list);
 void store(Iterator *iter, List *list, char c);
 bool empty(List *list);
