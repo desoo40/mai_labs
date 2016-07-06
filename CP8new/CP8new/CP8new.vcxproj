@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4F1FCE3A-AD76-4019-B3B6-D8945A0C9993}</ProjectGuid>
+    <ProjectGuid>{A3682254-FD07-4E24-9F31-77D98407F04F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Olymp52</RootNamespace>
+    <RootNamespace>CP8new</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -146,12 +146,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="2E.cpp" />
-    <ClCompile Include="4G.cpp" />
-    <ClCompile Include="A.cpp" />
-    <ClCompile Include="1A.cpp" />
-    <ClCompile Include="Bugs.cpp" />
-    <ClCompile Include="dots.cpp" />
+    <ClCompile Include="list.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="list.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
