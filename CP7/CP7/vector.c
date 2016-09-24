@@ -16,7 +16,7 @@ void vector_resize(Vector *vec)
 	vec->data = (int*) realloc(vec->data, sizeof(int) * vec->cap);
 }
 
-void vector_push(Vector *vec, int elem)
+void vector_push(Vector *vec, size_t elem)
 {
 	if (vec->size >= vec->cap)
 		vector_resize(vec);
