@@ -53,15 +53,15 @@ void RarixSort(TElement *arr, Tloong n, Tloong cap)
     int *C = new int[k];
     TElement *B = new TElement[cap];
 
-    for (int i = 1; i < m; ++i) {
+    for (int i = 1; i <= m; ++i) {
         //    for j = 0 to k - 1
-        for (int j = 0; j < k - 1; ++j) {
+        for (int j = 0; j <= k - 1; ++j) {
             //        C[j] = 0
             C[j] = 0;
         }
 
         //        for j = 0 to n - 1
-        for (int j = 0; j < n - 1; ++j) {
+        for (int j = 0; j <= n - 1; ++j) {
             //            d = digit(A[j], i)
             //            C[d]++
             int d = Digit(arr[j], i);
@@ -70,13 +70,13 @@ void RarixSort(TElement *arr, Tloong n, Tloong cap)
 
         int count = 0;
     
-        for (int j = 0; j < k - 1; ++j) {
+        for (int j = 0; j <= k - 1; ++j) {
             int tmp = C[j];
             C[j] = count;
             count += tmp;
         }
       
-        for (int j = 0; j < n - 1; ++j) {
+        for (int j = n - 1; j > 0; --j) {
             int d = Digit(arr[j], i);
             B[C[d]] = arr[j];
             C[d]++;
