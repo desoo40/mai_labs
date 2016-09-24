@@ -37,12 +37,17 @@ int Digit(TElement elem, int i) {
                 return tmp % 10;
             }
             tmp /= 10;
-            --i;
         }
-        else {
-            return 0;
+        else {            
+			if (i == 1) {
+				return tmp;
+			}
+			else {
+				return 0;
+			}
         }
-    }
+		--i;
+	}
 }
 
 void RarixSort(TElement *arr, Tloong n, Tloong cap)
@@ -65,7 +70,7 @@ void RarixSort(TElement *arr, Tloong n, Tloong cap)
             //            d = digit(A[j], i)
             //            C[d]++
             int d = Digit(arr[j], i);
-            C[d]++;
+            ++C[d];
         }
 
         int count = 0;
@@ -76,12 +81,15 @@ void RarixSort(TElement *arr, Tloong n, Tloong cap)
             count += tmp;
         }
       
-        for (int j = n - 1; j > 0; --j) {
+        for (int j = 0; j <= n - 1; ++j) {
             int d = Digit(arr[j], i);
             B[C[d]] = arr[j];
-            C[d]++;
+            ++C[d];
         }
-        arr = B;
+
+		for (int j = 0; j <= n - 1; ++j) {
+			arr[j] = B[j];
+		}
     }
 }
 
@@ -103,15 +111,14 @@ int main(int argc, char const **argv) {
         ++size_of_arr;
     }
 
-    cout << "RESULT: "<< Digit(arr[0], 5) << endl;
+    cout << "RESULT: " << endl;
 
-    RarixSort(arr, size_of_arr, capacity);
+	RarixSort(arr, size_of_arr, capacity);
 
     for (Tloong i = 0; i < size_of_arr; ++i) {
-        cout << arr[i].key << " " << arr[i].value << endl;
+		printf("%0*d", MaxRadix(size_of_arr, arr), arr[i].key);
+		cout << " " << arr[i].value << endl;
     }
-
-
 
     return 0;
 }
