@@ -122,8 +122,7 @@ int main(int argc, char const **argv) {
 	RarixSort(arr, size_of_arr, capacity);
 
     for (Tloong i = 0; i < size_of_arr; ++i) {
-		printf("%0*llu", MaxRadix(size_of_arr, arr), arr[i].key);
-		cout << " " << arr[i].value << endl;
+		cout << arr[i].key << " " << arr[i].value << endl;
     }
 
     delete[]arr;
