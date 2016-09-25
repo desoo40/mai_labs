@@ -40,7 +40,7 @@ int Digit(TElement elem, int i) {
         }
         else {            
 			if (i == 1) {
-				return tmp;
+				return (int)tmp;
 			}
 			else {
 				return 0;
@@ -52,6 +52,9 @@ int Digit(TElement elem, int i) {
 
 void RarixSort(TElement *arr, Tloong n, Tloong cap)
 {
+    if (!n) {
+        return;
+    }
     //for i = 1 to m
     int m = MaxRadix(n, arr);
     int k = 10;
@@ -91,6 +94,9 @@ void RarixSort(TElement *arr, Tloong n, Tloong cap)
 			arr[j] = B[j];
 		}
     }
+
+    delete[]C;
+    delete[]B;
 }
 
 int main(int argc, char const **argv) {
@@ -116,9 +122,11 @@ int main(int argc, char const **argv) {
 	RarixSort(arr, size_of_arr, capacity);
 
     for (Tloong i = 0; i < size_of_arr; ++i) {
-		printf("%0*d", MaxRadix(size_of_arr, arr), arr[i].key);
+		printf("%0*llu", MaxRadix(size_of_arr, arr), arr[i].key);
 		cout << " " << arr[i].value << endl;
     }
+
+    delete[]arr;
 
     return 0;
 }

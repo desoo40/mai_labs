@@ -1,18 +1,23 @@
 ﻿using System;
+using System.Linq;
 
 namespace Olymps_Shrrap
 {
     class Program
     {
-        static void Main()
+        public static void Main()
         {
-			int sum = 0;
-			foreach (var a in (Console.ReadLine()).Split(' '))
-			{
-				sum += int.Parse(a);
-			}
+            var a = Console.ReadLine();
+            short s = 0;
+            for (int i = 0; i < a.Length; ++i)
+            {
+                if(a[i] == ' ') continue;
+                s += (short) a[i];
+            }
 
-            Console.WriteLine(sum);
+            Console.WriteLine(s);
+            //Console.WriteLine(Console.ReadLine().Split(' ').Sum(s=>int.Parse(s)));
+            //Console.WriteLine(Console.ReadLine().Split(' ').Sum(int.Parse));
         }
     }
 }
