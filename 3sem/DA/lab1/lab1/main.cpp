@@ -51,7 +51,7 @@ int Digit(TElement elem, int i) {
     return 0;
 }
 
-void RarixSort(TElement *arr, Tloong n, Tloong cap)
+void RarixSort(TElement *arr, Tloong n, uint32_t cap)
 {
     if (!n) {
         return;
@@ -94,7 +94,7 @@ void RarixSort(TElement *arr, Tloong n, Tloong cap)
     delete[]B;
 }
 
-void ArrayInsert(TElement *arr, Tloong *size, Tloong *cap) {
+void ArrayInsert(TElement *arr, Tloong *size, uint32_t *cap) {
    
     TElement elem;
 
@@ -117,7 +117,7 @@ void RarixSortResultPrint(TElement *arr, Tloong size) {
 
 int main(int argc, char const **argv) {
     
-    Tloong capacity = MIN_CAP;
+    uint32_t capacity = MIN_CAP;
     Tloong size_of_arr = 0;
     TElement *arr = new TElement[capacity];
     
