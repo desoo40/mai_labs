@@ -1,15 +1,14 @@
 #include <iostream>
-#include <cstdlib>
-
 #define Tloong unsigned long long
+
 
 using namespace std;
 const int MIN_CAP = 8;
 
 class TElement {
 public:
-    Tloong key;
-    Tloong value;
+    Tloong key = 0;
+    Tloong value = 0;
 };
 
 int MaxRadix(Tloong size, TElement *arr) {
@@ -30,9 +29,9 @@ int MaxRadix(Tloong size, TElement *arr) {
 }
 
 int Digit(TElement elem, int i) {
-    
+
     Tloong tmp = elem.key;
- 
+
     while (i) {
         if (tmp / 10) {
             if (i == 1) {
@@ -40,52 +39,58 @@ int Digit(TElement elem, int i) {
             }
             tmp /= 10;
         }
-        else {            
+        else {
             if (i == 1) {
                 return (int)tmp;
-           }
+            }
+            else {
+                return 0;
+            }
         }
         --i;
     }
-
-    return 0;
 }
 
-void RarixSort(TElement *arr, Tloong n, uint32_t cap)
-{
+void RarixSort(TElement *arr, Tloong n, Tloong cap) {
     if (!n) {
         return;
     }
+    //for i = 1 to m
     int m = MaxRadix(n, arr);
     int k = 10;
     int *C = new int[k];
     TElement *B = new TElement[cap];
 
     for (int i = 1; i <= m; ++i) {
+        //    for j = 0 to k - 1
         for (int j = 0; j <= k - 1; ++j) {
+            //        C[j] = 0
             C[j] = 0;
         }
 
-        for (Tloong j = 0; j <= n - 1; ++j) {
+        //        for j = 0 to n - 1
+        for (int j = 0; j <= n - 1; ++j) {
+            //            d = digit(A[j], i)
+            //            C[d]++
             int d = Digit(arr[j], i);
             ++C[d];
         }
 
         int count = 0;
-    
+
         for (int j = 0; j <= k - 1; ++j) {
             int tmp = C[j];
             C[j] = count;
             count += tmp;
         }
-      
-        for (Tloong j = 0; j <= n - 1; ++j) {
+
+        for (int j = 0; j <= n - 1; ++j) {
             int d = Digit(arr[j], i);
             B[C[d]] = arr[j];
             ++C[d];
         }
 
-        for (Tloong j = 0; j <= n - 1; ++j) {
+        for (int j = 0; j <= n - 1; ++j) {
             arr[j] = B[j];
         }
     }
@@ -94,36 +99,31 @@ void RarixSort(TElement *arr, Tloong n, uint32_t cap)
     delete[]B;
 }
 
-void ArrayInsert(TElement *arr, Tloong *size, uint32_t *cap) {
-   
+int main(int argc, char const **argv) {
+
     TElement elem;
+    Tloong capacity = MIN_CAP;
+    Tloong size_of_arr = 0;
+    TElement *arr = new TElement[capacity];
+
 
     for (Tloong i = 0; cin >> elem.key >> elem.value; ++i) {
-        if ((*size) == *(cap)) {
-            (*cap) *= 2;
-            arr = (TElement*)realloc(arr, sizeof(TElement) * (*cap));
+        if (size_of_arr == capacity) {
+            capacity *= 2;
+            arr = (TElement*)realloc(arr, sizeof(TElement) * capacity);
         }
 
         arr[i] = elem;
-        ++(*size);
+        ++size_of_arr;
     }
-}
 
-void RarixSortResultPrint(TElement *arr, Tloong size) {
-    for (Tloong i = 0; i < size; ++i) {
+    cout << "RESULT: " << endl;
+
+    RarixSort(arr, size_of_arr, capacity);
+
+    for (Tloong i = 0; i < size_of_arr; ++i) {
         cout << arr[i].key << "\t" << arr[i].value << endl;
     }
-}
-
-int main(int argc, char const **argv) {
-    
-    uint32_t capacity = MIN_CAP;
-    Tloong size_of_arr = 0;
-    TElement *arr = new TElement[capacity];
-    
-    ArrayInsert(arr, &size_of_arr, &capacity);
-    RarixSort(arr, size_of_arr, capacity);
-    RarixSortResultPrint(arr, size_of_arr);
 
     delete[]arr;
 
