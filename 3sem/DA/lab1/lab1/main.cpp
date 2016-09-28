@@ -7,8 +7,8 @@ const int MIN_CAP = 8;
 
 class TElement {
 public:
-    Tloong key = 0;
-    Tloong value = 0;
+    Tloong key;
+    Tloong value;
 };
 
 int MaxRadix(Tloong size, TElement *arr) {
