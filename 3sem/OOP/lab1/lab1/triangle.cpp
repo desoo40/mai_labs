@@ -3,9 +3,12 @@
 #include <cmath>
 
 Triangle::Triangle(std::istream &is) {
-    is >> side_a;
-    is >> side_b;
-    is >> side_c;
+	std::cout << "Insert side A: ";
+	is >> side_a;
+	std::cout << "Insert side B: ";
+	is >> side_b;
+	std::cout << "Insert side C: ";
+	is >> side_c;
 }
 double Triangle::Square() {
     double p = double(side_a + side_b + side_c) / 2.0;

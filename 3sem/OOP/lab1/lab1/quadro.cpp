@@ -2,10 +2,11 @@
 #include <iostream>
 
 Quadro::Quadro(std::istream &is) {
+	std::cout << "Insert side of quadro: ";
     is >> side;
 }
 double Quadro::Square() {
-    return side * side;
+    return (double)side * side;
 }
 void Quadro::Print() {
     std::cout << "Side = " << side << std::endl;
