@@ -44,6 +44,9 @@ int Digit(TElement elem, int i) {
             if (i == 1) {
                 return (int)tmp;
             }
+            else {
+                return 0;
+            }
         }
         --i;
     }
@@ -94,6 +97,12 @@ void RarixSort(TElement *arr, Tloong n, Tloong cap) {
     delete[]B;
 }
 
+void RarixSortResult(TElement* arr, Tloong size_of_arr) {
+    for (Tloong i = 0; i < size_of_arr; ++i) {
+        cout << arr[i].key << "\t" << arr[i].value << endl;
+    }
+}
+
 int main(int argc, char const **argv) {
 
     TElement elem;
@@ -113,10 +122,7 @@ int main(int argc, char const **argv) {
     }
 
     RarixSort(arr, size_of_arr, capacity);
-
-    for (Tloong i = 0; i < size_of_arr; ++i) {
-        cout << arr[i].key << "\t" << arr[i].value << endl;
-    }
+    RarixSortResult(arr, size_of_arr);
 
     delete[]arr;
 
