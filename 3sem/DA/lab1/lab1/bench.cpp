@@ -1,5 +1,8 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 #include <cstdlib>
+#include <ctime>
 
 #define Tloong unsigned long long
 
@@ -43,9 +46,6 @@ int Digit(TElement elem, int i) {
         else {
             if (i == 1) {
                 return (int)tmp;
-            }
-            else {
-                return 0;
             }
         }
         --i;
@@ -97,19 +97,14 @@ void RarixSort(TElement *arr, Tloong n, Tloong cap) {
     delete[]B;
 }
 
-void RarixSortResult(TElement* arr, Tloong size_of_arr) {
-    for (Tloong i = 0; i < size_of_arr; ++i) {
-        cout << arr[i].key << "\t" << arr[i].value << endl;
-    }
-}
-
 int main(int argc, char const **argv) {
 
     TElement elem;
     Tloong capacity = MIN_CAP;
     Tloong size_of_arr = 0;
     TElement *arr = new TElement[capacity];
-
+    clock_t start;
+    double duration;
 
     for (Tloong i = 0; cin >> elem.key >> elem.value; ++i) {
         if (size_of_arr == capacity) {
@@ -121,8 +116,24 @@ int main(int argc, char const **argv) {
         ++size_of_arr;
     }
 
+    vector<Tloong> bench(size_of_arr);
+
+    for (Tloong i = 0; i < size_of_arr; ++i)
+    {
+    	bench[i] = arr[i].key;
+    }
+
+    start = clock();
+
     RarixSort(arr, size_of_arr, capacity);
-    RarixSortResult(arr, size_of_arr);
+
+    duration = (clock() - start) / (double)CLOCKS_PER_SEC;
+    cout << "My radix sort: " << duration << endl;
+
+    start = clock();
+    sort(bench.begin(), bench.end());
+    duration = (clock() - start) / (double)CLOCKS_PER_SEC;
+    cout << "STL sort: " << duration << endl;
 
     delete[]arr;
 
