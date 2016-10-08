@@ -146,7 +146,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="triangle.h" />
     <ClInclude Include="tstack.h" />
+    <ClInclude Include="tstackitem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="triangle.cpp" />
+    <ClCompile Include="tstack.cpp" />
+    <ClCompile Include="tstackitem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
