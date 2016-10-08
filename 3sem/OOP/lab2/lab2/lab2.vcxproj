@@ -156,6 +156,9 @@
     <ClCompile Include="tstack.cpp" />
     <ClCompile Include="tstackitem.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tstack.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
