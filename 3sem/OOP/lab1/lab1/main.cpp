@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
         }
 
         ptr->Print();
-        std::cout << ptr->Square() << std::endl;
+        std::cout << "Square = " << ptr->Square() << std::endl;
         delete ptr;
     }
     

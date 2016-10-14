@@ -1,6 +1,6 @@
 #ifndef TSTACKITEM_H
 #define TSTACKITEM_H
-#include "Triangle.h"
+#include "triangle.h"
 class TStackItem {
 public:
  TStackItem(const Triangle& triangle);
