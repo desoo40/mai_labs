@@ -4,16 +4,16 @@
 #include "TStackItem.h"
 class TStack {
 public:
- TStack();
- TStack(const TStack& orig);
+    TStack();
+    TStack(const TStack& orig);
 
- void push(Triangle &&triangle);
- bool empty();
- Triangle pop();
- friend std::ostream& operator<<(std::ostream& os,const TStack& stack);
- virtual ~TStack();
+    void push(Triangle &&triangle);
+    bool empty();
+    Triangle pop();
+    friend std::ostream& operator<<(std::ostream& os,const TStack& stack);
+    virtual ~TStack();
 private:
 
- TStackItem *head;
+    TStackItem *head;
 };
 #endif

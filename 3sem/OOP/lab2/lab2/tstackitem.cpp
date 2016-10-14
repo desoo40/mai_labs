@@ -1,5 +1,6 @@
 #include "TStackItem.h"
 #include <iostream>
+
 TStackItem::TStackItem(const Triangle& triangle) {
     this->triangle = triangle;
     this->next = nullptr;
@@ -28,4 +29,4 @@ TStackItem::~TStackItem() {
 std::ostream& operator<<(std::ostream& os, const TStackItem& obj) {
     os << "[" << obj.triangle << "]" << std::endl;
     return os;
-}
+}

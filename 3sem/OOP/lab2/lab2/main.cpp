@@ -22,4 +22,4 @@ int main(int argc, char** argv) {
     t = stack.pop(); std::cout << t;
 
     return 0;
-}
+}
