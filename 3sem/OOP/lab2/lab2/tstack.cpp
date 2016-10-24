@@ -41,5 +41,10 @@ Triangle TStack::pop() {
 }
 
 TStack::~TStack() {
-    delete head;
+	while (!this->empty()) {
+		TStackItem *old_head = head;
+		head = head->GetNext();
+		old_head->SetNext(nullptr);
+		delete old_head;
+	}
 }
