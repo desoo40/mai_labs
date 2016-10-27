@@ -47,4 +47,5 @@ TStack::~TStack() {
 		old_head->SetNext(nullptr);
 		delete old_head;
 	}
+    std::cout << "Stack deleted" << std::endl;
 }
