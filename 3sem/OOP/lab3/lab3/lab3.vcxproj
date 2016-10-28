@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D807AE08-D561-4255-B660-AC62A8A70CA0}</ProjectGuid>
+    <ProjectGuid>{C6A0F058-A859-49A5-896B-E222D78BBCEF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>lab3</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -146,6 +146,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="quadro.cpp" />
+    <ClCompile Include="rectangle.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="TStack.cpp" />
+    <ClCompile Include="TStackItem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="figure.h" />
+    <ClInclude Include="quadro.h" />
+    <ClInclude Include="rectangle.h" />
+    <ClInclude Include="Triangle.h" />
+    <ClInclude Include="TStack.h" />
+    <ClInclude Include="TStackItem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
