@@ -12,11 +12,11 @@ using namespace std;
 
 enum General
 {
-    start,
+    fin,
     add,
     del,
     print,
-    fin
+    start
 };
 
 void PrintLine()
