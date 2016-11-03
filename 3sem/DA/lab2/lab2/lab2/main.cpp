@@ -1,31 +1,29 @@
 #include <iostream>
 #include <cstdio>
 #include "str.h"
+#include "btree.h"
 
 using namespace std;
 
 int main()
 {
-	TString str;
+	TString action;
+    TBTree bTree(4);
 
-	cin >> str;
-	cout << str;
-
-	return 0;
-	/*char action;
 	while (cin >> action)
 	{
-		if (action == '+')
+		if (action == "+")
 		{
+            bTree->AddWord();
 			cout << "Add" << endl;
 		}
-		else if (action == '-')
+		else if (action == "-")
 		{
 			cout << "Delete" << endl;
 		}
-		else if (action == '!')
+		else if (action == "!")
 		{
-			string type;
+			TString type;
 			cin >> type;
 			if (type == "Save") {
 				cout << "Save" << endl;
@@ -35,10 +33,7 @@ int main()
 			}
 		}
 		else {
-			unget(action, stdin);
-			string key;
-			cin >> key;
-			cout << "Search for key [" << key << ']' << endl;
+			cout << "Search for key [" << action << ']' << endl;
 		}
-	}*/
+	}
 }

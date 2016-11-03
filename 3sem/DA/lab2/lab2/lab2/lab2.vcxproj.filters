@@ -24,12 +24,18 @@
     <ClCompile Include="str.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="btree.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="io.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="str.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="btree.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
