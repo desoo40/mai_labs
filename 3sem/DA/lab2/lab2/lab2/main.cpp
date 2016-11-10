@@ -14,7 +14,12 @@ int main()
 	{
 		if (action == "+")
 		{
-            bTree->AddWord();
+			Word *word = new Word;
+
+			cin >> word->line >> word->line;
+
+            bTree.InsertWord(word);
+
 			cout << "Add" << endl;
 		}
 		else if (action == "-")

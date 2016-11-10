@@ -72,3 +72,13 @@ int TString::Lenght()
 
 	return size;
 }
+
+void TString::ToLower() {
+    int strLenght = this->Lenght();
+
+    for(int i = 0; i < strLenght; ++i) {
+        if (this->Str[i] >= 'A' && this->Str[i] <= 'Z') {
+            this->Str[i] += 32;
+        }
+    }
+}

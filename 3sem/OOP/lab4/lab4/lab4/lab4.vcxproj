@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4346FF9D-9909-4FBB-8DCC-C2225A3BD2F5}</ProjectGuid>
+    <ProjectGuid>{73285E07-E36E-4083-8FF4-E8D086DE13CB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>lab2</RootNamespace>
+    <RootNamespace>lab4</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -146,16 +146,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="btree.cpp" />
-    <ClCompile Include="io.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="str.cpp" />
+    <ClCompile Include="quadro.cpp" />
+    <ClCompile Include="rectangle.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="TStack.cpp" />
+    <ClCompile Include="TStackItem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="btree.h" />
-    <ClInclude Include="btreenode.h" />
-    <ClInclude Include="io.h" />
-    <ClInclude Include="str.h" />
+    <ClInclude Include="figure.h" />
+    <ClInclude Include="quadro.h" />
+    <ClInclude Include="rectangle.h" />
+    <ClInclude Include="Triangle.h" />
+    <ClInclude Include="TStack.h" />
+    <ClInclude Include="TStackItem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

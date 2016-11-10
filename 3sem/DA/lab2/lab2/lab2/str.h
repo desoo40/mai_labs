@@ -1,3 +1,6 @@
+#ifndef _STR_H_
+#define _STR_H_
+
 #include <iostream>
 
 class TString {
@@ -7,6 +10,7 @@ class TString {
 		~TString();
 
 		int Lenght();
+        void ToLower();
 		friend std::ostream& operator<<(std::ostream&, const TString&);
 		friend std::istream& operator>>(std::istream&, TString&);
 		friend bool operator==(TString&, TString&);
@@ -15,3 +19,5 @@ class TString {
 	private:
 		char* Str;
 };
+
+#endif
