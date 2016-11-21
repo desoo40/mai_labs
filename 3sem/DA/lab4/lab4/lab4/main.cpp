@@ -4,18 +4,29 @@
 
 using namespace std;
 
+vector<size_t> FillTheR(string str)
+{
+    vector<size_t> ans(10);
+    
+    for (size_t i = 0; i < str.length(); ++i) {
+        ++ans[str[i] - 48] = i;
+    }
+
+    return ans;
+}
+
 int main()
 {
-    /*string pattern = "";
-
+    string pattern = "";
     getline(cin, pattern, '\n');
+   
+    vector<size_t> R(10);
 
-    cout << pattern;*/
+    R = FillTheR(pattern);
+
     vector<string> lines;
-    int i = 0;
 
-
-    while (1)
+    for (size_t i = 0; ; ++i)
     {
         string tmp;
 
@@ -26,8 +37,6 @@ int main()
 
         tmp.push_back('\n');
         lines.push_back(tmp);
-
-        ++i;
     }
 
     for(size_t i = 0; i < lines.size(); ++i)
