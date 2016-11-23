@@ -29,4 +29,4 @@ template <class T> std::shared_ptr<TStackItem<T>>
     }
 
     template class TStackItem<Figure>;
-    template std::ostream& operator<<(std::ostream& os, const TStackItem<Figure>& obj);
+    template std::ostream& operator<<(std::ostream& os, const TStackItem<Figure>& obj);
