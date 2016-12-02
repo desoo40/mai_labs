@@ -164,7 +164,7 @@ int main()
             --i;
             --j;
         }
-        int tmp = max(GoodSuff[patLen - 1 - j],BadChar[text[0][i]]);
+        int tmp = max(GoodSuff[patLen - 1 - j], BadChar[text[0][i]]);
         if (tmp == 0) {
             tmp = patLen;
         }
