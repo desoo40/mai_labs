@@ -153,7 +153,7 @@ int main()
     BadChar = BadCharRule(pattern);
     GoodSuff = GoodSuffRule(pattern);
 
-    for (int i = patLen -1; i <= textLen - 1;) {
+    for (int i = patLen - 1; i <= textLen - 1;) {
         int j = patLen - 1;
 
         while (pattern[j] == text[0][i]) {
@@ -164,7 +164,7 @@ int main()
             --i;
             --j;
         }
-        int tmp = max(GoodSuff[patLen - 1 - j],BadChar[text[0][i]]);
+        int tmp = max(GoodSuff[patLen - 1 - j], BadChar[text[0][i]]);
         if (tmp == 0) {
             tmp = patLen;
         }
