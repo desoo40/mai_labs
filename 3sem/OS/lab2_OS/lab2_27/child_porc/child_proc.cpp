@@ -22,7 +22,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	DWORD writeBytes;
 
 	char x;
-    while ((x = getchar()) != EOF) {
+    while ((x = getchar()) != '\n') {
         WriteFile(File, &x, sizeof(char), &writeBytes, NULL);
     }
     

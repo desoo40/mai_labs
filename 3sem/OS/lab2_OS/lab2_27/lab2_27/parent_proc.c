@@ -17,11 +17,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
     int n = 0;
     scanf_s("%d", &n);
-
-    if (n > 9) {
-        printf_s("%s", "Over max proc");
-        return 0;
-    }
+	getchar();
 
     for (int i = 0; i < n; ++i) {
         PROCESS_INFORMATION ProcessInfo; //This is what we get as an [out] parameter
@@ -32,14 +28,21 @@ int _tmain(int argc, _TCHAR* argv[])
         StartupInfo.cb = sizeof(STARTUPINFO); //Only compulsory field
 
         HANDLE pipe1Read, pipe1Write;
+
         if (!CreatePipe(&pipe1Read, &pipe1Write, &sa, 0)) {
             ErrorMsg();
         }
+
         StartupInfo.dwFlags = STARTF_USESTDHANDLES;
         StartupInfo.hStdInput = pipe1Read;
 
-        TCHAR lpszClientPath[] = L"child?.txt";
-        lpszClientPath[5] = (i + 1) + 48;
+        TCHAR lpszClientPath[] = L"         .txt";
+		int tmp = i;
+		for (int d = 8; (tmp / 10 || tmp < 10) && d >= 0; --d)
+		{
+			lpszClientPath[d] = ((tmp % 10) + 48);
+			tmp /= 10;
+		}
 
         bool process = CreateProcess(L"child.exe",
             lpszClientPath,
@@ -55,12 +58,12 @@ int _tmain(int argc, _TCHAR* argv[])
 
         char c;
 
-        while ((c = getchar()) != EOF) {
+        while ((c = getchar()) != '\n') {
             DWORD writeBytes;
             WriteFile(pipe1Write, &c, sizeof(char), &writeBytes, NULL);
         }
 
-        if (c == EOF) {
+        if (c == '\n') {
             DWORD writeBytes;
             WriteFile(pipe1Write, &c, sizeof(char), &writeBytes, NULL);
         }
