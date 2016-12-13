@@ -1,0 +1,79 @@
+:- use_rendering(table,
+         [header( t('Surname', 'Sex', 'Subject', 'University'))]).
+
+lenght([], 0).
+lenght([_|Tail], N) :-
+      lenght(Tail, M), N is M + 1.
+
+%      t(Surname, Sex, Subject, University)
+
+teachers(Tch) :-
+    lenght(Tch, 6),
+
+    % нем и матем занимались худ. гимнастикой
+    member(t(_, f, math, _), Tch),
+    member(t(_, f, germ, _), Tch),
+    
+    % ильин старше флерова, но стаж меньше чем у географа
+    member(t(ilin, m, _, _), Tch),
+    member(t(flerov, m, _, _), Tch),
+    member(t(_, _, geog, _), Tch),
+
+
+    % аркадьева бабанова - в одном институте
+    member(t(arcadeva, f, _, inst), Tch),
+    member(t(babanova, f, _, inst), Tch),
+    
+    % остальные в педе
+    member(t(ilin, m, _, ped), Tch),
+    member(t(flerov, m, _, ped), Tch),
+    member(t(korsakova, f, _, ped), Tch),
+    member(t(dashkov, m, _, ped), Tch),
+
+    % флеров старше француза, т.к. отец
+
+    member(t(_, _, french, _), Tch),
+    
+    % преподаватель английского - он
+    member(t(_, m, eng, ped), Tch),
+    member(t(_, _, hist, ped), Tch),
+    member(t(_, _, math, ped), Tch).
+
+:- use_rendering(table,
+         [header( t('Surname', 'Sex', 'Subject', 'University'))]).
+
+lenght([], 0).
+lenght([_|Tail], N) :-
+      lenght(Tail, M), N is M + 1.
+
+%      t(Surname, Sex, Subject, University)
+
+teachers(Tch) :-
+    lenght(Tch, 6),
+
+    % нем и матем занимались худ. гимнастикой
+    member(t(_, f, math, _), Tch),
+    member(t(_, f, germ, _), Tch),
+    
+    % ильин старше флерова, но стаж меньше чем у географа
+    member(t(ilin, m, _, _), Tch),
+    member(t(flerov, m, _, _), Tch),
+    member(t(_, _, geog, _), Tch),
+
+    % аркадьева бабанова - в одном институте
+    member(t(arcadeva, f, _, inst), Tch),
+    member(t(babanova, f, _, inst), Tch),
+    
+    % остальные в педе
+    member(t(ilin, m, _, ped), Tch),
+    member(t(flerov, m, _, ped), Tch),
+    member(t(korsakova, f, _, ped), Tch),
+    member(t(dashkov, m, _, ped), Tch),
+
+    % флеров старше француза, т.к. отец
+    member(t(_, _, french, _), Tch),
+    
+    % преподаватель английского - он
+    member(t(_, m, eng, ped), Tch),
+    member(t(_, _, hist, ped), Tch),
+    member(t(_, _, math, ped), Tch).
