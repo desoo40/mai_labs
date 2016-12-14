@@ -19,6 +19,8 @@ namespace CP_C_Sharp
             dictOfMembers["He"] = "Неизвестен";
             dictOfMembers["She"] = "Неизвестена";
 
+            List<string> predicats = new List<string>();
+
             string tmp = "";
             string ID = "";
             string Name = "";
@@ -47,12 +49,16 @@ namespace CP_C_Sharp
 
                 if (tmp.StartsWith("0 @F"))
                 {
-                    PredicatsWriter(dictOfMembers);
+                    predicats = PredicatsWriter(dictOfMembers, predicats);
                 }
             }
+
+
+            File.WriteAllLines("cp_sorokin.pl", predicats);
+
         }
 
-        private static void PredicatsWriter(Dictionary<string, string> dict)
+        private static List<string> PredicatsWriter(Dictionary<string, string> dict, List<string> predicats)
         {
             string tmp = " ";
             string husband = "He";
@@ -81,12 +87,15 @@ namespace CP_C_Sharp
 
             }
 
+
             foreach (var child in children)
             {
-                string pred = string.Format("parents(\"{0}\", \"{1}\", \"{2}\").", dict[child], dict[husband], dict[wife].TrimEnd());
-                Console.WriteLine(pred);
-                File.AppendAllText("cp_sorokin.pl", pred);
+                string pred = string.Format("parents(\"{0}\", \"{1}\", \"{2}\").\n", dict[child], dict[husband], dict[wife].TrimEnd());
+                predicats.Add(pred);
             }
+
+            return predicats;
         }
+
     }
 }
