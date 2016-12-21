@@ -15,8 +15,6 @@ template <class T> std::ostream& operator<<(std::ostream& os, const
 }
 template <class T> void TStack<T>::push(std::shared_ptr<T> &&item) {
     std::shared_ptr<TStackItem<T>> other(new TStackItem<T>(item));
-    if (other == nullptr)
-        return;
     other->SetNext(head);
     head = other;
 }
