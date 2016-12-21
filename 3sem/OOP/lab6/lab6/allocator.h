@@ -1,9 +1,11 @@
-#ifndef TALLOCATIONBLOCK_H
-#define TALLOCATIONBLOCK_H
+#ifndef ALLOCATOR_H
+#define ALLOCATOR_H
+
 #include <cstdlib>
+
 class TAllocationBlock {
 public:
-	 TAllocationBlock(size_t size,size_t count);
+	 TAllocationBlock(size_t size, size_t count);
 	 void *allocate();
 	 void deallocate(void *pointer);
 	 bool has_free_blocks();
@@ -19,4 +21,14 @@ public:
 	 size_t _free_count;
 
 };
+
+class Node {
+public:
+    Node *left;
+    Node *right;
+
+    Node();
+    ~Node();
+};
+
 #endif

@@ -146,10 +146,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="TAllocationBlock.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="quadro.cpp" />
+    <ClCompile Include="rectangle.cpp" />
+    <ClCompile Include="allocator.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="TStack.cpp" />
+    <ClCompile Include="TStackItem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TAllocationBlock.h" />
+    <ClInclude Include="figure.h" />
+    <ClInclude Include="quadro.h" />
+    <ClInclude Include="rectangle.h" />
+    <ClInclude Include="allocator.h" />
+    <ClInclude Include="titerator.h" />
+    <ClInclude Include="Triangle.h" />
+    <ClInclude Include="TStack.h" />
+    <ClInclude Include="TStackItem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
