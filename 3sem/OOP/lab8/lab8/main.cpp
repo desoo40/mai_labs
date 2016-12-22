@@ -9,6 +9,7 @@
 #include "rectangle.h"
 #include "allocator.h"
 #include <random>
+#include <ctime>
 
 using namespace std;
 
@@ -132,18 +133,33 @@ int main(int argc, char** argv) {
 
         case srt:
         {
+            clock_t time;
+            double duration;
+
+            time = clock();
+
             cout << "Sort -------------" << endl;
             stack.sort();
             cout << "Done -------------" << endl;
+            duration = (clock() - time) / (double)CLOCKS_PER_SEC;
+            cout << "Time of sort: " << duration << endl;
             state = start;
             break;
         }
 
         case par_sort:
         {
+            clock_t time;
+            double duration;
+
+            time = clock();
+
             cout << "Parallel Sort ----" << endl;
             stack.sort_parallel();
             cout << "Done -------------" << endl;
+            duration = (clock() - time) / (double)CLOCKS_PER_SEC;
+            cout << "Time of parallel sort: " << duration << endl;
+            
             state = start;
             break;
         }
