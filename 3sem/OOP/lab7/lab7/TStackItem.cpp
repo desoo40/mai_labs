@@ -36,8 +36,7 @@ template <class T> std::shared_ptr<TStackItem<T>>
     }
 
     template <class A> std::ostream& operator<<(std::ostream& os, const TStackItem<A>& obj) {
-        std::shared_ptr<Figure> f = obj.item;
-        f->Print();
+        os << obj;
         return os;
     }
 

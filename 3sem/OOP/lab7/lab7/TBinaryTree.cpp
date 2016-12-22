@@ -1,4 +1,5 @@
 #include "TBinaryTree.h"
+#include "figure.h"
 
 template <class T> TBinaryTree<T>::TBinaryTree() : root(nullptr), ElemQty(0) {
 }
@@ -7,29 +8,35 @@ template <class T> std::ostream& operator<<(std::ostream& os, const
     TBinaryTree<T>& bintree) {
     std::shared_ptr<TBinTreeItem<T>> item = bintree.root;
 
-    while (item != nullptr)
-    {
+    if (item == nullptr) {
+        os << "Tree is empty" << std::endl;
+        return os;
+    } else {
         os << *item;
-        item = item->GetLeft();
     }
 
     if (item->left != nullptr)
-        os << item->left;
+        os << item->GetLeft();
 
     if (item->right != nullptr)
-        os << item->right;
+        os << item->GetRight();
 
     return os;
 }
 
 template <class T>
 void TBinaryTree<T>::Add(std::shared_ptr<T>&& item) {
-
+    
     if (item == nullptr) {
         return;
     }
 
-    if (val >= item->data) {
+    std::shared_ptr<TBinTreeItem<T>> other(new TBinTreeItem<T>(item));
+
+    std::shared_ptr<Figure> f = other->GetItem();
+    double val = f->Square();
+
+    if (val >= (root->GetItem())) {
         if (item->right == NULL) {
             item->right = item_create(val);
             return;
@@ -52,8 +59,6 @@ template<class T>
 bool TBinaryTree<T>::Empty() const {
     return ElemQty > 0;
 }
-
-
 
 
 template <class T> TBinaryTree<T>::~TBinaryTree() {

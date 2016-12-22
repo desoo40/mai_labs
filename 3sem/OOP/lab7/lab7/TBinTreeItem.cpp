@@ -36,6 +36,11 @@ template <class T> std::shared_ptr<TBinTreeItem<T>>
         return old;
     }
 
+    template<class T>
+    std::shared_ptr<T> TBinTreeItem<T>::GetItem() const {
+        return this->item;
+    }
+
 template <class T> TBinTreeItem<T>::~TBinTreeItem() {
     std::cout << "BinTree item: deleted" << std::endl;
 }
