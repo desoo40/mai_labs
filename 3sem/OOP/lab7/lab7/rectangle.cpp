@@ -7,6 +7,9 @@ Rectangle::Rectangle(std::istream &is) {
 	std::cout << "Insert side B: ";
     is >> side_b;
 }
+double Rectangle::Square() {
+    return side_a * side_b;
+}
 void Rectangle::Print() {
     std::cout << "It's Rectangle" << std::endl 
               << "a = " << side_a << std::endl

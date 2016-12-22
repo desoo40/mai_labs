@@ -1,10 +1,9 @@
 #ifndef TSTACK_H
 #define TSTACK_H
 
-#include "figure.h"
+#include <memory>
 #include "titerator.h"
 #include "TStackItem.h"
-#include <memory>
 
 template <class T> class TStack
 {
@@ -16,7 +15,8 @@ public:
     std::shared_ptr<T> pop();
 
     TIterator<TStackItem<T>, T> begin();
-    TIterator<TStackItem<T>, T> end();
+    TIterator<TStackItem<T>, T> end();
+
     template <class A> friend std::ostream& operator<<(std::ostream& os, const TStack<A>& stack);
     virtual ~TStack();
 private:

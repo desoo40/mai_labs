@@ -150,6 +150,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="quadro.cpp" />
     <ClCompile Include="rectangle.cpp" />
+    <ClCompile Include="TBinaryTree.cpp" />
+    <ClCompile Include="TBinTreeItem.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="TStack.cpp" />
     <ClCompile Include="TStackItem.cpp" />
@@ -157,8 +159,13 @@
   <ItemGroup>
     <ClInclude Include="allocator.h" />
     <ClInclude Include="figure.h" />
+    <ClInclude Include="iremovecriteria.h" />
+    <ClInclude Include="iremovecriteriaall.h" />
+    <ClInclude Include="iremovecriteriabyvalue.h" />
     <ClInclude Include="quadro.h" />
     <ClInclude Include="rectangle.h" />
+    <ClInclude Include="TBinaryTree.h" />
+    <ClInclude Include="TBinTreeItem.h" />
     <ClInclude Include="titerator.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="TStack.h" />

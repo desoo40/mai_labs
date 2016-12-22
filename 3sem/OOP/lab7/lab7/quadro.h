@@ -7,6 +7,7 @@
 class Quadro : public Figure {
 public:
     Quadro(std::istream &is);
+    double Square() override;
     void Print() override;
     virtual ~Quadro();
 private:

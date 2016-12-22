@@ -6,6 +6,7 @@
 class Triangle : public Figure {
 public:
     Triangle(std::istream &is);
+    double Square() override;
     void Print() override;
     virtual ~Triangle();
 private:

@@ -15,6 +15,9 @@ template <class T> std::ostream& operator<<(std::ostream& os, const
 }
 template <class T> void TStack<T>::push(std::shared_ptr<T> &&item) {
     std::shared_ptr<TStackItem<T>> other(new TStackItem<T>(item));
+    if (other == nullptr) 
+        return;
+    
     other->SetNext(head);
     head = other;
 }
@@ -24,7 +27,7 @@ template <class T> bool TStack<T>::empty() {
 template <class T> std::shared_ptr<T> TStack<T>::pop() {
     std::shared_ptr<T> result;
     if (head != nullptr) {
-        result = head->GetFigure();
+        result = head->GetItem();
         head = head->GetNext();
     }
 

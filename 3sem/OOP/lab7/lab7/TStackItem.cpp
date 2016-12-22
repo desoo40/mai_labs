@@ -1,6 +1,5 @@
 #include "TStackItem.h"
 #include "figure.h"
-#include <iostream>
 
 template <class T> TStackItem<T>::TStackItem(const std::shared_ptr<T>& item) {
     this->item = item;
@@ -17,7 +16,7 @@ template <class T> std::shared_ptr<TStackItem<T>>
         this->next = next;
         return old;
     }
-    template <class T> std::shared_ptr<T> TStackItem<T>::GetFigure() const {
+    template <class T> std::shared_ptr<T> TStackItem<T>::GetItem() const {
         return this->item;
     }
     template <class T> std::shared_ptr<TStackItem<T>> TStackItem<T>::GetNext() {
@@ -35,7 +34,6 @@ template <class T> std::shared_ptr<TStackItem<T>>
         std::cout << "Deleted" << std::endl;
         stackitem_allocator.deallocate(p);
     }
-
 
     template <class A> std::ostream& operator<<(std::ostream& os, const TStackItem<A>& obj) {
         std::shared_ptr<Figure> f = obj.item;

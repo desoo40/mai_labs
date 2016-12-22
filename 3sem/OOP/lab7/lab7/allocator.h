@@ -22,13 +22,4 @@ public:
 
 };
 
-class Node {
-public:
-    Node *left;
-    Node *right;
-
-    Node();
-    ~Node();
-};
-
 #endif

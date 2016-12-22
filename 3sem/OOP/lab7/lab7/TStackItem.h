@@ -1,6 +1,9 @@
 #ifndef TSTACKITEM_H
 #define TSTACKITEM_H
+
 #include <memory>
+#include <iostream>
+
 #include "allocator.h"
 
 template<class T> class TStackItem {
@@ -12,7 +15,7 @@ public:
     std::shared_ptr<TStackItem<T>> SetNext(std::shared_ptr<TStackItem>
         &next);
     std::shared_ptr<TStackItem<T>> GetNext();
-    std::shared_ptr<T> GetFigure() const;
+    std::shared_ptr<T> GetItem() const;
 
     void * operator new (size_t size);
     void operator delete(void *p);

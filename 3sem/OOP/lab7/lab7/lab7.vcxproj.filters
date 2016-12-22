@@ -13,54 +13,96 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Заголовочные файлы\Figures">
+      <UniqueIdentifier>{af67fd78-35a3-412f-b8ed-11317cc0f8c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Helpers">
+      <UniqueIdentifier>{16812bc0-fc97-4ac4-b65b-0d4b10451af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Criterias">
+      <UniqueIdentifier>{87809cfb-e3f2-48e2-92ae-9f770767500f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Structs">
+      <UniqueIdentifier>{cbe2cedd-d684-4bf8-9001-9295fb335e0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Figures">
+      <UniqueIdentifier>{c127cd85-bfe6-4b9d-8d35-1197fc4817c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Helpers">
+      <UniqueIdentifier>{4e27c83a-d6fd-4e4b-b33c-fb5d79d77252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\DStructs">
+      <UniqueIdentifier>{1c7a1252-ac2a-4b7c-9fb4-f4c5a411d102}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="TStackItem.cpp">
+      <Filter>Файлы исходного кода\DStructs</Filter>
+    </ClCompile>
+    <ClCompile Include="TStack.cpp">
+      <Filter>Файлы исходного кода\DStructs</Filter>
+    </ClCompile>
+    <ClCompile Include="TBinTreeItem.cpp">
+      <Filter>Файлы исходного кода\DStructs</Filter>
+    </ClCompile>
+    <ClCompile Include="TBinaryTree.cpp">
+      <Filter>Файлы исходного кода\DStructs</Filter>
+    </ClCompile>
     <ClCompile Include="allocator.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Файлы исходного кода\Helpers</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="quadro.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Файлы исходного кода\Figures</Filter>
     </ClCompile>
     <ClCompile Include="rectangle.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Файлы исходного кода\Figures</Filter>
     </ClCompile>
     <ClCompile Include="Triangle.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="TStack.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="TStackItem.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Файлы исходного кода\Figures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="allocator.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="figure.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Заголовочные файлы\Figures</Filter>
     </ClInclude>
     <ClInclude Include="quadro.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="rectangle.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="titerator.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Заголовочные файлы\Figures</Filter>
     </ClInclude>
     <ClInclude Include="Triangle.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Заголовочные файлы\Figures</Filter>
     </ClInclude>
-    <ClInclude Include="TStack.h">
-      <Filter>Заголовочные файлы</Filter>
+    <ClInclude Include="rectangle.h">
+      <Filter>Заголовочные файлы\Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="allocator.h">
+      <Filter>Заголовочные файлы\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="titerator.h">
+      <Filter>Заголовочные файлы\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="iremovecriteria.h">
+      <Filter>Заголовочные файлы\Criterias</Filter>
+    </ClInclude>
+    <ClInclude Include="iremovecriteriaall.h">
+      <Filter>Заголовочные файлы\Criterias</Filter>
+    </ClInclude>
+    <ClInclude Include="iremovecriteriabyvalue.h">
+      <Filter>Заголовочные файлы\Criterias</Filter>
     </ClInclude>
     <ClInclude Include="TStackItem.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Заголовочные файлы\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="TBinTreeItem.h">
+      <Filter>Заголовочные файлы\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="TStack.h">
+      <Filter>Заголовочные файлы\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="TBinaryTree.h">
+      <Filter>Заголовочные файлы\Structs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
