@@ -3,7 +3,8 @@
 
 #include <memory>
 #include "titerator.h"
-#include "IRemoveCriteria.h"#include "TStackItem.h"
+#include "IRemoveCriteria.h"
+#include "TStackItem.h"
 
 template <class T, class TT> class TStack
 {
@@ -14,6 +15,7 @@ public:
     void RemoveSubitem(IRemoveCriteria<TT> *criteria);
     void push(std::shared_ptr<T> item);
     bool empty();
+    size_t size();
     std::shared_ptr<T> pop();
 
     TIterator<TStackItem<T>, T> begin();
