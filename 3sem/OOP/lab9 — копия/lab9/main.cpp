@@ -81,14 +81,15 @@ int main(int argc, char** argv) {
 
     tree_cmd.add(std::shared_ptr<command>(&cmd_insert, [](command*) {
     }));
-    tree_cmd.add(std::shared_ptr<command>(&cmd_del_by_sqr, [](command*) {
-    })); // using custom deleter
     tree_cmd.add(std::shared_ptr<command>(&cmd_print, [](command*) {
+    })); // using custom deleter
+    tree_cmd.add(std::shared_ptr<command>(&cmd_del_by_sqr, [](command*) {
     })); // using custom deleter
     tree_cmd.add(std::shared_ptr<command>(&cmd_print, [](command*) {
     })); // using custom deleter
 
     detour(tree_cmd);
+    std::cout << stack_figure << endl;
 
     return 0;
 }

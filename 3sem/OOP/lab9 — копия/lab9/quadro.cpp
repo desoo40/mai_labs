@@ -16,5 +16,5 @@ void Quadro::Print() {
     std::cout << "It's Quadro" << std::endl << "Side = " << side << std::endl;
 }
 Quadro::~Quadro() {
-    //std::cout << "Quadro deleted" << std::endl;
+    std::cout << "Quadro deleted" << std::endl;
 }

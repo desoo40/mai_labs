@@ -4,13 +4,13 @@
 template <class T> TStackItem<T>::TStackItem(T* item) {
     this->item = std::shared_ptr<T>(item);
     this->next = nullptr;
-    // std::cout << "Stack item: created" << std::endl;
+    std::cout << "Stack item: created" << std::endl;
 }
 
 template <class T> TStackItem<T>::TStackItem(std::shared_ptr<T> item) {
     this->item = item;
     this->next = nullptr;
-    // std::cout << "Stack item: created" << std::endl;
+    std::cout << "Stack item: created" << std::endl;
 }
 
 
@@ -31,15 +31,15 @@ template <class T> std::shared_ptr<TStackItem<T>> TStackItem<T>::GetNext() {
     return this->next;
 }
 template <class T> TStackItem<T>::~TStackItem() {
-    // std::cout << "Stack item: deleted" << std::endl;
+    std::cout << "Stack item: deleted" << std::endl;
 }
 
 template <class T> void * TStackItem<T>::operator new (size_t size) {
-    // std::cout << "Allocated :" << size << "bytes" << std::endl;
+    std::cout << "Allocated :" << size << "bytes" << std::endl;
     return stackitem_allocator.allocate();
 }
 template <class T> void TStackItem<T>::operator delete(void *p) {
-    // std::cout << "Deleted" << std::endl;
+    std::cout << "Deleted" << std::endl;
     stackitem_allocator.deallocate(p);
 }
 

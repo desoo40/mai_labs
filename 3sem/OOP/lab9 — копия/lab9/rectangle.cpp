@@ -20,5 +20,5 @@ void Rectangle::Print() {
               << "b = " << side_b << std::endl;
 }
 Rectangle::~Rectangle() {
-    //std::cout << "Rectangle deleted" << std::endl;
+    std::cout << "Rectangle deleted" << std::endl;
 }

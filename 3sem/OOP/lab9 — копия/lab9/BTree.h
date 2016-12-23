@@ -15,10 +15,6 @@ public:
 
     void del(T *item);
     std::shared_ptr<T> getElem();
-    std::shared_ptr<BTree<T>> setLeft(std::shared_ptr<BTree> left);
-    std::shared_ptr<BTree<T>> setRight(std::shared_ptr<BTree> right);
-
-
     std::shared_ptr<BTree<T>> getLeft();
     std::shared_ptr<BTree<T>> getRight();
     

@@ -28,5 +28,5 @@ void Triangle::Print() {
         << "c = " << side_c << std::endl;
 }
 Triangle::~Triangle() {
-    //std::cout << "Triangle deleted" << std::endl;
+    std::cout << "Triangle deleted" << std::endl;
 }

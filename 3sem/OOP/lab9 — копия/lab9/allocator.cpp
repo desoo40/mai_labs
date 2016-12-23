@@ -20,7 +20,7 @@ void *TAllocationBlock::allocate() {
 	{
 		result = _free_blocks[_free_count - 1];
 		_free_count--;
-		//std::cout << "TAllocationBlock: Allocate " << (_count - _free_count) << " of " << _count << std::endl;
+		std::cout << "TAllocationBlock: Allocate " << (_count - _free_count) << " of " << _count << std::endl;
 	}
 
 	else
@@ -33,7 +33,7 @@ void *TAllocationBlock::allocate() {
 }
 void TAllocationBlock::deallocate(void *pointer) {
 
-	//std::cout << "TAllocationBlock: Deallocate block " << std::endl;
+	std::cout << "TAllocationBlock: Deallocate block " << std::endl;
 
 	_free_blocks[_free_count] = pointer;
 	_free_count++;

@@ -30,13 +30,11 @@ void BTree<T>::add(std::shared_ptr<T> item) {
         this->right = std::shared_ptr<BTree>(new BTree(item));
         return;
     }
-  
-    std::shared_ptr<BTree<T>> other(new BTree<T>(item));
-    if (other == nullptr)
-        return;
 
-    other->setLeft(left);
-    left = other;
+    add(this->left);
+    
+   
+  
 }
 
 template<class T>
@@ -48,21 +46,6 @@ template<class T>
 std::shared_ptr<T> BTree<T>::getElem() {
     return this->elem;
 }
-
-template<class T>
-std::shared_ptr<BTree<T>> BTree<T>::setLeft(std::shared_ptr<BTree> left1) {
-    std::shared_ptr<BTree<T>> old = this->left;
-    this->left = left1;
-    return old;
-}
-
-template<class T>
-std::shared_ptr<BTree<T>> BTree<T>::setRight(std::shared_ptr<BTree> right1) {
-    std::shared_ptr<BTree<T>> old = this->right;
-    this->right = right1;
-    return old;
-}
-
 
 template<class T>
 std::shared_ptr<BTree<T>> BTree<T>::getLeft() {
