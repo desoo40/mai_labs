@@ -5,3 +5,5 @@ public:
  virtual bool isIt(T* value) = 0;
 private:
 };
+
+#endif

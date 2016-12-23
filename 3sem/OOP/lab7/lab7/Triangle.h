@@ -5,6 +5,7 @@
 #include "figure.h"
 class Triangle : public Figure {
 public:
+    Triangle(int a, int b, int c);
     Triangle(std::istream &is);
     double Square() override;
     void Print() override;

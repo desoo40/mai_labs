@@ -7,6 +7,10 @@ Rectangle::Rectangle(std::istream &is) {
 	std::cout << "Insert side B: ";
     is >> side_b;
 }
+Rectangle::Rectangle(size_t a, size_t b) {
+    side_a = a;
+    side_b = b;
+}
 double Rectangle::Square() {
     return side_a * side_b;
 }
@@ -16,5 +20,5 @@ void Rectangle::Print() {
               << "b = " << side_b << std::endl;
 }
 Rectangle::~Rectangle() {
-    std::cout << "Rectangle deleted" << std::endl;
+    //std::cout << "Rectangle deleted" << std::endl;
 }

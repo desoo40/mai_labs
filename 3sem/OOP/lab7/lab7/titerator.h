@@ -11,10 +11,10 @@ public:
         node_ptr = n;
     }
     std::shared_ptr<T> operator * () {
-        return node_ptr->GetFigure();
+        return node_ptr->GetItem();
     }
     std::shared_ptr<T> operator -> () {
-        return node_ptr->GetFigure();
+        return node_ptr->GetItem();
     }
     void operator ++ () {
         node_ptr = node_ptr->GetNext();

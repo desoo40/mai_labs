@@ -42,12 +42,6 @@
     <ClCompile Include="TStack.cpp">
       <Filter>Файлы исходного кода\DStructs</Filter>
     </ClCompile>
-    <ClCompile Include="TBinTreeItem.cpp">
-      <Filter>Файлы исходного кода\DStructs</Filter>
-    </ClCompile>
-    <ClCompile Include="TBinaryTree.cpp">
-      <Filter>Файлы исходного кода\DStructs</Filter>
-    </ClCompile>
     <ClCompile Include="allocator.cpp">
       <Filter>Файлы исходного кода\Helpers</Filter>
     </ClCompile>
@@ -62,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="Triangle.cpp">
       <Filter>Файлы исходного кода\Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="BTree.cpp">
+      <Filter>Файлы исходного кода\DStructs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,13 +92,10 @@
     <ClInclude Include="TStackItem.h">
       <Filter>Заголовочные файлы\DStructs</Filter>
     </ClInclude>
-    <ClInclude Include="TBinTreeItem.h">
-      <Filter>Заголовочные файлы\DStructs</Filter>
-    </ClInclude>
     <ClInclude Include="TStack.h">
       <Filter>Заголовочные файлы\DStructs</Filter>
     </ClInclude>
-    <ClInclude Include="TBinaryTree.h">
+    <ClInclude Include="BTree.h">
       <Filter>Заголовочные файлы\DStructs</Filter>
     </ClInclude>
   </ItemGroup>

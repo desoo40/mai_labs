@@ -7,6 +7,7 @@
 class Rectangle : public Figure {
 public:
     Rectangle(std::istream &is);
+    Rectangle(size_t a, size_t b);
     double Square() override;
     void Print() override;
     virtual ~Rectangle();

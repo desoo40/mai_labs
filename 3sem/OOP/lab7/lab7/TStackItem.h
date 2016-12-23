@@ -8,7 +8,7 @@
 
 template<class T> class TStackItem {
 public:
-    TStackItem(const std::shared_ptr<T>&);
+    TStackItem(const std::shared_ptr<T>);
     template<class A> friend std::ostream& operator<<(std::ostream& os, const
         TStackItem<A>& obj);
 

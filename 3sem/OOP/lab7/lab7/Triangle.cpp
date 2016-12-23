@@ -2,6 +2,12 @@
 #include <iostream>
 #include <cmath>
 
+Triangle::Triangle(int a, int b, int c) {
+    side_a = a;
+    side_b = b;
+    side_c = c;
+}
+
 Triangle::Triangle(std::istream &is) {
     std::cout << "Insert side A: ";
     is >> side_a;
@@ -22,5 +28,5 @@ void Triangle::Print() {
         << "c = " << side_c << std::endl;
 }
 Triangle::~Triangle() {
-    std::cout << "Triangle deleted" << std::endl;
+    //std::cout << "Triangle deleted" << std::endl;
 }

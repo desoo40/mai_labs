@@ -6,6 +6,7 @@
 
 class Quadro : public Figure {
 public:
+    Quadro(size_t a);
     Quadro(std::istream &is);
     double Square() override;
     void Print() override;

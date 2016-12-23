@@ -53,8 +53,3 @@ TAllocationBlock::~TAllocationBlock() {
 	free (_free_blocks);
 	free (_used_blocks);
 }
-
-Node::Node(){
-    left = nullptr;
-    right = nullptr;
-}

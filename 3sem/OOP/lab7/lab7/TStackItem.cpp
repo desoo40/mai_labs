@@ -1,7 +1,7 @@
 #include "TStackItem.h"
 #include "figure.h"
 
-template <class T> TStackItem<T>::TStackItem(const std::shared_ptr<T>& item) {
+template <class T> TStackItem<T>::TStackItem(const std::shared_ptr<T> item) {
     this->item = item;
     this->next = nullptr;
     std::cout << "Stack item: created" << std::endl;

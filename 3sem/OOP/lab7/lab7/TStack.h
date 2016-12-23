@@ -3,21 +3,23 @@
 
 #include <memory>
 #include "titerator.h"
-#include "TStackItem.h"
+#include "IRemoveCriteria.h"#include "TStackItem.h"
 
-template <class T> class TStack
+template <class T, class TT> class TStack
 {
 public:
     TStack();
 
-    void push(std::shared_ptr<T> &&item);
+    void InsertSubitem(TT *value);
+    void RemoveSubitem(IRemoveCriteria<TT> *criteria);
+    void push(std::shared_ptr<T> item);
     bool empty();
     std::shared_ptr<T> pop();
 
     TIterator<TStackItem<T>, T> begin();
     TIterator<TStackItem<T>, T> end();
 
-    template <class A> friend std::ostream& operator<<(std::ostream& os, const TStack<A>& stack);
+    template <class A, class AA> friend std::ostream& operator<<(std::ostream& os, const TStack<A, AA>& stack);
     virtual ~TStack();
 private:
 
