@@ -72,7 +72,43 @@ triple(X, Y) :-
    (double(F1, F2);
     double(F1, M2);
     double(M1, F2);
-    double(M1, M2)).");
+    double(M1, M2)).
+
+relative(child, Child, Parent) :-
+    parents(Child, _, Parent);
+    parents(Child, Parent, _).
+
+relative(husband, Husband, Wife) :-
+    parents(_, Husband, Wife).
+
+relative(wife, Wife, Husband) :-
+    parents(_, Husband, Wife).
+
+relative(father, Father, Child) :-
+    parents(Child, Father, _).
+
+relative(mother, Mother, Child) :-
+    parents(Child, _, Mother).
+
+relative(Way, A, B) :- 
+    dpath(A, B, _, Way), !. 
+
+print_ans([X]):- write(X),!.
+print_ans([A,B|Tail]):- print_ans([B|Tail]), write(' - '), write(A).
+print_ans(X):- write(X),!.
+
+prolong([X|T],[Y,X|T], Rel) :-
+    relative(Rel, X, Y),
+    not(member(Y,[X|T])). 
+
+dseach([X|T],X,[X|T], _). 
+dseach(P,Y,L, [Rel|Tail]) :- 
+    prolong(P,P1, Rel),
+    dseach(P1,Y,L, Tail), !. 
+
+dpath(X,Y,P, Way) :- 
+    dseach([X],Y,L, Way),
+    reverse(L,P), !.");
         }
 
         private static List<string> PredicatsWriter(Dictionary<string, string> dict, List<string> predicats)
