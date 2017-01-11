@@ -101,13 +101,13 @@ prolong([X|T],[Y,X|T], Rel) :-
     relative(Rel, X, Y),
     not(member(Y,[X|T])). 
 
-dseach([X|T],X,[X|T], _). 
-dseach(P,Y,L, [Rel|Tail]) :- 
+dFS([X|T],X,[X|T], _). 
+dFS(P,Y,L, [Rel|Tail]) :- 
     prolong(P,P1, Rel),
-    dseach(P1,Y,L, Tail), !. 
+    dFS(P1,Y,L, Tail), !. 
 
 dpath(X,Y,P, Way) :- 
-    dseach([X],Y,L, Way),
+    dFS([X],Y,L, Way),
     reverse(L,P), !.");
         }
 
