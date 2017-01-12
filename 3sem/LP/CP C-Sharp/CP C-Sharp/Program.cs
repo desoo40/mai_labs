@@ -108,8 +108,7 @@ print_ans([H | Tail]):-
     write(H),  write(' - ').
 
 next(Curr, HasBeen, Y, Rel) :-
-   (relative(Rel, Curr, Y);
-            relative(Rel, Y, Curr)),
+   relative(Rel, Y, Curr),
    not(member(Y, HasBeen)).
 
 dFS(X, X, _, _).
