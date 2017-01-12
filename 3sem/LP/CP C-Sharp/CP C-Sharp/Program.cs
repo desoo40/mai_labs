@@ -52,31 +52,40 @@ namespace CP_C_Sharp
 bro_or_sist(X, Y) :-
     parents(X, F, M),
     parents(Y, F, M),
-    X\=Y.
+    X\= Y.
 
 double(X, Y) :-
     parents(X, F1, M1),
     parents(Y, F2, M2),
-    X\=Y,
-    
+    X\= Y,
+
     (bro_or_sist(F1, F2);
-    bro_or_sist(F1, M2);
-    bro_or_sist(M1, F2);
-    bro_or_sist(M1, M2)).
+            bro_or_sist(F1, M2);
+            bro_or_sist(M1, F2);
+            bro_or_sist(M1, M2)).
     
 triple(X, Y) :-
     parents(X, F1, M1),
     parents(Y, F2, M2),
-    X\=Y,
+    X\= Y,
     
    (double(F1, F2);
-    double(F1, M2);
-    double(M1, F2);
-    double(M1, M2)).
+            double(F1, M2);
+            double(M1, F2);
+            double(M1, M2)).
 
 relative(child, Child, Parent) :-
     parents(Child, _, Parent);
     parents(Child, Parent, _).
+
+relative(bro_or_sist, X, Y) :-
+    bro_or_sist(X, Y).
+
+relative(double, X, Y) :-
+    triple(X, Y).
+
+relative(triple, X, Y) :-
+    triple(X, Y).
 
 relative(husband, Husband, Wife) :-
     parents(_, Husband, Wife).
@@ -90,25 +99,32 @@ relative(father, Father, Child) :-
 relative(mother, Mother, Child) :-
     parents(Child, _, Mother).
 
-relative(Way, A, B) :- 
-    dpath(A, B, _, Way), !. 
+relative(Way, First, Last) :-
+    dpath(First, Last, Way), !.
 
-print_ans([X]):- write(X),!.
-print_ans([A,B|Tail]):- print_ans([B|Tail]), write(' - '), write(A).
-print_ans(X):- write(X),!.
+print_ans([]).
+print_ans([H | Tail]):-
+      print_ans(Tail),
+    write(H),  write(' - ').
 
-prolong([X|T],[Y,X|T], Rel) :-
-    relative(Rel, X, Y),
-    not(member(Y,[X|T])). 
+next(Curr, HasBeen, Y, Rel) :-
+   (relative(Rel, Curr, Y);
+            relative(Rel, Y, Curr)),
+   not(member(Y, HasBeen)).
 
-dFS([X|T],X,[X|T], _). 
-dFS(P,Y,L, [Rel|Tail]) :- 
-    prolong(P,P1, Rel),
-    dFS(P1,Y,L, Tail), !. 
+dFS(X, X, _, _).
 
-dpath(X,Y,P, Way) :- 
-    dFS([X],Y,L, Way),
-    reverse(L,P), !.");
+dFS(Curr, Last, T, [Rev | Tl]) :-
+      next(Curr, T, Next, Rev),
+    dFS(Next, Last, [Curr | T], Tl),
+    !.
+
+dpath(First, Last, Way) :-
+    dFS(First, Last, [], RevWay),
+    reverse(RevWay, Way),
+	print_ans(Way),
+	!.
+");
         }
 
         private static List<string> PredicatsWriter(Dictionary<string, string> dict, List<string> predicats)
