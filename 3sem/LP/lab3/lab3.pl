@@ -1,42 +1,75 @@
-%member
-member(X, [X|_]).
-member(X, [_|Tail]) :-
-    member(X, Tail).
+bro_or_sist(X, Y) :-
+    parents(X, F, M),
+    parents(Y, F, M),
+    X\=Y.
+
+double(X, Y) :-
+    parents(X, F1, M1),
+    parents(Y, F2, M2),
+    X\=Y,
     
+    (bro_or_sist(F1, F2);
+    bro_or_sist(F1, M2);
+    bro_or_sist(M1, F2);
+    bro_or_sist(M1, M2)).
+    
+triple(X, Y) :-
+    parents(X, F1, M1),
+    parents(Y, F2, M2),
+    X\=Y,
+    
+   (double(F1, F2);
+    double(F1, M2);
+    double(M1, F2);
+    double(M1, M2)).
 
-%append
-append([], X, X).
-append([X|T], Y, [X|A]) :-
-	append(T, Y, A).
- 
-step(A,B):-
-    append(Begin,["_","w"|Tail],A),
-    append(Begin,["w","_"|Tail],B).
+relative(child, Child, Parent) :-
+    parents(Child, _, Parent);
+    parents(Child, Parent, _).
 
-step(A,B):-
-    append(Begin,["b","_"|Tail],A),
-    append(Begin,["_","b"|Tail],B).
+relative(husband, Husband, Wife) :-
+    parents(_, Husband, Wife).
 
-step(A,B):-
-    append(Begin,["_","b","w"|Tail],A),
-    append(Begin,["w","b","_"|Tail],B).
+relative(wife, Wife, Husband) :-
+    parents(_, Husband, Wife).
 
-step(A,B):-
-    append(Begin,["b","w","_"|Tail],A),
-    append(Begin,["_","w","b"|Tail],B).
+relative(bro_or_sist, X, Y) :-
+	bro_or_sist(X, Y).
+
+relative(double, X, Y) :-
+	double(X, Y).
+
+relative(triple, X, Y) :-
+	triple(X, Y).
+
+relative(father, Father, Child) :-
+    parents(Child, Father, _).
+
+relative(mother, Mother, Child) :-
+    parents(Child, _, Mother).
+
+relative(Way, First, Last) :- 
+    dpath(First, Last, Way), !. 
 
 print_ans([]).
 print_ans([H|Tail]):-
     print_ans(Tail),
-    write(H), nl.
+    write(H),  write(' - ').
 
-dFS(End,[End|Tail]) :-
-        !, print_ans([End|Tail]).
-       
-dFS(End, [Curr|Tail]) :-
-    step(Curr, Tmp),
-    not(member(Tmp,Tail)),
-    dFS(End, [Tmp, Curr|Tail]). 
-                  
-solve(Start, End) :-
-    dFS(End, [Start]).
+next(Curr, HasBeen, Y, Rel) :-
+   (relative(Rel, Curr, Y);
+   relative(Rel, Y, Curr)),
+   not(member(Y, HasBeen)).
+
+dFS(X, X, _, _).
+
+dFS(Curr, Last, T, [Rev|Tl]) :- 
+    next(Curr, T, Next, Rev),
+    dFS(Next, Last, [Curr|T], Tl),
+    !.
+
+dpath(First, Last, Way) :- 
+    dFS(First, Last, [], RevWay),
+    reverse(RevWay, Way),
+	print_ans(Way),
+	!.
