@@ -1,0 +1,11 @@
+calculate(Infix, Prefix):-
+  atomic_list_concat(Infix, InfAtom), % встроееный предикат конкатенации элементов списка в один атом
+  atom_to_term(InfAtom, Term, _), % конвертация атома в терм 
+  calc(Term, Prefix).
+
+calc(Term, Prefix):-
+  Term =.. [Prefix].
+calc(Term, [Op, Left, Right]):-
+  Term =.. [Op, LTmp, RTmp],
+  calc(LTmp, Left),
+  calc(RTmp, Right).

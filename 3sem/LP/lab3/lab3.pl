@@ -1,75 +1,66 @@
-bro_or_sist(X, Y) :-
-    parents(X, F, M),
-    parents(Y, F, M),
-    X\=Y.
-
-double(X, Y) :-
-    parents(X, F1, M1),
-    parents(Y, F2, M2),
-    X\=Y,
+%member
+member(X, [X|_]).
+member(X, [_|Tail]) :-
+    member(X, Tail).
     
-    (bro_or_sist(F1, F2);
-    bro_or_sist(F1, M2);
-    bro_or_sist(M1, F2);
-    bro_or_sist(M1, M2)).
-    
-triple(X, Y) :-
-    parents(X, F1, M1),
-    parents(Y, F2, M2),
-    X\=Y,
-    
-   (double(F1, F2);
-    double(F1, M2);
-    double(M1, F2);
-    double(M1, M2)).
 
-relative(child, Child, Parent) :-
-    parents(Child, _, Parent);
-    parents(Child, Parent, _).
+%append
+append([], X, X).
+append([X|T], Y, [X|A]) :-
+	append(T, Y, A).
+ 
+step(A,B):-
+    append(Begin,["_","w"|Tail],A),
+    append(Begin,["w","_"|Tail],B).
 
-relative(husband, Husband, Wife) :-
-    parents(_, Husband, Wife).
+step(A,B):-
+    append(Begin,["b","_"|Tail],A),
+    append(Begin,["_","b"|Tail],B).
 
-relative(wife, Wife, Husband) :-
-    parents(_, Husband, Wife).
+step(A,B):-
+    append(Begin,["_","b","w"|Tail],A),
+    append(Begin,["w","b","_"|Tail],B).
 
-relative(bro_or_sist, X, Y) :-
-	bro_or_sist(X, Y).
-
-relative(double, X, Y) :-
-	double(X, Y).
-
-relative(triple, X, Y) :-
-	triple(X, Y).
-
-relative(father, Father, Child) :-
-    parents(Child, Father, _).
-
-relative(mother, Mother, Child) :-
-    parents(Child, _, Mother).
-
-relative(Way, First, Last) :- 
-    dpath(First, Last, Way), !. 
+step(A,B):-
+    append(Begin,["b","w","_"|Tail],A),
+    append(Begin,["_","w","b"|Tail],B).
 
 print_ans([]).
 print_ans([H|Tail]):-
     print_ans(Tail),
-    write(H),  write(' - ').
+    write(H), nl.
 
-next(Curr, HasBeen, Y, Rel) :-
-   (relative(Rel, Curr, Y);
-   relative(Rel, Y, Curr)),
-   not(member(Y, HasBeen)).
+dFS(Goal,[Goal|Tail]) :-
+        !, print_ans([Goal|Tail]).
+       
+dFS(Goal, [Curr|Tail]) :-
+    step(Curr, Tmp),
+    not(member(Tmp,Tail)),
+    dFS(Goal, [Tmp, Curr|Tail]). 
 
-dFS(X, X, _, _).
+next(X, HasBeen, Y) :-
+    step(X,Y),
+    not(member(Y,HasBeen)). 
 
-dFS(Curr, Last, T, [Rev|Tl]) :- 
-    next(Curr, T, Next, Rev),
-    dFS(Next, Last, [Curr|T], Tl),
-    !.
-
-dpath(First, Last, Way) :- 
-    dFS(First, Last, [], RevWay),
-    reverse(RevWay, Way),
+bFS([First|_],Goal,First) :- 
+    First = [Goal|_].
+bFS([[LastWay|HasBeen]|OtherWays],Finish,Way):-  
+    findall([Z,LastWay|HasBeen],
+            next(LastWay, HasBeen, Z), List),
+    		append(List,OtherWays,NewWays), 
+    		bFS(NewWays,Finish,Way).
+                  
+solve(Start, Goal):-
+    write('œŒ»—  ¬ √À”¡»Õ” START'), nl,
+    get_time(DFS),
+    dFS(Goal, [Start]),
+    write('œŒ»—  ¬ √À”¡»Õ” END'), nl, nl,
+    write('TIME IS '), write(DFS), nl, nl,
+    
+    write('œŒ»—  ¬ ÿ»–»Õ” START'), nl,
+    get_time(BFS),
+	bFS([[Start]],Goal,Way), 
 	print_ans(Way),
-	!.
+	write('œŒ»—  ¬ ÿ»–»Õ” END'), nl, nl,
+    write('TIME IS '), write(BFS), nl, nl,
+    !.
