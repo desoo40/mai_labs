@@ -4,43 +4,76 @@
 #include <algorithm>
 #include <queue>
 #include <fstream>
-
+#include <windows.h>
+#define MAX_THREADS 16
 using namespace std;
 
-int n; //количество вершин в орграфе
-int m; //количество дуг в орграфе
-vector<int> *adj; //список смежности орграфа
-				  //массив для хранения информации о пройденных и не пройденных вершинах
-vector<bool> used;
-queue<int> q; //очередь для добавления вершин при обходе в ширину
+int n;
+int m;
+vector<int> *adj;
 
-			  //процедура обхода в ширину
-void bfs(int v) {
-	if (used[v]) { //если вершина является пройденной, то не производим из нее вызов процедуры
-		return;
-	}
-	q.push(v); //начинаем обход из вершины v
-	used[v] = true; //помечаем вершину как пройденную
-	while (!q.empty()) {
-		v = q.front(); //извлекаем вершину из очереди
-		q.pop();
-		printf("%d ", (v + 1));
-		//запускаем обход из всех вершин, смежных с вершиной v
-		for (size_t i = 0; i < adj[v].size(); ++i) {
-			int w = adj[v][i];
-			//если вершина уже была посещена, то пропускаем ее
-			if (used[w]) {
-				continue;
-			}
-			q.push(w); //добавляем вершину в очередь обхода
-			used[w] = true; //помечаем вершину как пройденную
+vector<bool> used;
+queue<int> q;
+
+HANDLE hThreadArray[MAX_THREADS];
+DWORD dwThreadIdArray[MAX_THREADS];
+
+
+
+DWORD WINAPI obxod(LPVOID lpParam)
+{
+	int v = *(int*)lpParam;
+
+	for (size_t i = 0; i < adj[v].size(); ++i) {
+		int w = adj[v][i];
+		cout << "YES" << endl;
+
+
+		if (used[w]) {
+			continue;
 		}
+		q.push(w);
+		used[w] = true;
 	}
+
+	return 0;
 }
 
-//процедура считывания данных с консоли
+void bfs(int v) {
+	if (used[v]) {
+		return;
+	}
+	q.push(v);
+	used[v] = true;
+	while (!q.empty()) {
+		v = q.front();
+		q.pop();
+		printf("%d ", (v + 1));
+
+		hThreadArray[v] = CreateThread(NULL,
+			0,
+			obxod,
+			&v,
+			CREATE_SUSPENDED,
+			&dwThreadIdArray[v]);
+		ResumeThread(hThreadArray[v]);
+	}
+
+	WaitForMultipleObjects(MAX_THREADS, hThreadArray, TRUE, INFINITE);
+
+	for (int i = 0; i < MAX_THREADS; i++)
+	{
+		if (hThreadArray[i] == (HANDLE)0xcccccccc) continue;
+		CloseHandle(hThreadArray[i]);
+	}
+
+
+}
+
+
+
 void readData() {
-	string s; // сюда будем ложить считанные строки
+	string s;
 	ifstream graph("graph.txt");
 
 	getline(graph, s);
@@ -49,7 +82,7 @@ void readData() {
 
 	adj = new vector<int>[n];
 
-	while(getline(graph, s))
+	while (getline(graph, s))
 	{
 		int v, w;
 		sscanf_s(s.c_str(), "%d %d", &v, &w);
@@ -58,16 +91,19 @@ void readData() {
 		adj[v].push_back(w);
 	}
 
-	//помечаем все вершины, как непосещенные
+
 	used.resize(n, false);
 }
 
 void run() {
 	readData();
+
+
 	for (int v = 0; v < n; ++v) {
 		bfs(v);
 	}
-	//освобождаем память
+
+
 	for (int i = 0; i < n; ++i) {
 		adj[i].clear();
 	}
