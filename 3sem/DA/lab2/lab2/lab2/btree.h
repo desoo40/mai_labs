@@ -5,16 +5,20 @@
 #include "btreenode.h"
 
 class TBTree {
-	
+    
+    size_t t;
+
     public:  
         TBTree(size_t t);
-
-        bool InsertWord(Word *word);
-        bool DeleteWord(TString line);
-
-    private:
+        void detour();
+        Word* search(TString);
         TBTreeNode *root;
-        size_t t;
+
+        void Serialization(TBTreeNode*, std::ofstream *);
+        void Deserialization(TBTreeNode**, std::ifstream* );
+
+        bool InsertWord(Word*);
+        bool DeleteWord(TString line);
 };
 
 #endif

@@ -1,4 +1,4 @@
-#pragma once
+#include "str.h"
 
 typedef struct {
 	TString line;
@@ -14,5 +14,15 @@ class TBTreeNode
 		int n;     // Current number of keys
 		bool leaf; // Is true when node is leaf. Otherwise false
 
-		TBTreeNode(size_t t, bool leaf);
+        bool insertNonFull(Word*);
+
+        // A utility function to split the child y of this node. i is index of y in
+        // child array C[].  The Child y must be full when this function is called
+        void splitChild(int, TBTreeNode*);
+
+		TBTreeNode(size_t, bool);
+        void detour();
+        Word* search(TString);
+
+        friend class TBtree;
 };

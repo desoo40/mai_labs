@@ -39,6 +39,54 @@ bool operator==(TString &lhs, const char* rhs)
     return lhs == srhs;
 }
 
+bool operator>(TString &lhs, TString &rhs) {
+    int llen = lhs.Lenght();
+    int rlen = rhs.Lenght();
+
+    if (llen == rlen) {
+        if (lhs == rhs)
+            return false;
+
+        for (int i = 0; i < llen; i++) {
+            if (lhs.Str[i] > rhs.Str[i]) {
+                return true;
+            }
+            if (lhs.Str[i] < rhs.Str[i]) {
+                return false;
+            }
+        }
+    }
+
+    else if (llen > rlen)
+        return true;
+
+    return false;
+}
+
+bool operator<(TString &lhs, TString &rhs) {
+    int llen = lhs.Lenght();
+    int rlen = rhs.Lenght();
+
+    if (llen == rlen) {
+        if (lhs == rhs)
+            return false;
+
+        for (int i = 0; i < llen; i++) {
+            if (lhs.Str[i] < rhs.Str[i]) {
+                return true;
+            }
+            if (lhs.Str[i] > rhs.Str[i]) {
+                return false;
+            }
+        }
+    }
+
+    else if (llen < rlen)
+        return true;
+
+    return false;
+}
+
 TString::TString()
 {
     this->Str = new char[257];
@@ -57,9 +105,12 @@ TString::TString(const char *s)
     this->Str[i] = '\0';
 }
 
+char* TString::ToCharsArr() {
+    return this->Str;
+}
+
 TString::~TString()
 {
-	delete this->Str;
 }
 
 int TString::Lenght()

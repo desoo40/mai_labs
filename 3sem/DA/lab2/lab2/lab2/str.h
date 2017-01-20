@@ -15,6 +15,9 @@ class TString {
 		friend std::istream& operator>>(std::istream&, TString&);
 		friend bool operator==(TString&, TString&);
         friend bool operator==(TString&, const char*);
+        friend bool operator>(TString&, TString&);
+        friend bool operator<(TString&, TString&);
+        char* ToCharsArr();
 
 	private:
 		char* Str;
