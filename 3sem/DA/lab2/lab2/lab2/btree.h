@@ -7,15 +7,15 @@
 class TBTree {
     
     size_t t;
+	TBTreeNode *root;
 
     public:  
         TBTree(size_t t);
         void detour();
         Word* search(TString);
-        TBTreeNode *root;
 
-        void Serialization(TBTreeNode*, std::ofstream *);
-        void Deserialization(TBTreeNode**, std::ifstream* );
+        void Serialization(std::ofstream *);
+        void Deserialization(std::ifstream* );
 
         bool InsertWord(Word*);
         bool DeleteWord(TString line);

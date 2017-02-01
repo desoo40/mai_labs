@@ -18,47 +18,12 @@ Word* TBTree::search(TString line) {
     return (root == nullptr) ? nullptr : root->search(line);
 }
 
-void TBTree::Serialization(TBTreeNode *node, ofstream *file) {
-    if (node == nullptr) {
-        *file << "0 ";
-        return;
-    }
-    *file << node->n << " ";
-    for (int i = 0; i < node->n; ++i) {
-        *file << node->words[i].line << " ";
-        *file << node->words[i].key << " ";
-    }
-    for (int i = 0; i <= node->n; ++i) {
-        Serialization(node->C[i], file);
-    }
+void TBTree::Serialization(ofstream *file) {
+	root->Serialization(file);
 }
 
-void TBTree::Deserialization(TBTreeNode **node, ifstream *file) {
-    int tmp;
-    *file >> tmp;
-    if (tmp == 0) {
-        if ((*node) == nullptr) {
-            return;
-        }
-        else {
-            for (size_t i = 0; i < t; ++i) {
-                (*node)->C[i] = nullptr;
-            }
-            return;
-        }
-    }
-    if ((*node) == nullptr) {
-        (*node) = new TBTreeNode(t, true);
-    }
-    (*node)->n = tmp;
-    for (int i = 0; i < (*node)->n; ++i) {
-        *file >> (*node)->words[i].line;
-        *file >> (*node)->words[i].key;
-    }
-    for (int i = 0; i <= (*node)->n; ++i) {
-        (*node)->C[i] = nullptr;
-        Deserialization(&(*node)->C[i], file);
-    }
+void TBTree::Deserialization(ifstream *file) {
+//	root->Deserialization(file);
 }
 
 

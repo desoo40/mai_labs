@@ -3,25 +3,33 @@
 using namespace std;
 
 int main() {
-    int n = 0;
+	unsigned long long n = 0;
+	int k = 0;
 
-    cin >> n;
+	cin >> n >> k;
 
-    if (n == 0) {
-        cout << 1;
-        return 0;
-    }
-    
-    int kek = n % 4;
+	int i = 0;
+	unsigned long long j = 1;
 
-    if (kek == 0)
-        cout << 6;
-    if (kek == 1)
-        cout << 8;
-    if (kek == 2)
-        cout << 4;
-    if (kek == 3)
-        cout << 2;
+	while (1)
+	{
+		if (n % j == 0)
+			++i;
+		
+		if (i == k)
+		{
+			cout << j << endl;
+			return 0;
+		}
 
-    return 0;
+		++j;
+
+		if (j > n)
+		{
+			cout << -1 << endl;
+			return 0;
+		}
+	}
+
+	return 0;
 }
