@@ -54,7 +54,7 @@ int main()
                     cout << "ERROR: can't open file\n";
                 }
                 else {
-                    bTree.Serialization(bTree.root, &fileWrite);
+                    bTree.Serialization(&fileWrite);
                     fileWrite.close();
                     cout << "OK\n";
                 }
@@ -67,7 +67,7 @@ int main()
                     cout << "ERROR: can't open file\n";
                 }
                 else {
-                    bTree.Deserialization(&bTree.root, &fileRead);
+                    bTree.Deserialization(&fileRead);
                     fileRead.close();
                     cout << "OK\n";
                 }

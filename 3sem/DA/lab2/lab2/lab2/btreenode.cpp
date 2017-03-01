@@ -100,6 +100,51 @@ bool TBTreeNode::insertNonFull(Word *newWord) {
     return true;
 }
 
+void TBTreeNode::Serialization(std::ofstream *file)
+{
+	if (this == nullptr) {
+		*file << "0 ";
+		return;
+	}
+	*file << n << " ";
+	for (int i = 0; i < n; ++i) {
+		*file << words[i].line << " ";
+		*file << words[i].key << " ";
+	}
+	for (int i = 0; i <= n; ++i) {
+		C[i]->Serialization(file);
+	}
+}
+
+//void TBTreeNode::Deserialization(std::ifstream *file)
+//{
+//	int tmp;
+//	*file >> tmp;
+//	if (tmp == 0) {
+//		if ((*node) == nullptr) {
+//			return;
+//		}
+//		else {
+//			for (size_t i = 0; i < t; ++i) {
+//				(*node)->C[i] = nullptr;
+//			}
+//			return;
+//		}
+//	}
+//	if ((*node) == nullptr) {
+//		(*node) = new TBTreeNode(t, true);
+//	}
+//	(*node)->n = tmp;
+//	for (int i = 0; i < (*node)->n; ++i) {
+//		*file >> (*node)->words[i].line;
+//		*file >> (*node)->words[i].key;
+//	}
+//	for (int i = 0; i <= (*node)->n; ++i) {
+//		(*node)->C[i] = nullptr;
+//		Deserialization(&(*node)->C[i], file);
+//	}
+//}
+
 // A utility function to split the child y of this node
 // Note that y must be full when this function is called
 void TBTreeNode::splitChild(int i, TBTreeNode *y) {

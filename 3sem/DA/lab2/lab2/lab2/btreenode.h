@@ -1,4 +1,6 @@
 #include "str.h"
+#include <fstream>
+
 
 typedef struct {
 	TString line;
@@ -15,6 +17,9 @@ class TBTreeNode
 		bool leaf; // Is true when node is leaf. Otherwise false
 
         bool insertNonFull(Word*);
+
+		void Serialization(std::ofstream *);
+		//void Deserialization(std::ifstream*);
 
         // A utility function to split the child y of this node. i is index of y in
         // child array C[].  The Child y must be full when this function is called
