@@ -25,8 +25,11 @@ double count__change(double amount){
 
 double next__coin(double coin){
 {return
-  ( coin ==20. ? 5.
-  : coin == 5. ? 3.
+  ( coin ==50. ? 25.
+    : coin == 25. ? 20.
+    : coin == 20. ? 15.
+    : coin == 15. ? 5.
+    : coin == 5. ? 2.
   : 0
  );
 }}
@@ -34,7 +37,7 @@ double next__coin(double coin){
 double GR__AMOUNT(){{
   return 10. * LAST__DIGIT__OF__GROUP__NUMBER;
 }}
-double LAGEST__COIN=20.;
+double LAGEST__COIN=50.;
 double LAST__DIGIT__OF__GROUP__NUMBER=4.;
 
 int main(){
