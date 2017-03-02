@@ -1,0 +1,227 @@
+﻿158129@imp:~$ ping 192.168.2.50
+PING 192.168.2.50 (192.168.2.50): 56 data bytes
+64 bytes from 192.168.2.50: icmp_seq=0 ttl=64 time=0.269 ms
+64 bytes from 192.168.2.50: icmp_seq=1 ttl=64 time=0.204 ms
+64 bytes from 192.168.2.50: icmp_seq=2 ttl=64 time=0.209 ms
+64 bytes from 192.168.2.50: icmp_seq=3 ttl=64 time=0.246 ms
+64 bytes from 192.168.2.50: icmp_seq=4 ttl=64 time=0.188 ms
+64 bytes from 192.168.2.50: icmp_seq=5 ttl=64 time=0.213 ms
+--- 192.168.2.50 ping statistics ---
+6 packets transmitted, 6 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 0.188/0.222/0.269/0.027 ms
+
+158129@imp:~$ rlogin ampang
+Password:
+Copyright (c) 1992-2011 The FreeBSD Project.
+Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+	The Regents of the University of California. All rights reserved.
+
+FreeBSD 8.2-STABLE (GENERIC) #5: Thu Jul  7 17:04:10 MSD 2011
+
+Welcome to FreeBSD!
+You have mail.
+
+158129@ampang:~$ logout
+rlogin: connection closed
+58129@imp:~$ ssh ampang
+The authenticity of host 'ampang (192.168.2.53)' can't be established.
+RSA key fingerprint is 9d:24:5f:b7:0d:c1:c5:50:7e:75:9b:0c:7b:50:fb:e9.
+Are you sure you want to continue connecting (yes/no)? y
+Please type 'yes' or 'no': yes
+Warning: Permanently added 'ampang' (RSA) to the list of known hosts.
+Password:
+Last login: Sat Oct  3 16:08:02 2015 from imp
+Copyright (c) 1980, 1983, 1986, 1988, 1990, 1991, 1993, 1994
+	The Regents of the University of California.  All rights reserved.
+
+FreeBSD 8.2-STABLE (GENERIC) #5: Thu Jul  7 17:04:10 MSD 2011
+
+Welcome to FreeBSD!
+
+158129@ampang:~$ logout
+Connection to ampang closed.
+
+158129@imp:~$ ssh-keygen -t dsa
+Generating public/private dsa key pair.
+Enter file in which to save the key (/stud/158129/.ssh/id_dsa): KEY
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in KEY.
+Your public key has been saved in KEY.pub.
+The key fingerprint is:
+77:5d:c7:5e:94:4d:42:b5:68:64:d0:c5:ca:2a:1f:0f 158129@imp.zzz.umc8.ru
+The key's randomart image is:
++--[ DSA 1024]----+
+|           .o+=+*|
+|            o..*o|
+|            .o..=|
+|            .+ oo|
+|        S . o . .|
+|         o E     |
+|          o +    |
+|           . .   |
+|                 |
++-----------------+
+
+158129@imp:~$ ssh imp 'cat >>.ssh/autorized_keys' <KEY .ssh/id_dsa.pub
+The authenticity of host 'imp (192.168.2.38)' can't be established.
+RSA key fingerprint is a6:17:48:68:2f:51:56:f7:48:02:41:5a:a8:0f:b9:2a.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'imp' (RSA) to the list of known hosts.
+Password:
+158129@imp:~$ scp file34.txt ampang:~/file34.txt
+Password:
+file34.txt                                    100%   19     0.0KB/s   00:00    
+158129@imp:~$ scp file36.txt ampang:~/file6.txt
+Password:
+file36.txt                                    100%   10     0.0KB/s   00:00   
+158129@ampang:~$ scp ampang:~/BIGKEY.pub .
+Password:
+BIGKEY.pub                                    100%  612     0.6KB/s   00:00    
+
+2.4.
+158129@imp:~$ scp -r ohohohoh ampang:
+2.5
+158129@imp:~$ scp -r ampang:dir2 .
+f3                                            100%    0     0.0KB/s   00:00    
+f2                                            100%    0     0.0KB/s   00:00    
+f1                                            100%    0     0.0KB/s   00:00  
+
+158129@imp:~$ ls -l
+total 38
+-rw-------  1 158129  stud    0 Oct  3 17:12 2
+-rw-------  1 158129  stud  771 Oct  3 17:10 AMPANG
+-rw-------  1 158129  stud  612 Oct  3 17:10 AMPANG.pub
+drwx------  2 158129  stud    4 Oct  3 16:03 Desktop
+-rw-------  1 158129  stud  612 Oct  3 17:09 GEGETY.ssh
+-rw-------  1 158129  stud  751 Oct  3 17:08 JUCE
+-rw-------  1 158129  stud  612 Oct  3 17:08 JUCE.pub
+drwx------  5 158129  stud    5 Aug 29 15:53 Mail
+-rw-------  1 158129  stud  612 Oct  3 17:11 POPKA.ssh
+drwx------  2 158129  stud    3 Oct  3 16:38 dir1
+drwx------  2 158129  stud    5 Oct  3 17:05 dir2
+-rw-------  1 158129  stud    0 Oct  3 17:12 file
+-rw-------  1 158129  stud    0 Oct  3 17:12 file1
+-rw-------  1 158129  stud    0 Oct  3 17:12 file2
+-rw-------  1 158129  stud    0 Oct  3 17:13 ftp
+drwx------  2 158129  stud    2 Oct  3 17:15 ohohohoh
+158129@imp:~$ ssh ampang "mkdir home"
+158129@imp:~$ cat > f2.txt
+PRIVETIKI
+158129@imp:~$ scp f2.txt ampang:~/home/f1.txt
+f2.txt                                        100%   10     0.0KB/s   00:00    
+158129@imp:~$ ssh ampang "ls -l home"
+total 1
+-rw-------  1 158129  stud  10  3 пїЅпїЅпїЅпїЅпїЅпїЅ 17:23 f1.txt
+158129@imp:~$ cat f2.txt
+PRIVETIKI
+158129@imp:~$ ssh ampang "cd home; cat f1.txt"
+PRIVETIKI
+
+2.6
+158129@imp:~$ ps auxw | grep nfsd
+158129      2585  0.0  0.1   552   392   0  R+    5:35PM   0:00.01 grep nfsd
+
+3
+158129@imp:~$ ftp ampang 
+Connected to ampang.
+220 ampang.zzz.umc8.ru FTP server (Version 6.00LS) ready.
+Name (ampang:158129): 158129
+331 Password required for 158129.
+Password:
+230 User 158129 logged in.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> pwd
+Remote directory: /stud/158129
+ftp> ls -l
+229 Entering Extended Passive Mode (|||55202|)
+150 Opening ASCII mode data connection for '/bin/ls'.
+total 278
+-rw-------  1 158129  stud     885  3 Oct 16:01 .ICEauthority
+-rw-------  1 158129  stud    6019  3 Oct 17:45 .bash_history
+-rw-------  1 158129  stud      43 29 Aug 15:53 .bashrc
+drwx------  4 158129  stud       4  5 Sep 14:53 .cache
+drwx------  6 158129  stud       6  3 Oct 17:28 .config
+...
+226 Transfer complete.
+ftp> dir
+229 Entering Extended Passive Mode (|||58522|)
+150 Opening ASCII mode data connection for '/bin/ls'.
+total 278
+-rw-------  1 158129  stud     885  3 Oct 16:01 .ICEauthority
+-rw-------  1 158129  stud    6019  3 Oct 17:45 .bash_history
+-rw-------  1 158129  stud      43 29 Aug 15:53 .bashrc
+drwx------  4 158129  stud       4  5 Sep 14:53 .cache
+drwx------  6 158129  stud       6  3 Oct 17:28 .config
+drwx------  3 158129  stud       3  5 Sep 14:53 .dbus
+-rw-------  1 158129  stud      31 29 Aug 15:53 .emacs
+-rw-------  1 158129  stud      16  5 Sep 14:53 .esd_auth
+...
+226 Transfer complete.
+ftp> !ls
+12345		GEGETY.ssh	asdfgasdf	file1		ggg.tar
+2		JUCE		dir1		file2		home
+AMPANG		JUCE.pub	dir2		file4		ohohohoh
+AMPANG.pub	Mail		f2.txt		ftp
+Desktop		POPKA.ssh	file		geegee.tgz
+ftp> lcd
+Local directory now: /stud/158129
+ftp> lcd /stud/158129/dir1
+Local directory now: /stud/158129/dir1
+ftp> pwd
+Remote directory: /stud/158129
+ftp> get file1
+local: file1 remote: file1
+229 Entering Extended Passive Mode (|||52594|)
+150 Opening BINARY mode data connection for 'file1' (0 bytes).
+     0       0.00 KB/s 
+226 Transfer complete.
+ftp> put file2
+local: file2 remote: file2
+229 Entering Extended Passive Mode (|||63985|)
+150 Opening BINARY mode data connection for 'file2'.
+     0       0.00 KB/s 
+226 Transfer complete.
+ftp> bye
+221 Goodbye.
+
+4
+#FIRST
+158129@imp:~$ tar -cf dirdir.tar dir2
+158129@imp:~$ pax -w dir2 > dirdir2.pax
+158129@imp:~$ ls
+12345		GEGETY.ssh	asdfgasdf	f2.txt		ftp
+2		JUCE		dir1		file		geegee.tgz
+AMPANG		JUCE.pub	dir2		file1		ggg.tar
+AMPANG.pub	Mail		dirdir.tar	file2		home
+Desktop		POPKA.ssh	dirdir2.pax	file4		ohohohoh
+
+158129@imp:~$ tar -xf dirdir.tar
+158129@imp:~$ pax -r < dirdir2.pax
+#UN
+158129@imp:~$ tar -tvf dirdir.tar
+drwx------  2 158129 stud        0 Oct  3 17:05 dir2/
+-rw-------  1 158129 stud        0 Oct  3 17:18 dir2/f3
+-rw-------  1 158129 stud        0 Oct  3 17:18 dir2/f2
+-rw-------  1 158129 stud        0 Oct  3 17:18 dir2/f1
+158129@imp:~$ pax < dirdir2.pax
+dir2
+dir2/f3
+dir2/f2
+dir2/f1
+
+158129@imp:~$ gzip -9c dirdir.tar > BIGdir.tgz
+158129@imp:~$ ls | grep tgz
+BIGdir.tgz
+geegee.tgz
+
+4.5.
+158129@imp:~$ gzip -dc BIGdir.tgz > GOGIdir.tar
+
+
+
+
+
+
+

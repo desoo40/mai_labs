@@ -1,0 +1,17 @@
+	
+#include <stdio.h>
+
+int main(void)
+
+{
+
+float r;
+float S;
+
+r=5.32f;
+S = r*r*3.14f; 
+
+printf("%f\n", S); 
+return 0;
+
+}

@@ -1,0 +1,272 @@
+int main ()
+{
+	double a;
+	double b;
+
+	scanf ("%lf %lf", &a, &b);
+
+	if (a > b) {
+
+		printf("%.2lf\n", a - b);
+
+	} else if (a == b && b != 0) {
+
+		printf("%.2lf\n", a / b);
+
+	} else {
+
+		for (int i = 0; i < 5; ++i)
+		{
+			++b;
+			b = b+a;
+		}
+
+		printf("%.2lf %.2lf %.2lf\n", a + b, b - a, a / b);
+	}
+	return 0;
+}
+
+/*
+desoo@ubuntu:~$ gdb a.out
+GNU gdb (Ubuntu 7.9-1ubuntu1) 7.9
+Copyright (C) 2015 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "i686-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from a.out...done.
+(gdb) break 12
+Breakpoint 1 at 0x80484d7: file lab10.c, line 12.
+(gdb) break 16
+Breakpoint 2 at 0x80484fd: file lab10.c, line 16.
+(gdb) break 20
+Breakpoint 3 at 0x804854c: file lab10.c, line 20.
+(gdb) break 24
+Breakpoint 4 at 0x804857a: file lab10.c, line 24.
+(gdb) run
+Starting program: /home/desoo/a.out 
+
+Breakpoint 1, main () at lab10.c:12
+12		scanf ("%lf %lf", &a, &b);
+(gdb) print a
+$1 = 4.8564484253887658e-270
+(gdb) 
+$2 = 4.8564484253887658e-270
+(gdb) 
+$3 = 4.8564484253887658e-270
+(gdb) 654
+Undefined command: "654".  Try "help".
+(gdb) next
+456
+5666
+14		if (a > b) {
+(gdb) 
+18		} else if (a == b && b != 0) {
+(gdb) 
+
+Breakpoint 4, main () at lab10.c:24
+24			for (int i = 0; i < 5; ++i)
+(gdb) print a
+$4 = 456
+(gdb) print b
+$5 = 5666
+(gdb) 
+$6 = 5666
+(gdb) step
+26				++b;
+(gdb) 
+27				b = b+a;
+(gdb) print b
+$7 = 5667
+(gdb) next
+24			for (int i = 0; i < 5; ++i)
+(gdb) print b
+$8 = 6123
+(gdb) next
+26				++b;
+(gdb) 
+27				b = b+a;
+(gdb) 
+24			for (int i = 0; i < 5; ++i)
+(gdb) 
+26				++b;
+(gdb) 
+27				b = b+a;
+(gdb) 
+24			for (int i = 0; i < 5; ++i)
+(gdb) 
+26				++b;
+(gdb) 
+27				b = b+a;
+(gdb) 
+24			for (int i = 0; i < 5; ++i)
+(gdb) 
+26				++b;
+(gdb) 
+27				b = b+a;
+(gdb) 
+24			for (int i = 0; i < 5; ++i)
+(gdb) 
+30			printf("%.2lf %.2lf %.2lf\n", a + b, b - a, a / b);
+(gdb) 
+8407.00 7495.00 0.06
+32		return 0;
+(gdb) print b
+$9 = 7951
+(gdb) print a
+$10 = 456
+(gdb) 
+$11 = 456
+(gdb) next
+33	}(gdb) 
+__libc_start_main (main=0x80484bb <main>, argc=1, argv=0xbffff194, 
+    init=0x8048620 <__libc_csu_init>, fini=0x8048680 <__libc_csu_fini>, 
+    rtld_fini=0xb7feb210 <_dl_fini>, stack_end=0xbffff18c) at libc-start.c:323
+323	libc-start.c: No such file or directory.
+(gdb) 
+[Inferior 1 (process 28175) exited normally]
+(gdb) 
+The program is not being run.
+(gdb) run
+Starting program: /home/desoo/a.out 
+
+Breakpoint 1, main () at lab10.c:12
+12		scanf ("%lf %lf", &a, &b);
+(gdb) 
+(gdb) next
+10
+12.1
+14		if (a > b) {
+(gdb) 
+18		} else if (a == b && b != 0) {
+(gdb) 
+
+Breakpoint 4, main () at lab10.c:24
+24			for (int i = 0; i < 5; ++i)
+(gdb) 
+26				++b;
+(gdb) 
+27				b = b+a;
+(gdb) 
+24			for (int i = 0; i < 5; ++i)
+(gdb) 
+26				++b;
+(gdb) 
+27				b = b+a;
+(gdb) 
+24			for (int i = 0; i < 5; ++i)
+(gdb) 
+26				++b;
+(gdb) 
+27				b = b+a;
+(gdb) 
+24			for (int i = 0; i < 5; ++i)
+(gdb) 
+26				++b;
+(gdb) 
+27				b = b+a;
+(gdb) print p
+No symbol "p" in current context.
+(gdb) print b
+$12 = 46.100000000000001
+(gdb) next
+24			for (int i = 0; i < 5; ++i)
+(gdb) 
+26				++b;
+(gdb) 
+27				b = b+a;
+(gdb) 
+24			for (int i = 0; i < 5; ++i)
+(gdb) 
+30			printf("%.2lf %.2lf %.2lf\n", a + b, b - a, a / b);
+(gdb) 
+77.10 57.10 0.15
+32		return 0;
+(gdb) 
+33	}(gdb) 
+__libc_start_main (main=0x80484bb <main>, argc=1, argv=0xbffff194, 
+    init=0x8048620 <__libc_csu_init>, fini=0x8048680 <__libc_csu_fini>, 
+    rtld_fini=0xb7feb210 <_dl_fini>, stack_end=0xbffff18c) at libc-start.c:323
+323	libc-start.c: No such file or directory.
+(gdb) 
+[Inferior 1 (process 28181) exited normally]
+(gdb) run
+Starting program: /home/desoo/a.out 
+
+Breakpoint 1, main () at lab10.c:12
+12		scanf ("%lf %lf", &a, &b);
+(gdb) 
+(gdb) step
+__isoc99_scanf (format=0x80486a0 "%lf %lf") at isoc99_scanf.c:32
+32	isoc99_scanf.c: No such file or directory.
+(gdb) 
+34	in isoc99_scanf.c
+(gdb) 
+36	in isoc99_scanf.c
+(gdb) 
+37	in isoc99_scanf.c
+(gdb) next
+45
+45.0
+32	in isoc99_scanf.c
+(gdb) next
+37	in isoc99_scanf.c
+(gdb) 
+32	in isoc99_scanf.c
+(gdb) 
+44	in isoc99_scanf.c
+(gdb) 
+main () at lab10.c:14
+14		if (a > b) {
+(gdb) 
+18		} else if (a == b && b != 0) {
+(gdb) 
+
+Breakpoint 3, main () at lab10.c:20
+20			printf("%.2lf\n", a / b);
+(gdb) 
+1.00
+32		return 0;
+(gdb) 
+33	}(gdb) 
+__libc_start_main (main=0x80484bb <main>, argc=1, argv=0xbffff194, 
+    init=0x8048620 <__libc_csu_init>, fini=0x8048680 <__libc_csu_fini>, 
+    rtld_fini=0xb7feb210 <_dl_fini>, stack_end=0xbffff18c) at libc-start.c:323
+323	libc-start.c: No such file or directory.
+(gdb) 
+[Inferior 1 (process 28182) exited normally]
+(gdb) run
+Starting program: /home/desoo/a.out 
+
+Breakpoint 1, main () at lab10.c:12
+12		scanf ("%lf %lf", &a, &b);
+(gdb) 213
+Undefined command: "213".  Try "help".
+(gdb) next
+123
+100
+14		if (a > b) {
+(gdb) 
+
+Breakpoint 2, main () at lab10.c:16
+16			printf("%.2lf\n", a - b);
+(gdb) 
+23.00
+32		return 0;
+(gdb) 
+33	}(gdb) 
+__libc_start_main (main=0x80484bb <main>, argc=1, argv=0xbffff194, 
+    init=0x8048620 <__libc_csu_init>, fini=0x8048680 <__libc_csu_fini>, 
+    rtld_fini=0xb7feb210 <_dl_fini>, stack_end=0xbffff18c) at libc-start.c:323
+323	libc-start.c: No such file or directory.
+(gdb) 
+[Inferior 1 (process 28183) exited normally]
+*/ 

@@ -1,0 +1,227 @@
+<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>eMain - Educational Markov Algorithm Interpreter</title>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+    <meta name="author" content="J&ouml;rg Meyer">
+    <meta name="mailto" content="j.meyer@stud.fh-sm.de">
+    <meta name="date" content="2005-02-23T12:01:00+01:00">
+    <script src="em-script.js" type="text/javascript"></script>
+  </head>
+  <body bgcolor="silver" text="black" link="black" vlink="black" alink="black">
+    <form name="frm" action="">
+      <table cellpadding=10>
+        <tr>
+          <td valign="top" bgcolor="#B4B4D7">
+            <table cellpadding=5 >
+              <tr>
+                <td>
+                  <b>
+                    rules
+                    <a href="javascript:switchRules('def')">definition</a> or
+                    <a href="javascript:switchRules('inf')">information</a>
+                  </b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <textarea name="fRules" cols=76 rows=8></textarea>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td valign="top" rowspan=3 bgcolor="#B4B4D7">
+            <table cellpadding=5 >
+              <tr>
+                <td>
+                  <b>main control</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <table cellpadding=5>
+                    <tr>
+                      <td><small>&bull;</small></td>
+                      <td colspan=2>
+                        <input type="button" value="start new" onClick="startInt()">&nbsp;
+                        <input type="button" name="fPause" value="pause" onClick="javascript:manPause = true" disabled>&nbsp;
+                        <input type="button" name="fCont" value="continue" onClick="contInt()" disabled>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><small>&bull;</small></td>
+                      <td colspan=2>auto pause substitution in case of</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>
+                        <input type="checkbox" name="fPauseNum">
+                      </td>
+                      <td>
+                        a <a href="javascript:adoptSubCnt()">number of substitutions</a> was made
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <input type="radio" name="fPauseNumSel" value="fPauseNumVal0" checked>
+                        <input type="text"  name="fPauseNumVal0Ba" size=7 maxlength=128 value="1">
+                        <input type="text"  name="fPauseNumVal0Ff" size=7 maxlength=128>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>
+                          <input type="radio" name="fPauseNumSel" value="fPauseNumVal1">
+                          <input type="text"  name="fPauseNumVal1Ba" size=7 maxlength=128 value="1">
+                          <input type="text"  name="fPauseNumVal1Ff" size=7 maxlength=128>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>
+                        <input type="checkbox" name="fPauseSize">
+                      </td>
+                      <td>length of resulting word became</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <select name="fPauseSizeOpr" size=1>
+                          <option value=">" >larger than</option>
+                          <option value="<" >smaller than</option>
+                          <option value="==">equal to</option>
+                          <option value="!=">unequal to</option>
+                        </select>
+                        <input type="text" name="fPauseSizeVal" size=7 maxlength=10 value="1">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>
+                        <input type="checkbox" name="fPauseLook">
+                      </td>
+                      <td>
+                        resulting word became equal to
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <input type="text" name="fPauseLookVal" size=28 maxlength=1024>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+            <br><!--?-->
+            <table cellpadding=5 >
+              <tr>
+                <td>
+                  <b>statistics</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <table cellpadding=5>
+                    <tr>
+                      <td><small>&bull;</small> </td>
+                      <td>number of<br>substitutions</td>
+                      <td>
+                        <input type="text" name="fSubCnt" size=7 maxlength=10 value="0" readonly>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><small>&bull;</small> </td>
+                      <td>substitution status</td>
+                      <td><input type="text" name="fStatus" size=17 maxlength=34 readonly></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+            <br><!--?-->
+            <table cellpadding=5 >
+              <tr>
+                <td>
+                  <b>debug switches</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <table cellpadding=5>
+                    <tr>
+                      <td><small>&bull;</small></td>
+                      <td>add specified info to substitution output</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td><input type="checkbox" name="fPrnTSteps" checked>substitutions since start</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td><input type="checkbox" name="fPrnCSteps">substitutions since continue</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td><input type="checkbox" name="fPrnInpSize">length of resulting word</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td><input type="checkbox" name="fPrnRuleNum" checked>ordinal number of used rule</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td colspan=2 title="determines the number of leading zeros added to every single info column">
+                        using
+                        <input type="text" name="fLeadingNum" size=9 maxlength=34 value="1, 1, 1, 1">
+                        leading zeros
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" bgcolor="#B4B4D7">
+            <table cellpadding=5 >
+              <tr>
+                <td>
+                  <b>input definition</b>
+               </td>
+              </tr>
+              <tr>
+                <td>
+                  <textarea name="fInput" cols=76 rows=2></textarea>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" bgcolor="#B4B4D7">
+            <table cellpadding=5 >
+              <tr>
+                <td>
+                  <b>substitution output</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <textarea name="fOutput" cols=76 rows=22 readonly></textarea>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>

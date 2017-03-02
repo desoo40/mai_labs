@@ -1,0 +1,4 @@
+I->A
+_->B
+AB->_B
+BBBBBBBB->.I_I_I_I_

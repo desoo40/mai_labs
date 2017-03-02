@@ -1,0 +1,51 @@
+desoo@ubuntu:~$ ruptime
+ubuntu        up       2:37,     2 users,  load 0.17, 0.17, 0.17
+desoo@ubuntu:~$ rwho
+desoo    ubuntu::0    Sep 12 03:31
+desoo    ubuntu:pts/1 Sep 12 07:46
+desoo@ubuntu:~$ whoami
+desoo
+desoo@ubuntu:~$ tty
+/dev/pts/1
+desoo@ubuntu:~$ hostname
+ubuntu
+desoo@ubuntu:~$ uname -a
+Linux ubuntu 3.19.0-15-generic #15-Ubuntu SMP Thu Apr 16 23:32:01 UTC 2015 i686 i686 i686 GNU/Linux
+desoo@ubuntu:~$ finger desoo
+Login: desoo          Name: У�M-^QУ�M-^QУ�M-^]Т�M-^^Ч�M-^Z�M-^P
+Directory: /home/desoo              Shell: /bin/bash
+On since Sat Sep 12 03:31 (PDT) on :0 from :0 (messages off)
+On since Sat Sep 12 07:47 (PDT) on pts/1 from :0
+   3 seconds idle
+No mail.
+No Plan.
+desoo@ubuntu:~$ echo "Hello, my darling!" > f1.txt
+desoo@ubuntu:~$ cat f1.txt
+Hello, my darling!
+desoo@ubuntu:~$ cp f1.txt f2.txt
+desoo@ubuntu:~$ cat f1.txt f2.txt >> f3.txt
+desoo@ubuntu:~$ rm f1.txt f2.txt
+desoo@ubuntu:~$ mkdir lab2
+desoo@ubuntu:~$ mv f3.txt /home/desoo/lab2
+desoo@ubuntu:~$ cd /home/desoo/lab2
+desoo@ubuntu:~/lab2$ pwd 
+/home/desoo/lab2
+desoo@ubuntu:~/lab2$ ls
+f3.txt
+desoo@ubuntu:~/lab2$ cat f3.txt
+Hello, my darling!
+Hello, my darling!
+desoo@ubuntu:~/lab2$ cd ~
+desoo@ubuntu:~$ pwd
+/home/desoo
+desoo@ubuntu:~$ rm -r lab2
+desoo@ubuntu:~$ ls -a
+.              Desktop           .ICEauthority  Public
+..             .dmrc             lb2.sh         .sudo_as_admin_successful
+.bash_history  Documents         lb2.sh~        Templates
+.bash_logout   Downloads         .local         Videos
+.bashrc        .emacs.d          .mozilla       .Xauthority
+.cache         examples.desktop  Music          .xinputrc
+.compiz        .gconf            Pictures       .xsession-errors
+.config        .gnuplot_history  .profile       .xsession-errors.old
+
