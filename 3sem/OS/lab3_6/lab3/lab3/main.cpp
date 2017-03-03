@@ -26,7 +26,6 @@
 //
 //	for (size_t i = 0; i < adj[v].size(); ++i) {
 //		int w = adj[v][i];
-//		cout << "YES" << endl;
 //
 //
 //		if (used[w]) {
