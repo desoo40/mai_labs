@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9620F0DB-2E8B-4A50-A1DA-5F5B1D3D7F0C}</ProjectGuid>
+    <ProjectGuid>{F6AFBEBD-A528-4AB7-8CCE-906406C3F315}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>SDM2</RootNamespace>
+    <RootNamespace>lab4</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -146,11 +146,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="coin.cpp" />
-    <ClCompile Include="SDM2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="mlisp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
