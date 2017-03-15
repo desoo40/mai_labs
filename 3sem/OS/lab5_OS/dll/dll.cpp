@@ -1,6 +1,19 @@
 #include "dll.h"
 
-extern "C" __declspec(dllexport) Queue *queue_create(int32_t *elem) {
+#pragma pack(push,1)
+struct _qnode
+{
+	Que_node *next;
+	int32_t elem;
+};
+
+struct _queue
+{
+	Que_node *first;
+	Que_node *last;
+};
+
+extern "C" __declspec(dllexport) Queue *queue_create(int32_t elem) {
     Queue *queue = (Queue*)malloc(sizeof(Queue));
 
     queue->first = que_node_create(elem);
@@ -10,7 +23,7 @@ extern "C" __declspec(dllexport) Queue *queue_create(int32_t *elem) {
 
 }
 
-extern "C" __declspec(dllexport) Que_node *que_node_create(int32_t *elem) {
+extern "C" __declspec(dllexport) Que_node *que_node_create(int32_t elem) {
     Que_node *node = (Que_node*)malloc(sizeof(Que_node));
 
     node->next = NULL;
@@ -19,7 +32,7 @@ extern "C" __declspec(dllexport) Que_node *que_node_create(int32_t *elem) {
     return node;
 }
 
-extern "C" __declspec(dllexport) void queue_push(Queue *queue, int32_t *elem) {
+extern "C" __declspec(dllexport) void queue_push(Queue *queue, int32_t elem) {
     if (queue == NULL)
         return;
 
@@ -120,8 +133,7 @@ extern "C" __declspec(dllexport) void queue_print(Queue *queue) {
 
     while (tmp)
     {
-        printf("%p\n", tmp->elem);
-
+		cout << tmp->elem;
         tmp = queue->first->next;
     }
 
