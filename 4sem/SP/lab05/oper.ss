@@ -1,0 +1,5 @@
+; oper.ss
+"operators"
++ - * /
+<= >= = > <
+
