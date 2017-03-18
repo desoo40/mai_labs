@@ -72,23 +72,88 @@ public:
 // \'  \"  \?  \\  \a  \b  \f  \n  \r  \t  \v
     const char SP=' ';// пробел
     addstr  (Astr,0,"\"",   1);
-    addstr  (Astr,1,"\"",   2);
+
+    addstr  (Astr,1,"\"",   3);
     addrange(Astr,1,SP,'!',1);
-    addrange(Astr,1,'#','~',1);
+    addrange(Astr,1,'#','[',1);
+    addrange(Astr, 1, ']', '~', 1);
     addrange(Astr,1,'\x80','\xff',1);// русские буквы
-  Astr.final(2);
+
+    addstr(Astr, 1, "\\", 2);
+    addstr(Astr, 2, "'", 1);
+    addstr(Astr, 2, "\"", 1);
+    addstr(Astr, 2, "?", 1);
+    addstr(Astr, 2, "\\", 1);
+    addstr(Astr, 2, "a", 1);
+    addstr(Astr, 2, "b", 1);
+    addstr(Astr, 2, "f", 1);
+    addstr(Astr, 2, "n", 1);
+    addstr(Astr, 2, "r", 1);
+    addstr(Astr, 2, "t", 1);
+    addstr(Astr, 2, "v", 1);
+
+  Astr.final(3);
 //________________________________________
 
 // идентификатор
     addrange(Aid,0,'a','z',1);
+    addstr(Aid, 0, "!", 1);
+    addstr(Aid, 0, "-", 2);
+    addrange(Aid, 0, 'A', 'Z', 1);
+    
+
+    addstr(Aid, 2, "!", 1);
+    addrange(Aid, 2, 'a', 'z', 1);
+    addrange(Aid, 2, 'A', 'Z', 1);
+    addrange(Aid, 2, '0', '9', 3);
+   
+
+    addrange(Aid, 3, '0', '9', 3);
+    addrange(Aid, 3, 'a', 'z', 1);
+    addrange(Aid, 3, 'A', 'Z', 1);
+
+    addstr(Aid, 3, "!", 1);
+    addstr(Aid, 3, "-", 1);
+
+    addstr(Aid, 4, "!", 1);
+    addrange(Aid, 4, '0', '9', 1);
+    addrange(Aid, 4, 'a', 'z', 1);
+    addrange(Aid, 4, 'A', 'Z', 1);
+    
+    addstr(Aid, 1, "!", 1);
+    addstr(Aid, 1, "-", 4);
     addrange(Aid,1,'a','z',1);
-    addstr  (Aid,1,"!",   1);
-  Aid.final(1);
+    addrange(Aid, 1, 'A', 'Z', 1);
+    addrange(Aid, 1, '0', '9', 1);
+    
+    
+    Aid.final(1);
+    Aid.final(4);
 //________________________________________
 
 // идентификатор предиката
-    addstr  (Aidq,0,"?",   1);
-  Aidq.final(1);
+    addstr(Aidq, 0, "?", 3);
+    addstr(Aidq, 0, "-", 2);
+    addrange(Aidq, 0, 'a', 'z', 1);
+    addrange(Aidq, 0, 'A', 'Z', 1);
+
+    addstr(Aidq, 1, "?", 3);
+    addstr(Aidq, 1, "-", 1);
+    addrange(Aidq, 1, 'a', 'z', 1);
+    addrange(Aidq, 1, 'A', 'Z', 1);
+    addrange(Aidq, 1, '0', '9', 1);
+
+    addstr(Aidq, 2, "?", 3);
+    addrange(Aidq, 2, '0', '9', 2);
+    addrange(Aidq, 2, 'a', 'z', 1);
+    addrange(Aidq, 2, 'A', 'Z', 1);
+
+    addstr(Aidq, 3, "-", 1);
+    addrange(Aidq, 3, '0', '9', 1);
+    addrange(Aidq, 3, 'a', 'z', 1);
+    addrange(Aidq, 3, 'A', 'Z', 1);
+
+  Aidq.final(3);
 //________________________________________
 
 // оператор
