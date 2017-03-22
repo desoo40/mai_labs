@@ -1,6 +1,5 @@
 #include "queue.h"
 
-#pragma pack(push,1)
 struct _qnode
 {
 	Que_node *next;

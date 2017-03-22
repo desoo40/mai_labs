@@ -7,10 +7,9 @@
 using namespace std;
 
 class Graph {
-    int edges = 0;
     int vertexes = 0;
 
-    vector<vector<bool>> adj;
+    vector<int> *adj;
     vector<bool> visited;
 
 
@@ -26,7 +25,7 @@ Graph::Graph() {
 
     ifstream graph("graph.txt");
     getline(graph, s);
-    sscanf_s(s.c_str(), "%d %d", &vertexes, &edges);
+    sscanf_s(s.c_str(), "%d", &vertexes);
 
     adj.resize(vertexes);
     visited.resize(vertexes, false);

@@ -51,7 +51,6 @@ int main(void) {
     if (hLib == NULL)
     {
         cout << "Unable to load library!" << endl;
-        _getch();
         return 0;
     }
 
@@ -67,9 +66,10 @@ int main(void) {
     DLL_DESTROY queue_destroy = (DLL_DESTROY)GetProcAddress((HMODULE)hLib, "queue_destroy");
 
 
-    if (queue_create == NULL || queue_push == NULL || queue_print == NULL || queue_pop == NULL)
+    if (queue_create == NULL || queue_push   == NULL || queue_print   == NULL ||
+        queue_pop    == NULL || queue_lenght == NULL || queue_destroy == NULL)
     {
-        printf("Unable to load function(s).");
+        printf("Unable to load functions");
         FreeLibrary((HMODULE)hLib);
         return 0;
     }
