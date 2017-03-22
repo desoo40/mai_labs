@@ -24,85 +24,123 @@ struct _queue
     Que_node *last;
 };
 
-typedef Queue*(* LPFNDLLFUNCCREATE)(int32_t *T);
-typedef void(* LPFNDLLFUNCPUSH)(Queue *, int32_t elem);
-typedef void(* LPFNDLLFUNCPRINT)(Queue *, int32_t elem);
-typedef bool(* LPFNDLLFUNCPOP)(Queue *, int32_t elem);
+typedef Queue*(*DLL_CREATE)(int32_t elem);
+typedef bool(*DLL_PUSH)(Queue *, int32_t elem);
+typedef void(*DLL_PRINT)(Queue *);
+typedef bool(*DLL_POP)(Queue *);
+typedef int(*DLL_LENGHT)(Queue *);
+typedef void(*DLL_DESTROY)(Queue **);
 
 
-int main(void)
-{
-	HINSTANCE hLib = LoadLibrary(L"dll.dll");
-	if (hLib == NULL)
-	{
-		cout << "Unable to load library!" << endl;
-		_getch();
-		return 1;
-	}
-	cout << "Library is loaded.." << endl;
-	
-	Queue *queue = NULL;
-	LPFNDLLFUNCCREATE queue_create = (LPFNDLLFUNCCREATE)GetProcAddress((HMODULE)hLib, "queue_create");
-	LPFNDLLFUNCPUSH queue_push = (LPFNDLLFUNCPUSH)GetProcAddress((HMODULE)hLib, "queue_push");
-	LPFNDLLFUNCPRINT queue_print = (LPFNDLLFUNCPRINT)GetProcAddress((HMODULE)hLib, "queue_print");
-	LPFNDLLFUNCPOP queue_pop = (LPFNDLLFUNCPOP)GetProcAddress((HMODULE)hLib, "queue_pop");
-	if (queue_create == NULL || queue_push == NULL || queue_print == NULL || queue_pop == NULL)
-	{
-		printf("Unable to load function(s).");
-		FreeLibrary((HMODULE)hLib);
-		return 1;
-	}
-	
-	printf("-------------------------------------------\n");
-	printf("Commands:\n");
-	printf("a <elem> - push to queue\n");
-	printf("d <elem>- pop from queue\n");
-	printf("p - print queue\n");
-	printf("q - exit\n");
-	printf("-------------------------------------------\n");
 
-	while (true) {
-		//printf("%d\n", cnt);
-		//cnt++;
-		char cmd;
-		int32_t elem = 0;
-		bool is_finished = false;
-        cin >> cmd;
-		switch (cmd) {
-		case 'q':
-			is_finished = true;
-			break;
-		case 'a':
+
+void hints() {
+    cout << "******************************" << endl;
+    cout << "1 - push element to queue" << endl;
+    cout << "2 - print queue" << endl;
+    cout << "3 - pop element from queue" << endl;
+    cout << "4 - lenght of queue" << endl;
+    cout << "5 - destroy queue" << endl;
+    cout << "0 - exit" << endl;
+    cout << "******************************" << endl;
+}
+
+int main(void) {
+    HINSTANCE hLib = LoadLibrary(L"dll.dll");
+
+    if (hLib == NULL)
+    {
+        cout << "Unable to load library!" << endl;
+        _getch();
+        return 0;
+    }
+
+    cout << "Library is loaded.." << endl;
+
+    Queue *queue = NULL;
+
+    DLL_CREATE queue_create = (DLL_CREATE)GetProcAddress((HMODULE)hLib, "queue_create");
+    DLL_PUSH queue_push = (DLL_PUSH)GetProcAddress((HMODULE)hLib, "queue_push");
+    DLL_PRINT queue_print = (DLL_PRINT)GetProcAddress((HMODULE)hLib, "queue_print");
+    DLL_POP queue_pop = (DLL_POP)GetProcAddress((HMODULE)hLib, "queue_pop");
+    DLL_LENGHT queue_lenght = (DLL_LENGHT)GetProcAddress((HMODULE)hLib, "queue_lenght");
+    DLL_DESTROY queue_destroy = (DLL_DESTROY)GetProcAddress((HMODULE)hLib, "queue_destroy");
+
+
+    if (queue_create == NULL || queue_push == NULL || queue_print == NULL || queue_pop == NULL)
+    {
+        printf("Unable to load function(s).");
+        FreeLibrary((HMODULE)hLib);
+        return 0;
+    }
+
+    hints();
+    cout << endl;
+
+    while (1) {
+        int command = 0;
+
+        cin >> command;
+
+        if (command == 1) {
+            int32_t elem = 0;
+
+            cout << "Enter element" << endl;
             cin >> elem;
-			if (queue == NULL) {
-				queue = queue_create(&elem);
-			}
-				
-			else {
-				queue_push(queue, elem);
-			}
-				
-			break;
-		case 'd':
-			if (queue == NULL) {
-				printf("queue is empty");
-				break;
-			}
-            cin >> elem;
-			queue_pop(queue, elem);
-			break;
-		case 'p':
-			queue_print(queue, 0);
-			break;
-		case '\n':
-			break;
-		default:
-			printf("Invalid command `%c`\n", cmd);
-			break;
-		}
-		if (is_finished) break;
-	}
-	printf("Goodbye!\n");
 
-	return 0;
+            if (queue == nullptr) {
+                cout << "Creating queue..." << endl;
+                queue = queue_create(elem);
+
+                if (queue)
+                    cout << "OK" << endl;
+                else
+                    cout << "Can't create queue" << endl;
+            }
+            else {
+                cout << "Pushing..." << endl;
+
+                if (queue_push(queue, elem))
+                    cout << "OK" << endl;
+                else
+                    cout << "Can't push..." << endl;
+            }
+        }
+
+        if (command == 2) {
+            cout << "Printing queue..." << endl;
+            if (queue == nullptr)
+                cout << "Queue is empty" << endl;
+            else
+                queue_print(queue);
+        }
+
+        if (command == 3) {
+            cout << "Pop..." << endl;
+            if (queue_pop(queue))
+                cout << "OK" << endl;
+            else
+                cout << "Queue is empty" << endl;
+        }
+
+        if (command == 4)
+            cout << "Lenght is " << queue_lenght(queue) << endl;
+
+        if (command == 5) {
+            cout << "Destroying queue..." << endl;
+            if (queue == nullptr)
+                cout << "Queue is empty" << endl;
+            else {
+                queue_destroy(&queue);
+                cout << "OK" << endl;
+            }
+        }
+
+        if (command == 0)
+            break;
+
+        cout << "----------------------" << endl;
+    }
+
+    return 0;
 }

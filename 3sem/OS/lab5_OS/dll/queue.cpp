@@ -1,4 +1,4 @@
-#include "dll.h"
+#include "queue.h"
 
 #pragma pack(push,1)
 struct _qnode
@@ -32,9 +32,9 @@ extern "C" __declspec(dllexport) Que_node *que_node_create(int32_t elem) {
     return node;
 }
 
-extern "C" __declspec(dllexport) void queue_push(Queue *queue, int32_t elem) {
+extern "C" __declspec(dllexport) bool queue_push(Queue *queue, int32_t elem) {
     if (queue == NULL)
-        return;
+        return false;
 
     if (queue_is_empty(queue))
     {
@@ -50,19 +50,23 @@ extern "C" __declspec(dllexport) void queue_push(Queue *queue, int32_t elem) {
         queue->first = node;
     }
 
-    return;
+    return true;
 }
 
-extern "C" __declspec(dllexport) void queue_pop(Queue *queue) {
+extern "C" __declspec(dllexport) bool queue_pop(Queue *queue) {
     if (queue == NULL)
-        return;
+        return false;
+
+    if (queue->first == NULL) {
+        return false;
+    }
 
     if (queue_lenght(queue) == 1)
     {
         free(queue->first);
         queue->first = NULL;
         queue->last = NULL;
-        return;
+        return true;
     }
 
     Que_node *tmp = queue->first;
@@ -75,7 +79,7 @@ extern "C" __declspec(dllexport) void queue_pop(Queue *queue) {
 
     queue->last = tmp;
     queue->last->next = NULL;
-    return;
+    return true;
 }
 
 extern "C" __declspec(dllexport) Que_node *queue_top(Queue *queue) {
@@ -87,6 +91,10 @@ extern "C" __declspec(dllexport) bool queue_is_empty(Queue *queue) {
 }
 
 extern "C" __declspec(dllexport) void queue_destroy(Queue **queue) {
+    if (*queue == NULL) {
+        return;
+    }
+
     Que_node *tmp = (*queue)->first;
 
     while (!queue_is_empty(*queue))
@@ -125,7 +133,7 @@ extern "C" __declspec(dllexport) int queue_lenght(Queue *queue) {
 extern "C" __declspec(dllexport) void queue_print(Queue *queue) {
     if (queue_is_empty(queue))
     {
-        printf("Queue is empty\n");
+        cout << "Queue is empty" << endl;
         return;
     }
 
@@ -133,9 +141,11 @@ extern "C" __declspec(dllexport) void queue_print(Queue *queue) {
 
     while (tmp)
     {
-		cout << tmp->elem;
-        tmp = queue->first->next;
+        cout << "[" << tmp->elem << "]";
+        tmp = tmp->next;
+        if (tmp)
+            cout << "-> ";
     }
-
+    cout << endl;
     return;
 }
