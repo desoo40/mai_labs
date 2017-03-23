@@ -3,8 +3,13 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <windows.h>
+
+#define MAX_THREADS 16
 
 using namespace std;
+
+HANDLE hMutex;
 
 class Graph {
     int vertexes = 0;
@@ -14,6 +19,7 @@ class Graph {
 
 
 public:
+    bool cicle = false;
     Graph();
     void bfs1();
     void bfs(int);
@@ -22,33 +28,21 @@ public:
 
 Graph::Graph() {
     string s;
-
     ifstream graph("graph.txt");
+
     getline(graph, s);
     sscanf_s(s.c_str(), "%d", &vertexes);
 
-    adj.resize(vertexes);
+    adj = new vector<int>[vertexes];
     visited.resize(vertexes, false);
 
-    for (int i = 0; i < vertexes; ++i)
-        adj[i].resize(vertexes, false);
+    while(getline(graph, s)) {
+        int w = 0;
+        int v = 0;
 
-    
-    for (int i = 0; i < edges; ++i) {
-        int tmp1 = 0;
-        int tmp2 = 0;
-
-        getline(graph, s);
-        sscanf_s(s.c_str(), "%d %d", &tmp1, &tmp2);
-
-        if (tmp1 > vertexes || tmp2 > vertexes) {
-            cout << "ERROR: wrong input file" << endl;
-            return;
-        }
-
-        adj[tmp1 - 1][tmp2 - 1] = true;
-        adj[tmp2 - 1][tmp1 - 1] = true;
-
+        sscanf_s(s.c_str(), "%d %d", &v, &w);
+        
+        adj[v].push_back(w);
     }
 }
 
@@ -67,20 +61,23 @@ void Graph::bfs(int v) {
     q.push(v);
     visited[v] = true;
 
+    HANDLE  hThreadArray[MAX_THREADS];
+    DWORD   dwThreadIdArray[MAX_THREADS];
+    hMutex = CreateMutex(NULL, FALSE, NULL);
+
     while(!q.empty()) {
         v = q.front();
+        cout << v << " ";
         q.pop();
 
-        cout << v + 1 << endl;
-
-        for (int i = 0; i < vertexes; ++i) {
-
-            if (visited[i])
-                continue;
-
-            if (adj[v][i]) {
-                visited[i] = true;
-                q.push(i);
+        for (size_t i = 0; i < adj[v].size(); ++i) {
+            int w = adj[v][i];
+            
+            if (!visited[w]) {
+                visited[w] = true;
+                q.push(w);
+            } else {
+                cout << "KEK" << endl;
             }
         }
     }
@@ -88,22 +85,7 @@ void Graph::bfs(int v) {
      
 }
 
-void Graph::print() {
-    for (size_t i = 0; i < vertexes; ++i) {
-        for(size_t j = 0; j < vertexes; ++j) {
-            if (adj[i][j])
-                cout << 1;
-            else
-                cout << 0;
-        }
-        cout << endl;
-    }
-}
-
-
 int main(void) {
     Graph* gr = new Graph();
     gr->bfs1();
-    gr->print();
-
 }
