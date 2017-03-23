@@ -1,91 +1,106 @@
-#include <iostream>
-#include <queue>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <windows.h>
-
-#define MAX_THREADS 16
-
-using namespace std;
-
-HANDLE hMutex;
-
-class Graph {
-    int vertexes = 0;
-
-    vector<int> *adj;
-    vector<bool> visited;
-
-
-public:
-    bool cicle = false;
-    Graph();
-    void bfs1();
-    void bfs(int);
-    void print();
-};
-
-Graph::Graph() {
-    string s;
-    ifstream graph("graph.txt");
-
-    getline(graph, s);
-    sscanf_s(s.c_str(), "%d", &vertexes);
-
-    adj = new vector<int>[vertexes];
-    visited.resize(vertexes, false);
-
-    while(getline(graph, s)) {
-        int w = 0;
-        int v = 0;
-
-        sscanf_s(s.c_str(), "%d %d", &v, &w);
-        
-        adj[v].push_back(w);
-    }
-}
-
-void Graph::bfs1() {
-    for (int v = 0; v < vertexes; ++v) {
-        bfs(v);
-    }
-}
-
-void Graph::bfs(int v) {
-    if (visited[v])
-        return;
-
-    queue<int> q;
-
-    q.push(v);
-    visited[v] = true;
-
-    HANDLE  hThreadArray[MAX_THREADS];
-    DWORD   dwThreadIdArray[MAX_THREADS];
-    hMutex = CreateMutex(NULL, FALSE, NULL);
-
-    while(!q.empty()) {
-        v = q.front();
-        cout << v << " ";
-        q.pop();
-
-        for (size_t i = 0; i < adj[v].size(); ++i) {
-            int w = adj[v][i];
-            
-            if (!visited[w]) {
-                visited[w] = true;
-                q.push(w);
-            } else {
-                cout << "KEK" << endl;
-            }
-        }
-    }
-
-     
-}
-
-int main(void) {
-    Graph* gr = new Graph();
-    gr->bfs1();
-}
+//#include <iostream>
+//#include <vector>
+//#include <string>
+//#include <algorithm>
+//#include <queue>
+//#include <fstream>
+//#include <windows.h>
+//
+//#define MAX_THREADS 16
+//using namespace std;
+//
+//int ver;
+//vector<int> *adj;
+//
+//vector<bool> visited;
+//queue<int> q;
+//bool cicle = false;
+//
+//HANDLE hMutex;
+//HANDLE hThreadArray[MAX_THREADS];
+//DWORD dwThreadIdArray[MAX_THREADS];
+//
+//
+//
+//DWORD WINAPI bfs(LPVOID lpParam) {
+//    WaitForSingleObject(hMutex, INFINITE);
+//    int v = *(int*)lpParam;
+//    --v;
+//    if (visited[v]) {
+//        return 0;
+//    }
+//    q.push(v);
+//    visited[v] = true;
+//
+//    while (!q.empty()) {
+//        v = q.front();
+//        q.pop();
+//        cout << v << " ";
+//
+//        for (size_t i = 0; i < adj[v].size(); ++i) {
+//            int w = adj[v][i];
+//
+//            if (!visited[w]) {
+//                q.push(w);
+//                visited[w] = true;
+//            } else 
+//                cicle = true;
+//        }
+//    }
+//    cout << endl;
+//    ReleaseMutex(hMutex);
+//    return 0;
+//}
+//
+//
+//void readData() {
+//    string s;
+//    ifstream graph("graph.txt");
+//
+//    getline(graph, s);
+//    sscanf_s(s.c_str(), "%d", &ver);
+//
+//    adj = new vector<int>[ver];
+//    visited.resize(ver, false);
+//
+//    while (getline(graph, s)) {
+//        int w = 0;
+//        int v = 0;
+//
+//        sscanf_s(s.c_str(), "%d %d", &v, &w);
+//
+//        adj[v].push_back(w);
+//    }
+//
+//    visited.resize(ver, false);
+//}
+//
+//
+//int main() {
+//    readData();
+//    hMutex = CreateMutex(NULL, FALSE, NULL);
+//
+//    for (int v = 0; v < ver + 1; ++v) {
+//        hThreadArray[v] = CreateThread(NULL,
+//            0,
+//            bfs,
+//            &v,
+//            NULL,
+//            &dwThreadIdArray[v]);
+//    }
+//    WaitForMultipleObjects(MAX_THREADS, hThreadArray, TRUE, INFINITE);
+//    for (int i = 0; i < MAX_THREADS; i++) CloseHandle(hThreadArray[i]);
+//
+//    for (int i = 0; i < ver; ++i) {
+//        adj[i].clear();
+//    }
+//    delete[] adj;
+//
+//    visited.clear();
+//    if (cicle)
+//        cout << "Graph with cicles" << endl;
+//    else
+//        cout << "Graph without cicles" << endl;
+//
+//    return 0;
+//}
