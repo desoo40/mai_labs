@@ -1,0 +1,18 @@
+# $v01
+ $int $zero   $id $bool 
+    +     -     (     ) 
+
+#
+    E -> CONST #1 |
+         $id #2 |
+         ADD #3 |
+         SUB #4
+CONST -> $int #5 |
+         $zero #6
+  ADD -> HADD E ) #7
+ HADD -> ( + #8 |
+         HADD E #9
+  SUB -> HSUB E ) #10
+ HSUB -> ( - #11 |
+         HSUB E #12
+
