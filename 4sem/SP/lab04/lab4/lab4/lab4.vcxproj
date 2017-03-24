@@ -146,10 +146,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="xxxfloat.cpp" />
+    <ClInclude Include="fsm.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="fsm.h" />
+    <ClCompile Include="SDMfloat.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

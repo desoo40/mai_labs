@@ -28,8 +28,7 @@ public:
 // целое число
 	addrange(Aint, 0, '1', '9', 3);
 	addstr(Aint, 0, "0", 2);
-	addstr(Aint, 0, "+", 1);
-	addstr(Aint, 0, "-", 1);
+	addstr(Aint, 0, "-+", 1);
 
 	addrange(Aint, 1, '1', '9', 3);
 	addstr(Aint, 1, "0", 2);
@@ -43,8 +42,7 @@ public:
 //________________________________________
 
 // вещественное
-	  addstr(Afloat, 0, "+", 1);
-	  addstr(Afloat, 0, "-", 1);
+	  addstr(Afloat, 0, "+-", 1);
 	  addstr(Afloat, 0, ".", 2);
 	  addstr(Afloat, 0, " ", 0);
 	  addrange(Afloat, 0, '0', '9', 1);
@@ -55,11 +53,9 @@ public:
 	  addrange(Afloat, 2, '0', '9', 3);
 
 	  addrange(Afloat, 3, '0', '9', 3);
-	  addstr(Afloat, 3, "e", 4);
-	  addstr(Afloat, 3, "E", 4);
+	  addstr(Afloat, 3, "eE", 4);
 
-	  addstr(Afloat, 4, "+", 5);
-	  addstr(Afloat, 4, "-", 5);
+	  addstr(Afloat, 4, "+-", 5);
 
 	  addrange(Afloat, 5, '0', '9', 6);
 	  addrange(Afloat, 6, '0', '9', 6);
@@ -80,17 +76,7 @@ public:
     addrange(Astr,1,'\x80','\xff',1);// русские буквы
 
     addstr(Astr, 1, "\\", 2);
-    addstr(Astr, 2, "'", 1);
-    addstr(Astr, 2, "\"", 1);
-    addstr(Astr, 2, "?", 1);
-    addstr(Astr, 2, "\\", 1);
-    addstr(Astr, 2, "a", 1);
-    addstr(Astr, 2, "b", 1);
-    addstr(Astr, 2, "f", 1);
-    addstr(Astr, 2, "n", 1);
-    addstr(Astr, 2, "r", 1);
-    addstr(Astr, 2, "t", 1);
-    addstr(Astr, 2, "v", 1);
+    addstr(Astr, 2, "\"'?\\abfnrtv", 1);
 
   Astr.final(3);
 //________________________________________
@@ -111,9 +97,7 @@ public:
     addrange(Aid, 3, '0', '9', 3);
     addrange(Aid, 3, 'a', 'z', 1);
     addrange(Aid, 3, 'A', 'Z', 1);
-
-    addstr(Aid, 3, "!", 1);
-    addstr(Aid, 3, "-", 1);
+    addstr(Aid, 3, "!-", 1);
 
     addstr(Aid, 4, "!", 1);
     addrange(Aid, 4, '0', '9', 1);
