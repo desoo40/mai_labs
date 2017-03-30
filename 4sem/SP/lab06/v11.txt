@@ -1,0 +1,19 @@
+# $v11
+   $id   $int  $zero  $bool 
+     (      )      - define 
+  set! 
+#
+  PROC -> HPROC E ) #1
+ HPROC -> PCPAR ) #2 |
+          HPROC SET #3
+ PCPAR -> ( define ( $id #4 |
+          PCPAR $id #5
+ CONST -> $int #6 |
+          $zero #7
+     E -> CONST #8 |
+          $id #9 |
+          SUB #10
+   SUB -> ( - E ) #11
+   SET -> HSET E ) #12
+  HSET -> ( set! $id #13
+
