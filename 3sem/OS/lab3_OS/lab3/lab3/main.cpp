@@ -75,6 +75,11 @@ void readData() {
     getline(graph, s);
     sscanf_s(s.c_str(), "%d", &ver);
 
+    if (ver == 0) {
+        cerr << "No data" << endl;
+        return;
+}
+
     adj = new vector<int>[ver];
     visited.resize(ver, false);
 

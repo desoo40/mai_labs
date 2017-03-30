@@ -25,6 +25,7 @@ public:
     void DeleteFromFile(size_t, size_t);
     unsigned long long ControlSum();
     void FindPatter(string);
+    void currD();
 };
 
 FileMapping::FileMapping() {
@@ -327,7 +328,7 @@ void FileMapping::FindPatter(string pattern) {
 
     size_t lines = 1;
     size_t sym = 1;
-
+    bool is = false;
     for (size_t i = 0; i < fSize; ++i, ++sym) {
        if (fPtr[i] == '\n') {
            ++lines;
@@ -343,10 +344,36 @@ void FileMapping::FindPatter(string pattern) {
                     break;
                 }
             }
-            if (found)
+            if (found) {
                 cout << "Pattern found in " << lines << " line " << sym << " symbol" << endl;
+                is = true;
+            }
         }
     }
+
+    if (!is) 
+        cout << "No pattern found" << endl;
+    
+}
+
+void FileMapping::currD() {
+    if (!isOpened) {
+        cerr << "File is not open." << endl;
+        return;
+    }
+    size_t lines = 1;
+
+    for (size_t i = 0; i < fSize;  ++i) {
+        if (fPtr[i] == '\n') {
+            ++lines;
+        }
+    }
+
+    cout << "Current condition of file: " << endl;
+    cout << lines << " lines" << endl;
+    cout << fSize << " symbols" << endl;
+
+
 }
 
 void hints() {
@@ -359,6 +386,7 @@ void hints() {
     cout << "6 - Delete symbols from file"  << endl;
     cout << "7 - Control sum"               << endl;
     cout << "8 - Find pattern"              << endl;
+    cout << "9 - Current condition of file" << endl;
     cout << "0 - End"                       << endl;
     cout << "-----------------------------" << endl;
 }
@@ -403,7 +431,7 @@ int main()
             if (a > b) 
                 cerr << "\"to\" must be greater then \"from\"" << endl;
             
-            if (a <= 0 || b <= 0)
+            if (a < 0 || b < 0)
                 cerr << "This values must be positive!" << endl;
             
             map->ShowDiapasone(a, b);
@@ -441,6 +469,9 @@ int main()
             cin >> s;
 
             map->FindPatter(s);
+        }
+        if (c == 9) {
+            map->currD();
         }
         cout << "-----------------------------" << endl;
 

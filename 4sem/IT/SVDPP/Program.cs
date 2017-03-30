@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,11 @@ namespace SVDPP
         private static List<List<double>> MF_User = new List<List<double>>(); // Declaring the matrix of user's latent factors
         private static List<List<double>> MF_Item = new List<List<double>>(); // Declaring the matrix of item's latent factors
         private static List<List<double>> MatrixUI = new List<List<double>>(); // Declaring the matrix of ratings
+        private static List<string> Films = new List<string>(); // List of films
+
+
         private static readonly System.Random rand = new System.Random();
+
         static void Initialize()
         {
             // Constructing the matrix of user's latent factors by iteratively
@@ -100,6 +105,18 @@ namespace SVDPP
         }
         public static void LoadItemsFromFile(string Filename, List<List<double>> Matrix)
         {
+            //var lines = File.ReadAllLines(fileName).ToList();
+
+            //for (var i = 0; i < lines.Count; i++)
+            //{
+            //    var tmp = lines[i].Split('\t').ToList();
+
+            //    for (int j = 0; j < tmp.Count; j++)
+            //    {
+            //        Convert.ToInt32(tmp[i]);
+            //    }
+            //}
+
             // Intializing the file stream object and open the file
             using (System.IO.FileStream fsFile = new System.IO.FileStream(Filename,
               System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read))
@@ -108,14 +125,14 @@ namespace SVDPP
                 using (System.IO.StreamReader fsStream = new System.IO.StreamReader(
                   fsFile, System.Text.Encoding.UTF8, true, 128))
                 {
-                    string textBuf = "\0"; 
+                    string textBuf = "\0";
                     // Retrieving each line from the file until we reach the end-of-file
                     while ((textBuf = fsStream.ReadLine()) != null)
                     {
                         List<double> Row = new List<double>();
                         if (!String.IsNullOrEmpty(textBuf))
                         {
-                            string sPattern = "\t"; 
+                            string sPattern = "\t";
                             // Iterating through the array of tokens and append each token to the array Row
                             foreach (var rating in Regex.Split(textBuf, sPattern))
                                 Row.Add(double.Parse(rating));
@@ -164,7 +181,7 @@ namespace SVDPP
                             double Error = MatrixUI[User].ElementAt(Item) - Rating;
 
                             // Output the current rating given by the current user to the current item
-                            Console.Write("{0:0.00}|{1:0.00} ", MatrixUI[User][Item], Rating);
+                           // Console.Write("{0:0.00}|{1:0.00} ", MatrixUI[User][Item], Rating);
 
                             // Add the value of error square to the current value of RMSE
                             RMSE_New = RMSE_New + Math.Pow(Error, 2);
@@ -192,15 +209,15 @@ namespace SVDPP
                         }
 
                         // Output the value of unknown rating in the matrix of ratings
-                        else Console.Write("{0:0.00}|0.00 ", MatrixUI[User][Item]);
+                        //else Console.Write("{0:0.00}|0.00 ", MatrixUI[User][Item]);
 
-                    Console.WriteLine("\n");
+                    //Console.WriteLine("\n");
                 }
 
                 // Compute the current value of RMSE (root means square error)
                 RMSE_New = Math.Sqrt(RMSE_New / (MatrixUI.Count() * MatrixUI.ElementAt(0).Count()));
 
-                Console.WriteLine("Iteration: {0}\t RMSE={1}\n\n", Iterations, RMSE_New);
+                //Console.WriteLine("Iteration: {0}\t RMSE={1}\n\n", Iterations, RMSE_New);
 
                 // Performing a check if the difference between the values 
                 // of current and previous values of RMSE exceeds the given threshold
@@ -219,24 +236,58 @@ namespace SVDPP
         {
             // Computing the average rating for the entire domain of rated items
             double AvgRating = GetAverageRating(MatrixUI);
-            Console.WriteLine("We've predicted the following ratings:\n");
-            // Iterating through the MatrixUI matrix of ratings
-            for (int User = 0; User < MatrixUI.Count(); User++)
-                for (int Item = 0; Item < MatrixUI.ElementAt(0).Count(); Item++)
-                    // For each rating given to the current item by the current user 
-                    // we're performing a check if the current item is unknown
-                    if (MatrixUI[User].ElementAt(Item) == 0)
-                    {
-                        // If so, compute the rating for the current 
-                        // unrated item used baseline estimate formula (2)
-                        MatrixUI[User][Item] = AvgRating + BS_User[User] +
-                                BS_Item[Item] + GetProduct(MF_User[User], MF_Item[Item]);
 
-                        // Output the original rating estimated for the current item 
-                        // and the rounded value of the following rating
-                        Console.WriteLine("User {0} has rated Item {1} as {2:0.00}|{3:0.00}", User, 
-                            Item, MatrixUI[User][Item], Math.Round(MatrixUI[User][Item]));
+            // Iterating through the MatrixUI matrix of ratings
+            using (StreamWriter file = File.AppendText(@"kek.txt"))
+            {
+                
+
+                for (int User = 0; User < MatrixUI.Count(); User++)
+                {
+                    double maxRating = 0;
+                    int itemWithMax = -1;
+                    //StreamWriter sw = File.AppendText(@"kek.txt");
+
+
+
+                    for (int Item = 0; Item < MatrixUI.ElementAt(0).Count(); Item++)
+                    {
+                        // For each rating given to the current item by the current user 
+                        // we're performing a check if the current item is unknown
+                        if (MatrixUI[User].ElementAt(Item) == 0)
+                        {
+                            // If so, compute the rating for the current 
+                            // unrated item used baseline estimate formula (2)
+                            MatrixUI[User][Item] = AvgRating + BS_User[User] +
+                                                   BS_Item[Item] + GetProduct(MF_User[User], MF_Item[Item]);
+                            double tmp = MatrixUI[User][Item];
+
+                            if (tmp > maxRating)
+                            {
+                                maxRating = tmp;
+                                itemWithMax = Item;
+                            }
+
+                            // Output the original rating estimated for the current item 
+                            // and the rounded value of the following rating
+
+                        }
                     }
+
+                    if (itemWithMax >= 0)
+                    {
+                        if (maxRating > 5)
+                            maxRating = 5;
+
+                        string kek = "User " + User.ToString() + " will rated " + Films[itemWithMax] +
+                                        " as " +
+                                       Math.Round(maxRating);
+
+                        file.WriteLine(kek);
+
+                    }
+             }
+        }
 
             Console.WriteLine();
         }
@@ -244,21 +295,10 @@ namespace SVDPP
         {
             // Loading matrix of ratings from file
             LoadItemsFromFile(@"ratings.txt", MatrixUI);
+            LoadFilmsFromFile(@"films.txt");
 
-            // Output the original matrix of ratings containing the unknown ratings
-            Console.WriteLine("Matrix of ratings given to items by users\n");
-            for (int User = 0; User < MatrixUI.Count(); User++)
-            {
-                for (int Item = 0; Item < MatrixUI.ElementAt(0).Count(); Item++)
-                    if (MatrixUI[User][Item] > 0)
-                        Console.Write("{0:0.00} ", MatrixUI[User][Item]);
-                    else Console.Write("???  ");
 
-                Console.WriteLine();
-            }
-
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
+            Console.WriteLine("Working...");
 
             Initialize(); // Initializing the ratings prediction model
 
@@ -267,16 +307,23 @@ namespace SVDPP
             Predict();    // Predicting atings for the unrated items
 
             // Output the target matrix of ratings after we've computed the unknown ratings
-            Console.WriteLine("The target matrix of ratings:\n");
-            for (int User = 0; User < MatrixUI.Count(); User++)
-            {
-                for (int Item = 0; Item < MatrixUI.ElementAt(0).Count(); Item++)
-                    Console.Write("{0:0.00} ", Math.Round(MatrixUI[User][Item]));
+            //Console.WriteLine("The target matrix of ratings:\n");
+            //for (int User = 0; User < MatrixUI.Count(); User++)
+            //{
+            //    for (int Item = 0; Item < MatrixUI.ElementAt(0).Count(); Item++)
+            //        Console.Write("{0:0.00} ", Math.Round(MatrixUI[User][Item]));
 
-                Console.WriteLine();
-            }
+            //    Console.WriteLine();
+            //}
 
             Console.ReadKey();
+        }
+
+        private static void LoadFilmsFromFile(string fileName)
+        {
+            Films = File.ReadAllLines(fileName).ToList();
+
+            return;
         }
     }
 }
