@@ -12,4 +12,3 @@ CONST -> $int #2 |
  BOOL -> $bool #7 |
          REL #8
   REL -> ( < E E ) #9
-
