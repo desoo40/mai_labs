@@ -19,10 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6D47BEEC-C3F8-4CA5-BF78-4F0945E7A4C2}</ProjectGuid>
+    <ProjectGuid>{B639536C-9552-445C-BA3F-9780C0C7E00D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>KeyBoardRace</RootNamespace>
+    <RootNamespace>ConsoleApplication1</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>KeyBoardRacing</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -147,6 +148,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mapping.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mapping.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
