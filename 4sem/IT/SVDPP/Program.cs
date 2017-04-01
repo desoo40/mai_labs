@@ -246,7 +246,7 @@ namespace SVDPP
 
             Learn();      // Машинное обучение 
 
-            Predict();    // Предсказание рейтингов
+            Predict();    // Генерация рекомендаций рейтингов
 
             Console.WriteLine("Done");
             Console.ReadKey();
