@@ -10,7 +10,7 @@ namespace SVDPP
 {
     class Program
     {
-        private static int Factors = 2;        // Количество параметров
+        private static int Factors = 10;        // Количество параметров
         private static double TS = 0.025;       // Скорость обучения 
         private static double L1 = 0.0005;      // Первый коэффициент регуляризации
         private static double L2 = 0.0025;      // Второй коэффициент регуляризации
@@ -155,7 +155,7 @@ namespace SVDPP
                             // Update each component of the factorization vector for the current user and item
                             for (int Factor = 0; Factor < Factors; Factor++)
                             {
-                                // Adjust the value of the current component of the user's factorization vector 
+                                // Adjust the value of the current component of the user's factorization vector .
                                 // by performing stochastic gradient descent using formulas (7.1-5)
                                 MF_User[User][Factor] += TS * (Error * MF_Item[Item][Factor] + L2 * MF_User[User][Factor]);
                                 // Adjust the value of the current component of the item's factorization vector 
@@ -224,7 +224,7 @@ namespace SVDPP
                         if (maxRating > 5)
                             maxRating = 5;
 
-                        string userRate = "User " + User + " will rated " + Films[itemWithMax] +
+                        string userRate = "User " + User + " will rate" + Films[itemWithMax] +
                                         " as " +
                                        Math.Round(maxRating);
 

@@ -1,0 +1,10 @@
+# $v09
+   $id   $int  $zero  $bool 
+     (      ) define 
+#
+   VAR -> VARINI ) #1
+VARINI -> HVAR CONST #2
+  HVAR -> ( define $id #3
+ CONST -> $int #4 |
+          $zero #5
+
