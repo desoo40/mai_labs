@@ -55,72 +55,31 @@ void printCurrState() {
         cout << "Nobody is here..." << endl;
 }
 
-vector<string> getRandomText() {
+string getRandomText() {
     ifstream file;
 
     int numOfFiles = numOfFilesInDir();
-    int rdm = rand() % numOfFiles;
+
+    int rdm;
+
+    srand(time(NULL));
+    rdm = rand() % numOfFiles;
+
     char fileName[16];
-    vector<string> text;
 
     sprintf_s(fileName, "Texts/text%i.txt", rdm);
 
     file.open(fileName);
 
+    string text = "";
     string tmp;
 
     while (getline(file, tmp))
     {
-        text.push_back(tmp);
+        text += tmp + '\n';
     }
 
     return text;
-}
-
-Result *checkResult(vector<string> text) {
-    clock_t time_t;
-    
-    char c;
-    int allSyms = 0;
-    int errors = 0;
-
-    time_t = clock();
-    for (size_t i = 0; i < text.size(); ++i)
-    {
-        for (size_t j = 0; j <= text[i].size(); ++j, ++allSyms)
-        {
-            if (i == text.size() - 1 && j == text[i].size())
-                continue;
-
-            c = _getch();
-
-            if (c == ' ' && text[i][j] == '\0') {
-                cout << endl;
-                continue;
-            }
-
-            if (c != text[i][j]) {
-                Beep(1000, 200);
-                ++errors;
-                --allSyms;
-                --j;
-            }
-            else
-                cout << c;
-        }
-    }
-    time_t = clock() - time_t;
-    cout << endl;
-
-    double tme = (double)time_t / CLOCKS_PER_SEC;
-
-    Result *res = new Result;
-
-    res->time = tme;
-    res->errors = errors;
-    res->allSyms = allSyms;
-
-    return res;
 }
 
 int startServer() {
@@ -180,8 +139,7 @@ int startServer() {
         clientsQty++;
 
         HOSTENT *hst;
-        hst = gethostbyaddr((char *)
-            &client_addr.sin_addr.s_addr, 4, AF_INET);
+        hst = gethostbyaddr((char *) &client_addr.sin_addr.s_addr, 4, AF_INET);
         cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
         cout << "+ " << inet_ntoa(client_addr.sin_addr) << "new player!" << endl;
@@ -200,7 +158,7 @@ int startServer() {
 DWORD WINAPI WorkWithClient(LPVOID client_socket) {
     SOCKET my_sock;
     my_sock = ((SOCKET *)client_socket)[0];
-    char buff[1024] = "";
+    char buff[4096] = "";
 
     while (1)
     {
@@ -211,8 +169,8 @@ DWORD WINAPI WorkWithClient(LPVOID client_socket) {
 
         if (!strcmp(&buff[0], "text"))
         {
-            vector<string> text = getRandomText();
-            strcpy(buff, text[0].c_str());
+            string text = getRandomText();
+            strcpy(buff, text.c_str());
             send(my_sock, buff, sizeof(buff) - 1, 0);
         }
 
@@ -225,7 +183,7 @@ DWORD WINAPI WorkWithClient(LPVOID client_socket) {
             closesocket(my_sock);
             break;
         }
-        nu
+
         if (buff[0] == '$') {
             int i = 1;
             int speed = 0;
@@ -243,8 +201,13 @@ DWORD WINAPI WorkWithClient(LPVOID client_socket) {
 
             priority_queue<int> tmp = top;
 
-            while (tmp.empty())
-
+            for (int i = 1; !tmp.empty() || i >= 10; ++i) {
+                int sp = tmp.top();
+                tmp.pop();
+                topchik += to_string(i) + " place - " + to_string(sp) + " sym/min\n";
+            }
+            strcpy(buff, topchik.c_str());
+            send(my_sock, buff, sizeof(buff) - 1, 0);
         }
     }
 
@@ -254,8 +217,6 @@ DWORD WINAPI WorkWithClient(LPVOID client_socket) {
 
 int main()
 {
-    srand(time(NULL));
-	
     startServer();
 	return 0;
 }

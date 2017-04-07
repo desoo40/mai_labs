@@ -32,7 +32,7 @@ Result *checkResult(string text) {
 
     cout << "---------------------------T-------E-------X-------T-----------------------------" << endl;
     cout << text << endl;
-    cout << "---------------------------T-------E-------X-------T-----------------------------" << endl;
+    cout << "---------------------------------------------------------------------------------" << endl;
 
 
     for (size_t i = 0; i < text.size(); ++i)
@@ -41,6 +41,11 @@ Result *checkResult(string text) {
             if (i == 0)
                 time_t = clock();
 
+            if (c == ' ' && text[i] == '\n') {
+                cout << c;
+                continue;
+            }
+                
 
             if (c != text[i]) {
                 Beep(1000, 200);
@@ -68,6 +73,7 @@ Result *checkResult(string text) {
 void hints() {
     cout << "*****************************" << endl;
     cout << "'text' to get text" << endl;
+    cout << "'top' to see fasters" << endl;
     cout << "'quit' to end" << endl;
     cout << "*****************************" << endl;
 }
@@ -120,7 +126,7 @@ int startSession() {
     cout << "Connection with " << SERVERADDR << " successfully done" << endl;
     hints();
 
-    buff[512] = 0;
+    buff[4096] = 0;
 
     while (1)
     {
@@ -155,10 +161,17 @@ int startSession() {
 
                 send(my_sock, buff, sizeof(buff) - 1, 0);
                 delete result;
-            
-
         }
 
+
+        if (!strcmp(&buff[0], "top")) {
+            send(my_sock, buff, sizeof(buff) - 1, 0);
+
+            int bytes_recv = recv(my_sock, buff, sizeof(buff) - 1, 0);
+
+            cout << string(buff);
+            cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        }
     }
 }
 
