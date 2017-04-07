@@ -19,12 +19,4 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\include\message.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Program Files\ZeroMQ 4.0.4\include\zmq.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-  </ItemGroup>
 </Project>

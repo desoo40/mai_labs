@@ -1,4 +1,4 @@
-#include "../include/zmq.h"
+#include "zmq.h"
 #include <stdio.h>
 #include "../include/message.h"
 

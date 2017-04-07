@@ -1,5 +1,5 @@
 #include "bank.h"
-#include "../include/zmq.h"
+#include "zmq.h"
 
 #pragma warning(disable : 4996) 
 int main() {
