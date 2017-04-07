@@ -1,0 +1,15 @@
+# $v04
+ $int $zero   $id $bool 
+    (     )     <    if 
+
+#
+   IF -> ( if BOOL E E ) #1
+CONST -> $int #2 |
+         $zero #3
+    E -> CONST #4 |
+         $id #5 |
+         IF #6
+ BOOL -> $bool #7 |
+         REL #8
+  REL -> ( < E E ) #9
+

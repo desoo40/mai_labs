@@ -36,7 +36,7 @@ string tBaseLexer::GetToken(){
   if(*buf=='#'&&!(*(buf+1)=='t'||*(buf+1)=='f'))*buf=0;
      continue;
    }
-   if(!std::isspace(*end)) break;// не-
+   if(!isspace(*end)) break;// не-
 //                    пробельный символ
    ++end;
   }//for...
@@ -65,7 +65,7 @@ string tBaseLexer::GetToken(){
 // атом
 //         end продвигается за конец атома
    while(*(++end)!=0){
-    if(std::isspace(*end)||
+    if(isspace(*end)||
        *end == ';'||
        *end == '"'||
        *end == '('||

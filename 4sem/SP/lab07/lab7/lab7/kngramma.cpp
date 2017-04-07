@@ -1,10 +1,12 @@
 //    03.01.2017
 #include "kngramma.h"
 #include <utility>
-#include <cstring>
+#include <string.h>
 #include <vector>
 #include <fstream>
 #include <algorithm>
+
+#pragma warning(disable : 4996) 
 //
 using namespace std;
 

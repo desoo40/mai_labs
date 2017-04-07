@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{87A4FD7C-0EC1-4FB5-AB03-7B741446BDCC}</ProjectGuid>
+    <ProjectGuid>{7147A453-9FC0-4A07-A5B4-9C7ABC6D3825}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>lab7_</RootNamespace>
+    <RootNamespace>OS_lab68</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -146,21 +146,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="basegramma.cpp" />
-    <ClCompile Include="baselexer.cpp" />
-    <ClCompile Include="bldmatr17.cpp" />
-    <ClCompile Include="kngramma.cpp" />
-    <ClCompile Include="pars.cpp" />
-    <ClCompile Include="parser.cpp" />
-    <ClCompile Include="precmat.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="basegramma.h" />
-    <ClInclude Include="baselexer.h" />
-    <ClInclude Include="fsm.h" />
-    <ClInclude Include="kngramma.h" />
-    <ClInclude Include="parser.h" />
-    <ClInclude Include="precmat.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

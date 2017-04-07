@@ -1,0 +1,17 @@
+# $v03
+ $int $zero   $id $bool 
+    (     )     <    or 
+
+#
+   OR -> HOR BOOL ) #1
+  HOR -> ( or #2 |
+         HOR BOOL #3
+ BOOL -> $bool #4 |
+         REL #5 |
+         OR #6
+  REL -> ( < E E ) #7
+CONST -> $int #8 |
+         $zero #9
+    E -> CONST #10 |
+         $id #11
+
