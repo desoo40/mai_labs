@@ -9,7 +9,7 @@
 #pragma comment( lib, "ws2_32.lib" )
 #pragma warning( disable : 4996)
 
-#define PORT    666
+#define PORT 4055
 #define SERVERADDR "127.0.0.1"
 
 const char send_empty = 0;
@@ -28,28 +28,23 @@ Result *checkResult(string text) {
     clock_t time_t;
 
     char c;
-    int allSyms = 0;
     int errors = 0;
 
+    cout << "---------------------------T-------E-------X-------T-----------------------------" << endl;
     cout << text << endl;
+    cout << "---------------------------T-------E-------X-------T-----------------------------" << endl;
 
-    time_t = clock();
+
     for (size_t i = 0; i < text.size(); ++i)
     {
-            if (i == text.size() - 1)
-                continue;
-
             c = _getch();
+            if (i == 0)
+                time_t = clock();
 
-            if (c == ' ' && text[i] == '\0') {
-                cout << endl;
-                continue;
-            }
 
             if (c != text[i]) {
                 Beep(1000, 200);
                 ++errors;
-                --allSyms;
                 --i;
             }
             else
@@ -65,18 +60,26 @@ Result *checkResult(string text) {
 
     res->time = tme;
     res->errors = errors;
-    res->allSyms = allSyms;
+    res->allSyms = text.length();
 
     return res;
 }
 
+void hints() {
+    cout << "*****************************" << endl;
+    cout << "'text' to get text" << endl;
+    cout << "'quit' to end" << endl;
+    cout << "*****************************" << endl;
+}
+
 int startSession() {
     char buff[1024];
-    std::printf("TCP DEMO CLIENT\n");
+    cout << "Start client" << endl;
 
     if (WSAStartup(0x202, (WSADATA *)&buff[0]))
     {
-        std::printf("WSAStart error %d\n", WSAGetLastError());
+        cout << "WSAStart error " << WSAGetLastError() << endl;
+
         return -1;
     }
 
@@ -84,7 +87,7 @@ int startSession() {
     my_sock = socket(AF_INET, SOCK_STREAM, 0);
     if (my_sock < 0)
     {
-        std::printf("Socket() error %d\n", WSAGetLastError());
+        cout << "Socket() error " << WSAGetLastError() << endl;
         return -1;
     }
 
@@ -101,7 +104,7 @@ int startSession() {
             ((unsigned long **)hst->h_addr_list)[0][0];
         else
         {
-            std::printf("Invalid address %s\n", SERVERADDR);
+            cout << "Invalid address " << SERVERADDR << endl;
             closesocket(my_sock);
             WSACleanup();
             return -1;
@@ -110,60 +113,53 @@ int startSession() {
     if (connect(my_sock, (sockaddr *)&dest_addr,
         sizeof(dest_addr)))
     {
-        std::printf("Connect error %d\n", WSAGetLastError());
+        cout << "Connect error " << WSAGetLastError() << endl;
         return -1;
     }
 
-    std::printf("Connection with %s successfully done\n\
-    Type quit for quit\n\n", SERVERADDR);
+    cout << "Connection with " << SERVERADDR << " successfully done" << endl;
+    hints();
 
     buff[512] = 0;
-    printf("\n");
+
     while (1)
     {
         scanf("%s", &buff[0]);
 
         if (!strcmp(&buff[0], "quit"))
         {
-            std::printf("Exit...");
+            send(my_sock, buff, sizeof(buff) - 1, 0);
+
+            cout << "Good bye!" << endl;
             closesocket(my_sock);
             WSACleanup();
             return 0;
         }
 
         if (!strcmp(&buff[0], "text")) {
-            send(my_sock, &buff[0], 1023, 0);
+            send(my_sock, buff, sizeof(buff) - 1, 0);
 
             int bytes_recv = recv(my_sock, buff, sizeof(buff) - 1, 0);
 
-            if (buff[0] == send_error) {
-                cout << "You entered wrong coordinates. Try again." << endl;
-            }
-            else {
+            
                 Result *result = checkResult(string(buff));
-
+                cout << "++++++++++++++++++++++++++++++++" << endl;
                 cout << "Time: " << result->time << " s" << endl;
                 cout << "Errors: " << result->errors << endl;
                 cout << "Speed: " << result->allSyms * 60.0 / result->time << " sym/min" << endl;
-            }
+                cout << "++++++++++++++++++++++++++++++++" << endl;
+                int speed = (int) result->allSyms * 60.0 / result->time;
+                string rapid = "$" + to_string(speed) + '$';
+                strcpy(buff, rapid.c_str());
+
+
+                send(my_sock, buff, sizeof(buff) - 1, 0);
+                delete result;
+            
 
         }
 
     }
-
-    printf("Recv error %d\n", WSAGetLastError());
-    closesocket(my_sock);
-    WSACleanup();
-    return -1;
-}
-
-void getText() {
-}
-
-void sendResult() {
-}
-
-void getResults() {
 }
 
 int main () {

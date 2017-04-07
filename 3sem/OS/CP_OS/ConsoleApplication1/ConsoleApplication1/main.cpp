@@ -5,31 +5,25 @@
 #include <fstream>
 #include <ctime>
 #include <windows.h>
+#include <queue>
 
 using namespace std;
 
 #pragma comment( lib, "ws2_32.lib" )
 #pragma warning( disable : 4996)
 
-#define MY_PORT    666
+#define PORT 4055  
 
-#define PRINTNUSERS if (nclients)\
-  std::printf("%d user on-line\n",nclients);\
-  else std::printf("No User on line\n");
+int clientsQty = 0;
+priority_queue<int> top;
 
-int nclients = 0;
+    typedef struct _result{
+        double time;
+        int errors;
+        int allSyms;
+    } Result;
 
-const char send_empty = 0;
-const char send_error = -1;
-const char send_end = -3;
-
-typedef struct _result{
-    double time;
-    int errors;
-    int allSyms;
-} Result;
-
-DWORD WINAPI WorkWithClient(LPVOID client_socket);
+    DWORD WINAPI WorkWithClient(LPVOID client_socket);
 
 int numOfFilesInDir()
 {
@@ -52,6 +46,13 @@ int numOfFilesInDir()
     }
 
     return i;
+}
+
+void printCurrState() {
+    if(clientsQty)
+        cout << clientsQty << " users online" << endl; \
+    else 
+        cout << "Nobody is here..." << endl;
 }
 
 vector<string> getRandomText() {
@@ -124,12 +125,12 @@ Result *checkResult(vector<string> text) {
 
 int startServer() {
     char buff[1024];    
-    std::printf("TCP SERVER DEMO\n");
+    cout << "Server start" << endl;
 
     if (WSAStartup(0x0202, (WSADATA *)&buff[0]))
     {
-        std::printf("Error WSAStartup %d\n",
-            WSAGetLastError());
+        cout << "WSAStart error " << WSAGetLastError() << endl;
+
         return -1;
     }
 
@@ -137,20 +138,20 @@ int startServer() {
     SOCKET mysocket;
     if ((mysocket = socket(AF_INET, SOCK_STREAM, 0))<0)
     {
-        std::printf("Error socket %d\n", WSAGetLastError());
+        cout << "Socket() error " << WSAGetLastError() << endl;
         WSACleanup();
         return -1;
     }
 
     sockaddr_in local_addr;
     local_addr.sin_family = AF_INET;
-    local_addr.sin_port = htons(MY_PORT);
+    local_addr.sin_port = htons(PORT);
     local_addr.sin_addr.s_addr = 0;
     
     if (bind(mysocket, (sockaddr *)&local_addr,
         sizeof(local_addr)))
     {
-        std::printf("Error bind %d\n", WSAGetLastError());
+        cout << "Bind error " << WSAGetLastError() << endl;
         closesocket(mysocket);
         WSACleanup();
         return -1;
@@ -158,13 +159,15 @@ int startServer() {
 
     if (listen(mysocket, 20))
     {
-        std::printf("Error listen %d\n", WSAGetLastError());
+        cout << "Listen error " << WSAGetLastError() << endl;
         closesocket(mysocket);
         WSACleanup();
         return -1;
     }
 
-    std::printf("Waiting for connection\n");
+    cout << "Waiting for connection" << endl;
+    cout << "++++++++++++++++++++++++++++++++" << endl;
+
 
     SOCKET client_socket;
     sockaddr_in client_addr;
@@ -174,16 +177,17 @@ int startServer() {
     while ((client_socket = accept(mysocket, (sockaddr *)
         &client_addr, &client_addr_size)))
     {
-        nclients++;      
+        clientsQty++;
 
         HOSTENT *hst;
         hst = gethostbyaddr((char *)
             &client_addr.sin_addr.s_addr, 4, AF_INET);
+        cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
-        std::printf("+%s [%s] new connect!\n",
-            (hst) ? hst->h_name : "",
-            inet_ntoa(client_addr.sin_addr));
-        PRINTNUSERS
+        cout << "+ " << inet_ntoa(client_addr.sin_addr) << "new player!" << endl;
+
+        printCurrState();
+            cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
             DWORD thID;
         CreateThread(NULL, NULL, WorkWithClient, &client_socket, NULL, &thID);
@@ -200,6 +204,9 @@ DWORD WINAPI WorkWithClient(LPVOID client_socket) {
 
     while (1)
     {
+        if (!clientsQty)
+            break;
+
         int bytes_recv = recv(my_sock, buff, sizeof(buff) - 1, 0);
 
         if (!strcmp(&buff[0], "text"))
@@ -209,13 +216,39 @@ DWORD WINAPI WorkWithClient(LPVOID client_socket) {
             send(my_sock, buff, sizeof(buff) - 1, 0);
         }
 
-        //char x = atoi(&buff[0]) - 1, y = atoi(&buff[512]) - 1;
+        if (!strcmp(&buff[0], "quit")) {
+            clientsQty--;
+            cout << "- disconnect" << endl;
+            printCurrState();
+            cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+            closesocket(my_sock);
+            break;
+        }
+        nu
+        if (buff[0] == '$') {
+            int i = 1;
+            int speed = 0;
+            while (buff[i] != '$') {
+                speed *= 10;
+                speed += buff[i] - 48;
+                ++i;
+            }
+
+            top.push(speed);
+        }
+
+        if (!strcmp(&buff[0], "top")) {
+            string topchik = "";
+
+            priority_queue<int> tmp = top;
+
+            while (tmp.empty())
+
+        }
     }
 
-    nclients--;
-    printf("-disconnect\n"); PRINTNUSERS
-
-        closesocket(my_sock);
+    
     return 0;
 }
 
@@ -224,10 +257,5 @@ int main()
     srand(time(NULL));
 	
     startServer();
-    //Result *result = checkResult(text);
-   /*
-	cout << "Time: "<<  result->time << " s"<< endl;
-	cout << "Errors: " << result->errors << endl;
-	cout << "Speed: " << result->allSyms * 60.0 / result->time << " sym/min" << endl;*/
 	return 0;
 }
