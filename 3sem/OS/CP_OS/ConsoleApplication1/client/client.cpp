@@ -44,7 +44,7 @@ Result *checkResult(string text) {
             if (c == ' ' && text[i] == '\n'
                 || c == '\r' && text[i] == '\n'
                 || c == '\n' && text[i] == '\n') {
-                cout << c;
+                cout << endl;
                 continue;
             }
                 
@@ -156,7 +156,7 @@ int startSession() {
                 cout << "++++++++++++++++++++++++++++++++" << endl;
                 int speed = (int) result->allSyms * 60.0 / result->time;
                 string rapid = "$" + to_string(speed) + '$';
-                strcpy(buff, rapid.c_str());
+                strcpy_s(buff, 1024, rapid.c_str());
 
 
                 send(my_sock, buff, sizeof(buff) - 1, 0);
