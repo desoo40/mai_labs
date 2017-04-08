@@ -175,7 +175,7 @@ DWORD WINAPI WorkWithClient(LPVOID client_socket) {
         if (!strcmp(&buff[0], "text"))
         {
             string text = getRandomText();
-            strcpy_s(buff, 100, text.c_str());
+            strcpy_s(buff, text.c_str());
             send(my_sock, buff, sizeof(buff) - 1, 0);
         }
 
