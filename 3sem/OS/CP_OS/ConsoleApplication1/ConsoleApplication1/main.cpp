@@ -73,10 +73,15 @@ string getRandomText() {
 
     string text = "";
     string tmp;
-
+    bool t = false;
     while (getline(file, tmp))
     {
-        text += tmp + '\n';
+        if (t == false) {
+            text += tmp;
+            t = true;
+        }
+        else
+            text += '\n' + tmp;
     }
 
     return text;
@@ -158,7 +163,7 @@ int startServer() {
 DWORD WINAPI WorkWithClient(LPVOID client_socket) {
     SOCKET my_sock;
     my_sock = ((SOCKET *)client_socket)[0];
-    char buff[4096] = "";
+    char buff[1024] = "";
 
     while (1)
     {

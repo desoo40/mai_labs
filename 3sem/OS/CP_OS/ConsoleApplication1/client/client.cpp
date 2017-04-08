@@ -41,7 +41,9 @@ Result *checkResult(string text) {
             if (i == 0)
                 time_t = clock();
 
-            if (c == ' ' && text[i] == '\n') {
+            if (c == ' ' && text[i] == '\n'
+                || c == '\r' && text[i] == '\n'
+                || c == '\n' && text[i] == '\n') {
                 cout << c;
                 continue;
             }
@@ -125,8 +127,6 @@ int startSession() {
 
     cout << "Connection with " << SERVERADDR << " successfully done" << endl;
     hints();
-
-    buff[4096] = 0;
 
     while (1)
     {
