@@ -12,10 +12,6 @@
 #define PORT 4055
 #define SERVERADDR "127.0.0.1"
 
-const char send_empty = 0;
-const char send_error = -1;
-const char send_end = -3;
-
 using namespace std;
 
 typedef struct _result {
@@ -156,7 +152,7 @@ int startSession() {
                 cout << "++++++++++++++++++++++++++++++++" << endl;
                 int speed = (int) result->allSyms * 60.0 / result->time;
                 string rapid = "$" + to_string(speed) + '$';
-                strcpy_s(buff, 1024, rapid.c_str());
+                strcpy_s(buff, rapid.c_str());
 
 
                 send(my_sock, buff, sizeof(buff) - 1, 0);

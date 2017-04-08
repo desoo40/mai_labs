@@ -175,7 +175,7 @@ DWORD WINAPI WorkWithClient(LPVOID client_socket) {
         if (!strcmp(&buff[0], "text"))
         {
             string text = getRandomText();
-            strcpy_s(buff, 1024, text.c_str());
+            strcpy_s(buff, 100, text.c_str());
             send(my_sock, buff, sizeof(buff) - 1, 0);
         }
 
@@ -211,7 +211,7 @@ DWORD WINAPI WorkWithClient(LPVOID client_socket) {
                 tmp.pop();
                 topchik += to_string(i) + " place - " + to_string(sp) + " sym/min\n";
             }
-            strcpy_s(buff, 1024, topchik.c_str());
+            strcpy_s(buff, topchik.c_str());
             send(my_sock, buff, sizeof(buff) - 1, 0);
         }
     }
