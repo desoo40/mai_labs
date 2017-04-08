@@ -16,8 +16,10 @@ int main() {
 
     sprintf_s(adress, "%s%d", "tcp://*:", bankAdress);
 
-    zmq_bind(respondSocket, adress);
+    cout << "Waiting for connection" << endl;
 
+    zmq_bind(respondSocket, adress);
+    while (1) {
     zmq_msg_t message;
 
     zmq_msg_init(&message);
@@ -27,10 +29,29 @@ int main() {
 
     char info[STR_SIZE];
 
-    switch (md->action) {
-    case 1: {
+    cout << "--------------------------------------" << endl;
 
-        cout << "Put money on account \"" << md->clientId << "\"";
+    if (md->action == -1) 
+    {
+        cout << "Creacting new account \"" << md->clientId << "\"..." << endl;
+        base->addNewClientToBase(md->clientId);
+        cout << "OK" << endl;
+        strcpy(info, "You are client of this bank!\0");
+        memcpy(md->message, info, strlen(info) + 1);
+
+        zmq_msg_init_size(&message, sizeof(MessageData));
+        memcpy(zmq_msg_data(&message), md, sizeof(MessageData));
+        zmq_msg_send(&message, respondSocket, 0);
+        zmq_msg_close(&message);
+    }
+
+
+    if (md->action == 1) {
+
+       cout << "Command: Put money on account \"" << md->clientId << "\"" << endl;
+        if (base->findClient(md->clientId) == nullptr)
+            base->addNewClientToBase(md->clientId);
+
         int status = base->putMoneyOnAccount(md->clientId, md->sum, md->acc);
 
         if (status == OK) {
@@ -38,7 +59,6 @@ int main() {
             strcpy(info, "Operation was completed successfully\0");
         }
         if (status == NO_ACCOUNT) {
-            cout << "No such account" << endl;
             strcpy(info, "No such account\0");
         }
         memcpy(md->message, info, strlen(info) + 1);
@@ -47,12 +67,10 @@ int main() {
         memcpy(zmq_msg_data(&message), md, sizeof(MessageData));
         zmq_msg_send(&message, respondSocket, 0);
         zmq_msg_close(&message);
-
-
-        break;
     }
-    case 2: {
-        cout << "Get money from account \"" << md->clientId << "\"";
+
+    if (md->action == 2) {
+        cout << "Command: Get money from account \"" << md->clientId << "\"" << endl;
 
         int code = base->getMoneyFromAccount(md->clientId, md->sum, md->acc);
         if (code == OK) {
@@ -75,45 +93,38 @@ int main() {
         memcpy(zmq_msg_data(&message), md, sizeof(MessageData));
         zmq_msg_send(&message, respondSocket, 0);
         zmq_msg_close(&message);
-
-        break;
     }
-    /*case 3: {
-        printf("Send money from account id: %d to account id: %d\n", md->clientId, md->receiverClientId);
-        int code = SendMoney(md->clientId, md->receiverClientId, md->sum, &clientBase);
-        if (code == SUCCESS) {
-            printf("Success\n");
+
+    if (md->action ==3) {
+        cout << "Command: send money from \"" << md->clientId << "\" to \"" << md->receiverClientId << "\"";
+
+        int code = base->sendMoney(md->clientId, md->acc, md->sum, md->receiverClientId);
+
+        if (code == OK) {
+            cout << "OK" << endl;
             strcpy(info, "Operation was completed successfully\0");
+        }
+        else if (code == NO_MONEY) {
+            cout << "Not enough money" << endl;
+            strcpy(info, "You have not enough money\0");
 
         }
-        else if (code == NOT_ENOUGH_MONEY) {
-            printf("Not enough money\n");
-            strcpy(info, "You not enough money\0");
+        else if (code == NO_ACCOUNT) {
+            cout << "Reciever not bank client" << endl;
+            strcpy(info, "Reciever not bank client\0");
 
         }
-        else if (code == RECEIVER_NOT_CLIENT) {
-            printf("Receiver not bank client\n");
-            strcpy(info, "Receiver is not a client of our bank\0");
-
-
-        }
-        else {
-            printf("Not bank client\n");
-            strcpy(info, "You are not a client of our bank\0");
-
-        }
-
         memcpy(md->message, info, strlen(info) + 1);
 
         zmq_msg_init_size(&message, sizeof(MessageData));
         memcpy(zmq_msg_data(&message), md, sizeof(MessageData));
         zmq_msg_send(&message, respondSocket, 0);
         zmq_msg_close(&message);
-        break;
-    }*/
 
-    case 4: {
-        printf("Check account id: %d\n", md->clientId);
+    }
+
+    if (md->action == 4) {
+        cout << "Command: Check account " << md->clientId << endl;
 
         int code = base->checkAcc(md->clientId);
         if (code == NO_ACCOUNT) {
@@ -122,8 +133,8 @@ int main() {
 
         }
         else {
-            printf("Client sum is %d\n", code);
-            sprintf(info, "%s%d%c", "Your account is ", code, '\0');
+            sprintf(info, "%s%d\n%s%d%c", "Debet: ", base->getDebetSum(md->clientId),
+                                          "Credit: ", base->getCreditSum(md->clientId), '\0');
 
         }
 
@@ -133,29 +144,25 @@ int main() {
         memcpy(zmq_msg_data(&message), md, sizeof(MessageData));
         zmq_msg_send(&message, respondSocket, 0);
         zmq_msg_close(&message);
-
+    }
+    if (md->action == 0) {
         break;
     }
+    cout << "--------------------------------------" << endl;
 
-    }
     zmq_msg_close(&message);
+    cout << endl;
+    cout << "---------CURRENT CLIENT BASE------------" << endl;
+
     base->printClientBase();
 
-zmq_close(respondSocket);
-zmq_ctx_destroy(context);
+    cout << "--------------------------------------" << endl;
+
+    }
 
 
-    /*base->addNewClientToBase("kekar");
-    base->addNewClientToBase("malish");
-    base->addNewClientToBase("suchka");
-    base->addNewClientToBase("petya");
-    base->addNewClientToBase("aragorn");
-    base->addNewClientToBase("frodo");
+    zmq_close(respondSocket);
+    zmq_ctx_destroy(context);
 
-    base->putMoneyOnAccount("suchka", 733, 'd');
-    base->putMoneyOnAccount("frodo", 6555, 'c');
-    base->putMoneyOnAccount("frodo", 300, 'd');
-
-    base->getMoneyFromAccount("frodo", 685654, 'd');
-    base->printClientBase();*/
+    return 0;
 }

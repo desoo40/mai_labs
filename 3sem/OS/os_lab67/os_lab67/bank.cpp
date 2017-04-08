@@ -10,7 +10,7 @@ Account::~Account() {
 
 void Account::printAcc() {
     cout << "Debet: " << debet << endl
-         << "Credit: " << credit << endl;
+        << "Credit: " << credit << endl;
 }
 
 void Account::putMoneyA(Money sum, Type type) {
@@ -24,7 +24,8 @@ int Account::getMoneyA(Money sum, Type type) {
     if (type == 'd') {
         if (debet - sum >= 0) {
             debet -= sum;
-        } else {
+        }
+        else {
             if (debet + credit - sum >= CREDIT_LIMIT) {
                 sum -= debet;
                 debet = 0;
@@ -56,11 +57,19 @@ int Account::getMoneyA(Money sum, Type type) {
     return OK;
 }
 
+Money Account::getDebetSum() {
+    return debet;
+}
+
+Money Account::getCreditSum() {
+    return credit;
+}
+
 Client::Client(ID id_) {
-   id = id_;
-   account = new Account();
-   leftClient = nullptr;
-   rightClient = nullptr;
+    id = id_;
+    account = new Account();
+    leftClient = nullptr;
+    rightClient = nullptr;
 }
 
 Client::~Client() {
@@ -77,7 +86,8 @@ void Client::addNewClient(ID idNew) {
             rightClient = new Client(idNew);
         else
             rightClient->addNewClient(idNew);
-    } else {
+    }
+    else {
         if (leftClient == nullptr)
             leftClient = new Client(idNew);
         else
@@ -94,6 +104,16 @@ int Client::getMoney(Money sum, Type type) {
     return account->getMoneyA(sum, type);
 }
 
+int Client::getDebetSum() {
+
+    return account->getDebetSum();
+}
+
+int Client::getCreditSum() {
+    return account->getCreditSum();
+
+}
+
 void Client::checkAcc() {
     account->printAcc();
 }
@@ -104,7 +124,7 @@ void Client::print() {
 
     cout << id << endl;
     account->printAcc();
-     
+
     leftClient->print();
     rightClient->print();
 
@@ -121,7 +141,7 @@ Client* Client::findClident(ID idNew) {
 
     if (idNew > id)
         return rightClient->findClident(idNew);
-    
+
     if (idNew < id)
         return leftClient->findClident(idNew);
 
@@ -133,11 +153,11 @@ ClientBase::ClientBase() {
 }
 
 ClientBase::~ClientBase() {
-    
+
 }
 
 void ClientBase::addNewClientToBase(ID id) {
-    if (root == nullptr) 
+    if (root == nullptr)
         root = new Client(id);
     else
         root->addNewClient(id);
@@ -151,7 +171,7 @@ int ClientBase::putMoneyOnAccount(ID idAcc, Money sum, Type type) {
         return NO_ACCOUNT;
     }
 
-   return cl->putMoney(sum, type);
+    return cl->putMoney(sum, type);
 }
 
 int ClientBase::getMoneyFromAccount(ID idAcc, Money sum, Type type) {
@@ -177,6 +197,18 @@ int ClientBase::checkAcc(ID idAcc) {
     return OK;
 }
 
+Money ClientBase::getDebetSum(ID idAcc) {
+    Client *cl = findClient(idAcc);
+
+    return cl->getDebetSum();
+}
+
+Money ClientBase::getCreditSum(ID idAcc) {
+    Client *cl = findClient(idAcc);
+
+    return cl->getCreditSum();
+}
+
 void ClientBase::printClientBase() {
     if (root != nullptr)
         root->print();
@@ -187,9 +219,24 @@ void ClientBase::printClientBase() {
 Client *ClientBase::findClient(ID id) {
 
     if (root == nullptr) {
-        cerr << "No clients" << endl;
         return nullptr;
     }
 
     return root->findClident(id);
+}
+
+int ClientBase::sendMoney(ID sender, char acc, Money sum, ID reciver) {
+    Client *s = findClient(sender);
+    Client *r = findClient(reciver);
+
+    if (s == nullptr || r == nullptr)
+        return NO_ACCOUNT;
+
+    if (getMoneyFromAccount(sender, sum, acc) == OK)
+        putMoneyOnAccount(reciver, sum, 'd');
+    else
+        return NO_MONEY;
+    
+
+    return OK;
 }
