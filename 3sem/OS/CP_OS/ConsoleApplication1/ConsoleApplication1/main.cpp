@@ -13,6 +13,7 @@ using namespace std;
 //#pragma warning( disable : 4996)
 
 #define PORT 4055  
+#define MAXCONN 50
 
 int clientsQty = 0;
 priority_queue<int> top;
@@ -121,7 +122,7 @@ int startServer() {
         return -1;
     }
 
-    if (listen(mysocket, 20))
+    if (listen(mysocket, MAXCONN))
     {
         cout << "Listen error " << WSAGetLastError() << endl;
         closesocket(mysocket);

@@ -1,0 +1,26 @@
+# $gpred17
+     $id    $zero     $int   $float 
+   $bool     $idq        (        ) 
+       =   define      not 
+#
+       S -> PRED #1
+    PRED -> HPRED BOOL ) #2
+   HPRED -> PDPAR ) #3
+   PDPAR -> ( define ( $idq #4 |
+            PDPAR $id #5
+    BOOL -> $bool #6 |
+            REL #7 |
+            ( not BOOL ) #8
+     REL -> HREL E1 ) #9
+    HREL -> ( = E #10
+       E -> $id #11 |
+            CONST #12 |
+            CPROC #13
+      E1 -> E #14
+   CPROC -> HCPROC ) #15
+  HCPROC -> ( $id #16 |
+            HCPROC E #17
+   CONST -> $int #18 |
+            $float #19 |
+            $zero #20
+
