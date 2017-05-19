@@ -1,0 +1,97 @@
+# $d19
+    $id    $idq    $int  $float 
+  $zero   $bool    $str       ( 
+      )       +       -       * 
+      /       <       =       > 
+     <=      >=     and     not 
+     or    cond    else      if 
+ define display newline    set! 
+
+#
+      S -> PROG #1
+   CALC -> E1 #2 |
+           BOOL #3 |
+           STR #4 |
+           SET #5 |
+           DISP #6
+   DISP -> ( display E1 ) #7 |
+           ( display BOOL ) #8 |
+           ( display STR ) #9 |
+           ( newline ) #10
+   PRED -> HPRED BOOL ) #11
+  HPRED -> PDPAR ) #12
+  PDPAR -> ( define ( $idq #13 |
+           PDPAR $id #14
+  CPROC -> HCPROC ) #15
+ HCPROC -> ( $id #16 |
+           HCPROC E #17
+  CPRED -> HCPRED ) #18
+ HCPRED -> ( $idq #19 |
+           HCPRED E #20
+  CONST -> $int #21 |
+           $zero #22 |
+           $float #23
+      E -> $id #24 |
+           CONST #25 |
+           ADD #26 |
+           SUB #27 |
+           DIV #28 |
+           MUL #29 |
+           COND #30 |
+           CPROC #31
+    ADD -> HADD E1 ) #32
+   HADD -> ( + #33 |
+           HADD E1 #34
+    MUL -> HMUL E1 ) #35
+   HMUL -> ( * #36 |
+           HMUL E1 #37
+    SUB -> HSUB E1 ) #38
+   HSUB -> ( - E1 #39
+    DIV -> HDIV E1 ) #40
+   HDIV -> ( / #41 |
+           HDIV E1 #42
+   COND -> HCOND ELSE ) #43
+  HCOND -> ( cond CLAUS #44
+  CLAUS -> HCLAUS E1 ) #45
+ HCLAUS -> ( BOOL #46 |
+           HCLAUS SET #47 |
+           HCLAUS DISP #48
+   ELSE -> HELSE E1 ) #49
+  HELSE -> ( else #50 |
+           HELSE SET #51 |
+           HELSE DISP #52
+    STR -> $str #53
+   BOOL -> $bool #54 |
+           CPRED #55 |
+           REL #56 |
+           OR #57 |
+           ( not BOOL ) #58
+    REL -> HREL E1 ) #59
+   HREL -> ( >= E #60
+     OR -> HOR BOOL ) #61
+    HOR -> ( or BOOL #62
+     E1 -> E #63
+    SET -> HSET E1 ) #64
+   HSET -> ( set! $id #65
+    VAR -> VARINI ) #66
+ VARINI -> HVAR CONST #67
+   HVAR -> ( define $id #68
+   PROC -> PRBODY ) #69
+ PRBODY -> HPROC E #70
+  HPROC -> PCPAR ) #71 |
+           HPROC VAR #72 |
+           HPROC SET #73 |
+           HPROC DISP #74
+  PCPAR -> ( define ( $id #75 |
+           PCPAR $id #76
+    DEF -> PRED #77 |
+           PROC #78
+   DEFS -> DEF #79 |
+           DEFS DEF #80
+  CALCS -> CALC #81 |
+           CALCS CALC #82
+ CALCS1 -> CALCS #83
+   PROG -> CALCS1 #84 |
+           DEFS #85 |
+           DEFS CALCS1 #86
+

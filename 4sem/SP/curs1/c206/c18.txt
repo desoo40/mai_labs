@@ -1,0 +1,90 @@
+# $c18
+    $id    $idq    $int  $float 
+  $zero   $bool    $str       ( 
+      )       +       -       * 
+      /       <       =       > 
+     <=      >=     and     not 
+     or    cond    else      if 
+ define display newline    set! 
+
+#
+      S -> PROG #1
+   CALC -> E1 #2 |
+           BOOL #3 |
+           STR #4 |
+           SET #5 |
+           DISP #6
+   DISP -> ( display E1 ) #7 |
+           ( display BOOL ) #8 |
+           ( display STR ) #9 |
+           ( newline ) #10
+   PRED -> HPRED BOOL ) #11
+  HPRED -> PDPAR ) #12
+  PDPAR -> ( define ( $idq #13 |
+           PDPAR $id #14
+  CONST -> $int #15 |
+           $zero #16 |
+           $float #17
+      E -> $id #18 |
+           CONST #19 |
+           ADD #20 |
+           SUB #21 |
+           DIV #22 |
+           MUL #23 |
+           IF #24 |
+           CPROC #25
+    ADD -> HADD E1 ) #26
+   HADD -> ( + #27 |
+           HADD E1 #28
+    MUL -> HMUL E1 ) #29
+   HMUL -> ( * #30 |
+           HMUL E1 #31
+     IF -> IFTRUE E1 ) #32
+ IFTRUE -> HIF E #33
+    HIF -> ( if BOOL #34
+    STR -> $str #35
+     E1 -> E #36
+    SET -> HSET E1 ) #37
+   HSET -> ( set! $id #38
+    VAR -> VARINI ) #39
+ VARINI -> HVAR CONST #40
+   HVAR -> ( define $id #41
+   PROC -> PRBODY ) #42
+ PRBODY -> HPROC E #43
+  HPROC -> PCPAR ) #44 |
+           HPROC VAR #45 |
+           HPROC SET #46 |
+           HPROC DISP #47
+  PCPAR -> ( define ( $id #48 |
+           PCPAR $id #49
+    DEF -> PRED #50 |
+           PROC #51
+   DEFS -> DEF #52 |
+           DEFS DEF #53
+  CALCS -> CALC #54 |
+           CALCS CALC #55
+ CALCS1 -> CALCS #56
+   PROG -> CALCS1 #57 |
+           DEFS #58 |
+           DEFS CALCS1 #59
+    SUB -> HSUB E1 ) #60
+   HSUB -> ( - E1 #61
+    DIV -> ( / E1 ) #62
+  CPROC -> HCPROC ) #63
+ HCPROC -> ( $id #64 |
+           HCPROC E #65
+  CPRED -> HCPRED ) #66
+ HCPRED -> ( $idq #67 |
+           HCPRED E #68
+   BOOL -> $bool #69 |
+           CPRED #70 |
+           REL #71 |
+           OR #72 |
+           ( not BOOL ) #73
+   HREL -> ( > E #74 |
+           ( = E #75
+     OR -> HOR BOOL ) #76
+    HOR -> ( or #77 |
+           HOR BOOL #78
+    REL -> HREL E1 ) #79
+

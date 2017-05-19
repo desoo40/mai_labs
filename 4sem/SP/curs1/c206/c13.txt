@@ -1,0 +1,89 @@
+# $c13
+    $id    $idq    $int  $float 
+  $zero   $bool    $str       ( 
+      )       +       -       * 
+      /       <       =       > 
+     <=      >=     and     not 
+     or    cond    else      if 
+ define display newline    set! 
+
+#
+      S -> PROG #1
+   CALC -> E1 #2 |
+           BOOL #3 |
+           STR #4 |
+           SET #5 |
+           DISP #6
+   DISP -> ( display E1 ) #7 |
+           ( display BOOL ) #8 |
+           ( display STR ) #9 |
+           ( newline ) #10
+   PRED -> HPRED BOOL ) #11
+  HPRED -> PDPAR ) #12
+  PDPAR -> ( define ( $idq #13 |
+           PDPAR $id #14
+  CPROC -> HCPROC ) #15
+ HCPROC -> ( $id #16 |
+           HCPROC E #17
+  CPRED -> HCPRED ) #18
+ HCPRED -> ( $idq #19 |
+           HCPRED E #20
+  CONST -> $int #21 |
+           $zero #22 |
+           $float #23
+      E -> $id #24 |
+           CONST #25 |
+           ADD #26 |
+           SUB #27 |
+           DIV #28 |
+           MUL #29 |
+           IF #30 |
+           CPROC #31
+    ADD -> HADD E1 ) #32
+   HADD -> ( + #33 |
+           HADD E1 #34
+    MUL -> HMUL E1 ) #35
+   HMUL -> ( * #36 |
+           HMUL E1 #37
+    SUB -> HSUB E1 ) #38
+   HSUB -> ( - #39 |
+           HSUB E1 #40
+    DIV -> HDIV E1 ) #41
+   HDIV -> ( / #42 |
+           HDIV E1 #43
+     IF -> IFTRUE E1 ) #44
+ IFTRUE -> HIF E #45
+    HIF -> ( if BOOL #46
+    STR -> $str #47
+   BOOL -> $bool #48 |
+           CPRED #49 |
+           REL #50 |
+           OR #51 |
+           ( not BOOL ) #52
+    REL -> HREL E1 ) #53
+   HREL -> ( > E #54 |
+           ( = E #55
+     OR -> HOR BOOL ) #56
+    HOR -> ( or #57 |
+           HOR BOOL #58
+     E1 -> E #59
+    SET -> HSET E1 ) #60
+   HSET -> ( set! $id #61
+   PROC -> PRBODY ) #62
+ PRBODY -> HPROC E #63
+  HPROC -> PCPAR ) #64 |
+           HPROC SET #65 |
+           HPROC DISP #66
+  PCPAR -> ( define ( $id #67 |
+           PCPAR $id #68
+    DEF -> PRED #69 |
+           PROC #70
+   DEFS -> DEF #71 |
+           DEFS DEF #72
+  CALCS -> CALC #73 |
+           CALCS CALC #74
+ CALCS1 -> CALCS #75
+   PROG -> CALCS1 #76 |
+           DEFS #77 |
+           DEFS CALCS1 #78
+
