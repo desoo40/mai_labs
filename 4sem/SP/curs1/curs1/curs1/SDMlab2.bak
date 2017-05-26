@@ -1,5 +1,7 @@
 ;  half-interval.ss
-(define (half-interval-metod a b a-value b-value)
+(define (half-interval-metod a b)
+  (define a-value 0)
+  (define b-value 0)
   (set! a-value (fun a))
   (set! b-value (fun b))
   (cond((and(< a-value 0)(> b-value 0))
