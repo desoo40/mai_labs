@@ -1,25 +1,33 @@
+(define (one) 1)
+(define (five) 5)
+(define (ten) 10)
+(define (fifteen) 15)
+(define (twenty) 20)
+(define (twenty-five) 25)
+(define (LARGEST-COIN) 50)
+(define (LAST-DIGIT-OF-GROUP-NUMBER) 4)
+
 (define (cc amount largest-coin)
-	(cond ((or (= amount 0) (= largest-coin 1)) 1)
+	(cond ((or (= amount 0) (= largest-coin (one))) (one))
 		((not(and(> amount 0) (> largest-coin 0))) 0)
 		(else(+(cc amount (next-coin largest-coin)) 
 			(cc(- amount largest-coin) largest-coin)))))
 
 (define (count-change amount)
-	(cc amount LAGEST-COIN))
+	(cc amount (LARGEST-COIN)))
 
 (define (next-coin coin)
-	(cond((= coin 50) 25)
-		((= coin 25) 20)
-		((= coin 20) 15)
-		((= coin 15) 10)
-		((= coin 10) 5)
+	(cond((= coin (LARGEST-COIN)) (twenty-five))
+		((= coin (twenty-five)) (twenty))
+		((= coin (twenty)) (fifteen))
+		((= coin (fifteen)) (ten))
+		((= coin (ten)) (five))
 		(else 0)))
 
 (define (GR-AMOUNT)
-	(* 10 LAST-DIGIT-OF-GROUP-NUMBER))
+	(* (ten) (LAST-DIGIT-OF-GROUP-NUMBER)))
 
-(define LAGEST-COIN 50)
-(define LAST-DIGIT-OF-GROUP-NUMBER 4)
+
 
 (display "SDM variant 15")
 (newline)
