@@ -1,5 +1,5 @@
-(define (two) 2)
-(define (one) 1)
+(define (two) 2.0e+0)
+(define (one) 1.0e+0)
 
 (define (smallest-divisor n)
 	 (find-divisor n (two)))

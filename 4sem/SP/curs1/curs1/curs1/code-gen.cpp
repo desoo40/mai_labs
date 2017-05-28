@@ -145,9 +145,12 @@ int tCG::p32(){ //    MUL -> HMUL E1 )
     else
         S1->obj += S2->obj;
     S1->count = 0;
+
+    S1->obj += ")";
 	return 0;}
 
 int tCG::p33(){ //   HMUL -> ( *
+    S1->obj = "(";
 	return 0;}
 
 int tCG::p34(){ //   HMUL -> HMUL E1
@@ -156,15 +159,19 @@ int tCG::p34(){ //   HMUL -> HMUL E1
 	return 0;}
 
 int tCG::p35(){ //   COND -> HCOND CLAUS )
+    S1->obj += S2->obj + "0";
 	return 0;}
 
 int tCG::p36(){ //  HCOND -> ( cond CLAUS
+    S1->obj += S3->obj;
 	return 0;}
 
 int tCG::p37(){ //  CLAUS -> HCLAUS E1 )
+    S1->obj += "(" + S2->obj + ") : \n";
 	return 0;}
 
 int tCG::p38(){ // HCLAUS -> ( BOOL
+    S1->obj = "(" + S2->obj + ") ? ";
 	return 0;}
 
 int tCG::p39(){ //    STR -> $str
@@ -281,15 +288,29 @@ int tCG::p66(){ //   PROG -> DEFS CALCS1
 	return 0;}
 
 int tCG::p67(){ //    SUB -> HSUB E1 )
+    if (S1->count == 1) 
+        S1->obj += "-" + S2->obj + ")";
+    
+    else 
+        S1->obj += S2->obj + ")";
+    
 	return 0;}
 
-int tCG::p68(){ //   HSUB -> ( - E1
+int tCG::p68(){ //   HSUB -> ( - E1 *
+    S1->obj += "- " + S3->obj;
 	return 0;}
 
 int tCG::p69(){ //    DIV -> ( / E1 )
+    S1->obj = "((double)";
+    S1->obj += "1 / " + S3->obj + ")";
+
 	return 0;}
 
 int tCG::p70(){ //   BOOL -> $bool
+    if (S1->name == "#t") 
+        S1->obj = "true";
+    else 
+        S1->obj = "false";
 	return 0;}
 
 int tCG::p71(){ //   BOOL -> CPRED
@@ -302,24 +323,31 @@ int tCG::p73(){ //   BOOL -> OR
 	return 0;}
 
 int tCG::p74(){ //   BOOL -> ( not BOOL )
+    S1->obj = "(!" + S3->obj + ")";
 	return 0;}
 
 int tCG::p75(){ //   HREL -> ( > E
+    S1->obj = "(" + S3->obj + " > ";
 	return 0;}
 
 int tCG::p76(){ //   HREL -> ( = E
+    S1->obj = "(" + S3->obj + " == ";
 	return 0;}
 
 int tCG::p77(){ //     OR -> HOR BOOL )
+    S1->obj += S2->obj + ")";
 	return 0;}
 
 int tCG::p78(){ //    HOR -> ( or
+    S1->obj = "(";
 	return 0;}
 
 int tCG::p79(){ //    HOR -> HOR BOOL
+    S1->obj += S2->obj + " || ";
 	return 0;}
 
 int tCG::p80(){ //    REL -> HREL E1 )
+    S1->obj += S2->obj + ")";
 	return 0;}
 
 //_____________________

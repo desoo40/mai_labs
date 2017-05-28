@@ -23,7 +23,7 @@
     { return std::fmod(x, y);}
   inline double expt(double x, double y)
     { return std::pow(x, y);}
-  inline double abs(double x){ return std::fabs(x);}
+  inline double _abs(double x){ return std::fabs(x);}
 using std::sin;using std::cos;
 using std::tan;using std::exp;
 using std::log;using std::atan;

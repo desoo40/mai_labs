@@ -1,1 +1,1 @@
-(define (two) 2)
+((= coin (ten)) (five))
