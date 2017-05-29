@@ -1,5 +1,10 @@
-(define (two) 2.0e+0)
-(define (one) 1.0e+0)
+(define (two) 2)
+(define (one) 1)
+(define (six) 6)
+(define (twelwe) 12)
+(define (thirteen) 13)
+(define (twenty-nine) 23)
+(define (thirty) 30)
 
 (define (smallest-divisor n)
 	 (find-divisor n (two)))
@@ -20,4 +25,8 @@
 
 (prime? (one))
 (prime? (two))
-
+(prime? (six))
+(prime? (twelwe))
+(prime? (thirteen))
+(prime? (twenty-nine))
+(prime? (thirty))

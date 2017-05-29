@@ -29,15 +29,17 @@
 	(* (ten) (LAST-DIGIT-OF-GROUP-NUMBER)))
 
 
+(define (help-to-disp temp)
+  (display "5-10-15-20-25-50")
+  (newline)
+  (display "count-change for 100 \t= ")
+  (display (count-change (hundred)))
+  (newline)
+  (display "count-change for ")
+  (display (GR-AMOUNT))
+  (display " \t= ")
+  (display (count-change (GR-AMOUNT)))
+  temp)
 
-(display "SDM variant 15")
-(newline)
-(display "5-10-15-20-25-50")
-(newline)
-(display "count-change for 100 \t= ")
-(display (count-change (hundred)))
-(newline)
-(display "count-change for ")
-(display (GR-AMOUNT))
-(display " \t= ")
-(display (count-change (GR-AMOUNT)))
+"SDM variant 15"
+(help-to-disp (one))

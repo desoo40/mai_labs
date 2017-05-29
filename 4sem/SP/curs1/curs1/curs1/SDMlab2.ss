@@ -1,6 +1,6 @@
 ;  half-interval.ss
 (define (one) 1)
-(define (two) 2.0e+0)
+(define (two) 2)
 (define (six) 6)
 (define (twelwe) 12)
 (define (thirteen) 13)

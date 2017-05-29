@@ -1,1 +1,1 @@
-((= coin (ten)) (five))
+smd1
