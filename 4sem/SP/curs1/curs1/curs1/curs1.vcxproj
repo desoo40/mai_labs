@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SDM1.cpp" />
+    <ClCompile Include="SDMlab3.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0640A4DD-E4D7-4CEB-A0EA-BBC9CEFEFD04}</ProjectGuid>
