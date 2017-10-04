@@ -12,49 +12,112 @@ namespace lab1
 {
     public partial class Form1 : Form
     {
+        int MAX = 1000000;
+        float scale = 1;
+        Point zero;
+        double pi = Math.PI;
+
+        private Point CalcCentr()
+        {
+            return new Point(drawBox.Width / 2, drawBox.Height / 2);
+        }
+
         public Form1()
         {
             InitializeComponent();
+            zero = CalcCentr();
+
+            drawBox.MouseWheel += DrawBox_MouseWheel;
         }
 
+        
         private void button1_Click(object sender, EventArgs e)
         {
-            Pen penblue = new Pen(Color.Blue, 1);
-            var pi = Math.PI;
+            scale = 1;
+            drawBox.Invalidate();
 
-            var t = -pi/4;
-            var dt = pi/360;
+        }
 
-            t += dt;
+        private double myFunc(double a, double t)
+        {
+            return a * Math.Cos( t) / Math.Cos(t) > MAX ? MAX : a * Math.Cos(2 * t) / Math.Cos(t);
+        }
 
-            var a = 100.0;
-            var r = (a * Math.Cos(2 * t)) / Math.Cos(t);
+        private void drawBox_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
 
-            var x_ = (float)(drawBox.Width / 2.0);
-            var y_ = (float)(drawBox.Height / 2.0);
+            g.ScaleTransform(scale,scale);
 
-            Graphics g = drawBox.CreateGraphics();
+            g.TranslateTransform(zero.X, zero.Y);
+            DrawCoordinates(g, Pens.Red);
+            DrawCurve(g);
+           
 
-            var x0 = r * Math.Sin(t);
-            var y0 = r * Math.Cos(t);
 
-            var x1 = r * Math.Sin(t);
-            var y1 = r * Math.Cos(t);
+        }
 
-            for (int i = 0; i < 180; i++)
+        private void DrawCurve(Graphics g)
+        {
+            Pen linePen = new Pen(Color.Blue, 100);
+
+            var aBorder = -pi;
+            var bBorder = pi;
+            var paramA = 100.0;
+
+            var step = (bBorder - aBorder)/1000;
+
+            for (double i = aBorder; i < bBorder; i += step)
             {
-                t += dt;
+                var r = myFunc(paramA, i);
+                PointF begin = ToDecart(r, i);
+                PointF end = ToDecart(r, i + step);
 
-                g.DrawLine(penblue, x_ + (float)x0, y_ + (float)y0, x_ + (float)x1, y_ + (float)y1);
-
-                x0 = x1;
-                y0 = y1;
-
-                x1 = r * Math.Sin(t);
-                y1 = r * Math.Cos(t);
-
-                r = (a * Math.Cos(2 * t)) / Math.Cos(t);
+               g.DrawLine(linePen, begin, end);
             }
+
+            
+        }
+
+        private PointF ToDecart(double r, double d)
+        {
+           return new PointF((float)(r * Math.Cos(d)), (float)(r * Math.Sin(d)));
+        }
+
+        private void DrawCoordinates(Graphics g, Pen p)
+        {
+            g.DrawLine(p, new Point(-MAX, 0), new Point(MAX, 0));
+            g.DrawLine(p, new Point(0, -MAX), new Point(0, MAX));
+
+            for (int i = -1000; i < 1000; i += 10)
+            {
+                g.DrawLine(p, new Point(i, -2), new Point(i, 2));
+
+                if (i % 100 == 0) g.DrawString((i / 10).ToString(), DefaultFont, Brushes.Green, new Point(i, 10));
+
+                g.DrawLine(p, new Point(-2, i), new Point(2, i));
+
+
+            }
+
+        }
+
+
+        private void DrawBox_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if ( e.Delta > 0)
+                scale *= 1.1f;
+            else
+            {
+                scale *= 0.9f;
+            }
+
+            drawBox.Invalidate();
+        }
+
+        private void drawBox_SizeChanged(object sender, EventArgs e)
+        {
+            zero = CalcCentr();
         }
     }
 }
