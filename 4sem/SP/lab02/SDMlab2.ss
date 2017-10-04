@@ -56,3 +56,6 @@
 
 "SDM variant 29"
 (root 12 13)
+(fun 12)
+(fun 13)
+(fun 12.5)

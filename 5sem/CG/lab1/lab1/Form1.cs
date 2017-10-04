@@ -14,6 +14,7 @@ namespace lab1
     {
         int MAX = 1000000;
         float scale = 1;
+        Point offset;
         Point zero;
         double pi = Math.PI;
 
@@ -30,58 +31,65 @@ namespace lab1
             drawBox.MouseWheel += DrawBox_MouseWheel;
         }
 
-        
-        private void button1_Click(object sender, EventArgs e)
-        {
-            scale = 1;
-            drawBox.Invalidate();
-
-        }
+        bool drawcurve = false;
+            
 
         private double myFunc(double a, double t)
         {
-            return a * Math.Cos( t) / Math.Cos(t) > MAX ? MAX : a * Math.Cos(2 * t) / Math.Cos(t);
+            return a * Math.Cos(2*t) / Math.Cos(t);//> MAX ? MAX : a * Math.Cos(2 * t) / Math.Cos(t);
         }
-
+        Graphics g;
         private void drawBox_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
+            g = e.Graphics;
 
             g.ScaleTransform(scale,scale);
 
-            g.TranslateTransform(zero.X, zero.Y);
+            g.TranslateTransform(zero.X + offset.X, zero.Y + offset.Y);
             DrawCoordinates(g, Pens.Red);
-            DrawCurve(g);
-           
-
-
+            if (drawcurve) DrawCurve(g);
         }
 
         private void DrawCurve(Graphics g)
         {
-            Pen linePen = new Pen(Color.Blue, 100);
+            Pen linePen = new Pen(Color.Blue, 1);
 
-            var aBorder = -pi;
-            var bBorder = pi;
+            var aBorder = Convert.ToDouble(textBox1.Text);
+            var bBorder = Convert.ToDouble(textBox2.Text);
             var paramA = 100.0;
 
             var step = (bBorder - aBorder)/1000;
+
+            var points = new List<PointF>();
 
             for (double i = aBorder; i < bBorder; i += step)
             {
                 var r = myFunc(paramA, i);
                 PointF begin = ToDecart(r, i);
-                PointF end = ToDecart(r, i + step);
+                //PointF end = ToDecart(r, i + step);
 
-               g.DrawLine(linePen, begin, end);
+                points.Add(begin);
+
+               //g.DrawLine(linePen, begin, end);
             }
 
             
+            g.DrawLines(linePen, points.ToArray());
+            //g.DrawCurve(linePen, points.ToArray());
         }
 
         private PointF ToDecart(double r, double d)
         {
-           return new PointF((float)(r * Math.Cos(d)), (float)(r * Math.Sin(d)));
+            float x = (float)(r * Math.Cos(d));
+            if (Math.Abs(x) < 0.00001) x = 0;
+            if (Math.Abs(x) > 100000) x = 1000;
+
+            float y = (float)(r * Math.Sin(d));
+            if (Math.Abs(y) < 0.00001) y = 0;
+            if (Math.Abs(y) > 100000) y = 1000;
+
+
+            return new PointF(x, y);
         }
 
         private void DrawCoordinates(Graphics g, Pen p)
@@ -118,6 +126,52 @@ namespace lab1
         private void drawBox_SizeChanged(object sender, EventArgs e)
         {
             zero = CalcCentr();
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+            drawcurve = false;
+            drawBox.Invalidate();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            scale = 1;
+            drawcurve = !drawcurve;
+            offset = new Point();
+
+            drawBox.Invalidate();
+            
+        }
+
+        bool mousePress = false;
+        Point mousePressPoint;
+        Point oldoffset; 
+
+        private void drawBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousePress = true;
+            mousePressPoint = e.Location;
+            oldoffset = new Point(offset.X, offset.Y);
+
+        }
+
+        private void drawBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            mousePress = false;
+            //mousePressPoint = new Point();
+        }
+
+        private void drawBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mousePress)
+            {
+                int dx = e.X - mousePressPoint.X;
+                int dy = e.Y - mousePressPoint.Y;
+
+                offset = new Point(oldoffset.X + (int)(dx/scale), oldoffset.Y + (int)(dy/scale));
+                drawBox.Invalidate();
+            }
         }
     }
 }
