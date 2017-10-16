@@ -36,7 +36,7 @@ namespace lab1
 
         private double myFunc(double a, double t)
         {
-            return a * Math.Cos(2*t) / Math.Cos(t);//> MAX ? MAX : a * Math.Cos(2 * t) / Math.Cos(t);
+            return a * Math.Cos(2*t) / Math.Cos(t);/* > MAX ? MAX : a * Math.Cos(2 * t) / Math.Cos(t)*/
         }
         Graphics g;
         private void drawBox_Paint(object sender, PaintEventArgs e)
@@ -53,12 +53,27 @@ namespace lab1
         private void DrawCurve(Graphics g)
         {
             Pen linePen = new Pen(Color.Blue, 1);
+            double aBorder;
+            double bBorder;
+            double paramA;
+            double step;
 
-            var aBorder = Convert.ToDouble(textBox1.Text);
-            var bBorder = Convert.ToDouble(textBox2.Text);
-            var paramA = 100.0;
 
-            var step = (bBorder - aBorder)/1000;
+            try
+            {
+                aBorder = Convert.ToDouble(textBox1.Text);
+                bBorder = Convert.ToDouble(textBox2.Text);
+                paramA = Convert.ToDouble(textBox3.Text);
+                step = Convert.ToDouble(textBox4.Text);
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Неверный формат ввода параметров");
+                return;
+            }
+
+            step /= 1000;
 
             var points = new List<PointF>();
 
@@ -73,21 +88,44 @@ namespace lab1
                //g.DrawLine(linePen, begin, end);
             }
 
-            
-            g.DrawLines(linePen, points.ToArray());
+            if (points.Count < 2)
+            {
+                MessageBox.Show("Задан слишком большой шаг");
+                return;
+            }
+
+            var ARR = points.ToArray();
+            var last = ARR[0];
+            for (int i = 1; i < ARR.Length; i++)
+            {
+                if (ARR[i].Y - last.Y > 10000*step)
+                {
+                    last = ARR[i];
+                    continue;
+                }
+                   
+                g.DrawLine(linePen, last, ARR[i]);
+                last = ARR[i];
+            }
+            //g.DrawLines(linePen, points.ToArray());
             //g.DrawCurve(linePen, points.ToArray());
         }
 
         private PointF ToDecart(double r, double d)
         {
             float x = (float)(r * Math.Cos(d));
-            if (Math.Abs(x) < 0.00001) x = 0;
-            if (Math.Abs(x) > 100000) x = 1000;
+            if (Math.Abs(x) < 0.001) x = 0;
+            if (Math.Abs(x) > 100000) x = 100000;
 
             float y = (float)(r * Math.Sin(d));
-            if (Math.Abs(y) < 0.00001) y = 0;
-            if (Math.Abs(y) > 100000) y = 1000;
-
+            if (Math.Abs(y) < 0.001) y = 0;
+            if (Math.Abs(y) > 1000)
+            {
+                if (y >= 0)
+                    y = 1000;
+                else
+                    y = -1000;
+            }
 
             return new PointF(x, y);
         }
@@ -128,11 +166,7 @@ namespace lab1
             zero = CalcCentr();
         }
 
-        private void textBox1_TextChanged_1(object sender, EventArgs e)
-        {
-            drawcurve = false;
-            drawBox.Invalidate();
-        }
+       
 
         private void button1_Click_1(object sender, EventArgs e)
         {
@@ -172,6 +206,13 @@ namespace lab1
                 offset = new Point(oldoffset.X + (int)(dx/scale), oldoffset.Y + (int)(dy/scale));
                 drawBox.Invalidate();
             }
+        }
+
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+            drawcurve = false;
+            drawBox.Invalidate();
         }
     }
 }
