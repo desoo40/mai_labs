@@ -1,0 +1,5 @@
+SELECT * FROM player 
+LEFT JOIN game_action 
+ON player.id = game_action.player_id
+WHERE game_id = 3
+LIMIT 2

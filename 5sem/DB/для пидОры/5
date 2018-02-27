@@ -1,0 +1,6 @@
+SELECT  tournament_id , sum (score > op_score) AS num 
+FROM game  
+GROUP BY tournament_id ORDER BY num DESC
+
+
+              

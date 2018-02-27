@@ -1,0 +1,6 @@
+SELECT * FROM player
+WHERE id NOT IN 
+(SELECT  player_id FROM game_action  
+LEFT JOIN game ON game_action.game_id = game.id
+WHERE game.tournament_id = 1)
+              

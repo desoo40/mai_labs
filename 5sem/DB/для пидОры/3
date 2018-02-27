@@ -1,0 +1,6 @@
+SELECT  player_id , count(*) AS num FROM goal_player  
+LEFT JOIN goal ON goal_player.goal_id = goal.id
+LEFT JOIN game ON goal.game_id = game.id
+WHERE game.season_id = 1 AND 
+asist = 'False' GROUP BY player_id ORDER BY num DESC LIMIT 5
+              

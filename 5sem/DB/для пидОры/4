@@ -1,0 +1,4 @@
+SELECT  op_team_id , sum(op_score) AS num FROM game  
+GROUP BY op_team_id ORDER BY num DESC
+
+              
