@@ -8,6 +8,7 @@ namespace NMlab1
 {
     class Program
     {
+        
         static void Main(string[] args)
         {
             Console.WriteLine("Choose part:\n" +
@@ -20,7 +21,32 @@ namespace NMlab1
             var ans = Console.ReadLine();
             var matr = new Matrix();
 
-            if (ans == "1") ;
+            if (ans == "1")
+            {
+                matr.ReadFromFile("11.txt");
+                Console.WriteLine("Решаем систему LU - методом:");
+
+                matr.PrintLikeSystem();
+
+                var sys = new LUDecomposition(matr);
+
+                sys.LU_Algorithm();
+
+                Console.WriteLine("L Matrix:");
+                sys.L.Print();
+
+                Console.WriteLine("U Matrix:");
+                sys.U.Print();
+
+                Console.WriteLine("Right side:");
+                sys.PrintRight();
+
+                Console.WriteLine();
+
+                sys.PrintSolution();
+                sys.FindDescrim();
+                sys.FindInvertMtx();
+            }
 
             if (ans == "2")
             {
@@ -28,16 +54,28 @@ namespace NMlab1
                 Console.WriteLine("Решаем систему методом прогонки:");
             
                 matr.PrintLikeSystem();
-                //matr.SwipeRows(0, 1);
-                //matr.Print();
 
                 ThomasAlgorythm(matr);
             }
                 
-                
+            if (ans == "9")
+            {
+                var test1 = new Matrix();
+                var test2 = new Matrix();
+
+                test1.ReadFromFile("test1.txt");
+                test2.ReadFromFile("test2.txt");
+
+                var test3 = test1 * test2;
+
+                if (test3 != null)
+                    test3.Print();
+            }
 
 
         }
+
+        
 
         private static void ThomasAlgorythm(Matrix matr)
         {
