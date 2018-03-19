@@ -14,6 +14,7 @@ namespace NMlab1
         public int rows;
         public int columns;
         public double det;
+        public double measure;
 
         public Matrix ()
         {
@@ -95,24 +96,27 @@ namespace NMlab1
         }
 
         // matrix on vector multiplication
-        //public static Matrix operator *(Matrix left, List<double> right)
-        //{
-        //    if (left.columns != right.Count)
-        //    {
-        //        Console.WriteLine("Несовместимые матрица и вектор!");
-        //        return null;
-        //    }
+        public static List<double> operator *(Matrix left, List<double> right)
+        {
+            if (left.columns != right.Count)
+            {
+                Console.WriteLine("Несовместимые матрица и вектор!");
+                return null;
+            }
 
-        //    Matrix res = new Matrix(left.rows, right.columns);
+            var res = new List<double>(right.Count);
 
-        //    for (int i = 0; i < left.rows; ++i)
-        //    {
-        //        for (int j = 0; j < right.columns; ++j)
-        //            for (int k = 0; k < left.columns; ++k)
-        //                res.SetElement(i, j, res.GetElement(i, j) + left.GetElement(i, k) * right.GetElement(k, j));
-        //    }
-        //    return res;
-        //}
+            for (int i = 0; i < right.Count; ++i)
+            {
+                res.Add(0);
+                for (int j = 0; j < left.columns; ++j)
+                        res[i] += left.mtx[i][j] * right[j];
+
+            }
+            return res;
+        }
+
+        
 
         #endregion
 
@@ -210,6 +214,30 @@ namespace NMlab1
         {
             mtx[a][b] = val;
         }
+
+        public void CalcMeasure()
+        {
+            double max = 0;
+
+            for (int i = 0; i < rows; ++i)
+            {
+                double temp = 0;
+
+                for (int j = 0; j < columns; ++j)
+                {
+                    temp += Math.Abs(mtx[i][j]);
+                }
+
+                if (temp > max)
+                    max = temp;
+            }
+
+            measure =  max;
+        }
+        
+
+
+
 
     }
 }

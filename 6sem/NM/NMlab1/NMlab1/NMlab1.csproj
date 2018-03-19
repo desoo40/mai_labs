@@ -42,10 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LSystem.cs" />
+    <Compile Include="LESystem.cs" />
+    <Compile Include="LUDecomposition.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleIterationMethod.cs" />
+    <Compile Include="ThomasAlgorithm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

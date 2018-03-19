@@ -28,15 +28,16 @@ namespace NMlab1
 
                 matr.PrintLikeSystem();
 
-                var sys = new LUDecomposition(matr);
+                var sys = new LESystem(matr);
+                var LU = new LUDecomposition(sys);
 
-                sys.LU_Algorithm();
+                LU.LU_Algorithm();
 
                 Console.WriteLine("L Matrix:");
-                sys.L.Print();
+                LU.L.Print();
 
                 Console.WriteLine("U Matrix:");
-                sys.U.Print();
+                LU.U.Print();
 
                 Console.WriteLine("Right side:");
                 sys.PrintRight();
@@ -44,8 +45,9 @@ namespace NMlab1
                 Console.WriteLine();
 
                 sys.PrintSolution();
-                sys.FindDescrim();
-                sys.FindInvertMtx();
+                LU.FindDeter();
+                LU.FindInvertMtx();
+
             }
 
             if (ans == "2")
@@ -54,22 +56,51 @@ namespace NMlab1
                 Console.WriteLine("Решаем систему методом прогонки:");
             
                 matr.PrintLikeSystem();
-
-                ThomasAlgorythm(matr);
+                var TA = new ThomasAlgorythm(matr);
             }
-                
+
+            if (ans == "3")
+            {
+                matr.ReadFromFile("13.txt");
+                Console.WriteLine("Решаем систему методом простых итераций:");
+
+                matr.PrintLikeSystem();
+
+
+                Console.WriteLine("Введите точность:");
+                var s = Console.ReadLine();
+                s = s.Replace('.', ',');
+                var eps = Convert.ToDouble(s);
+
+                var SIM = new SimpleIterationMethod(matr, eps);
+
+            }
+
             if (ans == "9")
             {
                 var test1 = new Matrix();
-                var test2 = new Matrix();
+                //var test2 = new Matrix();
 
                 test1.ReadFromFile("test1.txt");
-                test2.ReadFromFile("test2.txt");
+                //test2.ReadFromFile("test2.txt");
 
-                var test3 = test1 * test2;
+                //var test3 = test1 * test2;
 
-                if (test3 != null)
-                    test3.Print();
+                //if (test3 != null)
+                //    test3.Print();
+
+                var l = new List<double>()
+                {
+                    1, 2, 3
+                };
+
+                var kek = test1 * l;
+
+                foreach(var el in kek)
+                {
+                    Console.WriteLine(el);
+                }
+
             }
 
 
@@ -77,59 +108,6 @@ namespace NMlab1
 
         
 
-        private static void ThomasAlgorythm(Matrix matr)
-        {
-            var P = new List<double>();
-            var Q = new List<double>();
-            var X = new List<double>();
-
-            for (var i = 0; i < matr.rows; ++i)
-            {
-                double a = 0;
-                double b = 0;
-                double c = 0;
-                double d = matr.GetElement(i, matr.columns - 1);
-
-                if (i - 1 >= 0)
-                    a = matr.GetElement(i, i - 1);
-
-                b = matr.GetElement(i, i);
-
-                if (i + 1 < matr.rows)
-                    c = matr.GetElement(i, i + 1);
-
-                P.Add(CalcP(a, b, c, P, i));
-                Q.Add(CalcQ(a, b, c, d, P, Q, i));
-                X.Add(0);
-            }
-
-
-            X[matr.rows - 1] = Q[matr.rows - 1];
-
-            for (int i = matr.rows - 2; i != 0; --i)
-                X[i] = P[i] * X[i + 1] + Q[i];
-
-            Console.WriteLine("Ответ:");
-            for (int i = 0; i < matr.rows; ++i)
-            {
-                Console.WriteLine("x" + (i + 1) + " = " + X[i]);
-            }
-        }
-
-        private static double CalcP(double a, double b, double c, List<double> p, int i)
-        {
-            if (i == 0)
-                return -c / b;
-
-            return -c / (b + a * p[i-1]);
-        }
-
-        private static double CalcQ(double a, double b, double c, double d, List<double> p, List<double> q, int i)
-        {
-            if (i == 0)
-                return d / b;
-
-            return (d - a * q[i - 1]) / (b + a * p[i - 1]);
-        }
+       
     }
 }

@@ -8,80 +8,52 @@ namespace NMlab1
 {
     class LUDecomposition
     {
-        public Matrix Mtx;
+        public LESystem Sys;
         public Matrix L;
         public Matrix U;
 
-        public List<double> Right;
-        public List<double> Solution;
 
-
-        public LUDecomposition(Matrix big)
+        public LUDecomposition(LESystem s)
         {
-            var r = big.rows;
-            var c = big.columns;
-
-            Mtx = new Matrix(r, c - 1);
-            Right = new List<double>();
-
-            for(int i = 0; i < r; ++i)
-            {
-                for (int j = 0; j < c; ++j)
-                {
-                    if (j == c - 1)
-                    {
-                        Right.Add(big.GetElement(i, j));
-                        continue;
-                    }
-
-                    Mtx.SetElement(i, j, big.GetElement(i, j));
-                }
-            }
+            Sys = s;
         }
 
         public LUDecomposition(Matrix stand, List<double> right)
         {
-            Mtx = stand;
-            Right = right;
+            Sys = new LESystem(stand, right);
         }
 
-        public void PrintRight()
-        {
-            foreach(var el in Right)
-            {
-                Console.WriteLine(el);
-            }
-        }
+        
 
         public void FindSolution()
         {
             var n = U.columns;
-            Solution = new List<double>();
+            Sys.Solution = new List<double>();
 
             for (int i = 0; i < n; ++i)
-                Solution.Add(0);
+                Sys.Solution.Add(0);
 
             for (int i = n - 1; i >= 0; --i)
             {
                 if (i == n - 1)
                 {
-                    Solution[i] = Right[i] / U.GetElement(i, i);
+                    Sys.Solution[i] = Sys.Right[i] / U.GetElement(i, i);
                     continue;
                 }
 
                 double sum = 0;
 
                 for (int j = i + 1; j < n; ++j)
-                    sum += U.GetElement(i, j) * Solution[j];
+                    sum += U.GetElement(i, j) * Sys.Solution[j];
 
-                Solution[i] = (Right[i] - sum) / U.GetElement(i, i);
+                Sys.Solution[i] = (Sys.Right[i] - sum) / U.GetElement(i, i);
             }
         }
 
         public void LU_Algorithm()
         {
-            var n = Mtx.columns;
-            U = new Matrix(Mtx);
+            var n = Sys.Mtx.columns;
+            U = new Matrix(Sys.Mtx);
 
             L = new Matrix(n);
 
@@ -112,9 +84,9 @@ namespace NMlab1
                 double sum = 0;
 
                 for (int j = 0; j < i; ++j)
-                    sum += L.GetElement(i, j) * Right[j];
+                    sum += L.GetElement(i, j) * Sys.Right[j];
 
-                Right[i] -= sum;
+                Sys.Right[i] -= sum;
             }
 
             //Console.WriteLine("Right side:");
@@ -124,15 +96,7 @@ namespace NMlab1
             FindSolution();
         }
 
-        public void PrintSolution()
-        {
-            Console.WriteLine("Solution:");
-
-            for (var el = 1; el <= Solution.Count; ++el)
-            {
-                Console.WriteLine("X" + el + " = " + Solution[el - 1]);
-            }
-        }
+        
 
         public void FindDeter()
         {
@@ -149,7 +113,7 @@ namespace NMlab1
 
         public void FindInvertMtx()
         {
-            var n = Mtx.columns;
+            var n = Sys.Mtx.columns;
             var InvertMtx = new Matrix(n);
 
             for (int i = 0; i < n; ++i)
@@ -166,11 +130,15 @@ namespace NMlab1
                 }
 
 
-                var tempSys = new LUDecomposition(Mtx, tempList);
-                tempSys.LU_Algorithm();
-                
+                var tempSys = new LESystem(Sys.Mtx, tempList);
+                var tempLU = new LUDecomposition(tempSys);
+                tempLU.LU_Algorithm();
+
                 for (int j = 0; j < n; ++j)
-                    InvertMtx.SetElement(j, i, tempSys.Solution[j]);
+                {
+                    //InvertMtx.SetElement(j, i, tempSys.Solution[j]);
+                    InvertMtx.mtx[j][i] = tempSys.Solution[j];
+                }
             }
             Console.WriteLine("Invert mtx:");
             InvertMtx.Print();
