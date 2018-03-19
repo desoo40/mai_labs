@@ -11,6 +11,8 @@ namespace NMlab1
         
         static void Main(string[] args)
         {
+            while (1 == 1)
+            { 
             Console.WriteLine("Choose part:\n" +
                 "1 - 1.1\n" +
                 "2 - 1.2\n" +
@@ -66,41 +68,54 @@ namespace NMlab1
 
                 matr.PrintLikeSystem();
 
-
+                var eps = 0.01;
                 Console.WriteLine("Введите точность:");
                 var s = Console.ReadLine();
                 s = s.Replace('.', ',');
-                var eps = Convert.ToDouble(s);
-
+                try
+                {
+                    eps = Convert.ToDouble(s);
+                }
+                catch(Exception e)
+                {
+                        
+                }
                 var SIM = new SimpleIterationMethod(matr, eps);
+
+                Console.WriteLine("Решаем систему методом Зейделя:");
+
+                matr.PrintLikeSystem();
+
+                var Seidel = new SeidelMethod(matr, eps);
+                
 
             }
 
-            if (ans == "9")
-            {
-                var test1 = new Matrix();
-                //var test2 = new Matrix();
+                if (ans == "9")
+                {
+                    var test1 = new Matrix();
+                    //var test2 = new Matrix();
 
-                test1.ReadFromFile("test1.txt");
-                //test2.ReadFromFile("test2.txt");
+                    test1.ReadFromFile("test1.txt");
+                    //test2.ReadFromFile("test2.txt");
 
-                //var test3 = test1 * test2;
+                    //var test3 = test1 * test2;
 
-                //if (test3 != null)
-                //    test3.Print();
+                    //if (test3 != null)
+                    //    test3.Print();
 
-                var l = new List<double>()
+                    var l = new List<double>()
                 {
                     1, 2, 3
                 };
 
-                var kek = test1 * l;
+                    var kek = test1 * l;
 
-                foreach(var el in kek)
-                {
-                    Console.WriteLine(el);
+                    foreach (var el in kek)
+                    {
+                        Console.WriteLine(el);
+                    }
                 }
-
             }
 
 

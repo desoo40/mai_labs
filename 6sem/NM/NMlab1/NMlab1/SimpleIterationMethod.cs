@@ -8,10 +8,10 @@ namespace NMlab1
 {
     class SimpleIterationMethod
     {
-        LESystem sys;
-        Matrix Alpha;
-        List<double> Beta = new List<double>();
-        double eps = 0;
+        protected LESystem sys;
+        protected Matrix Alpha;
+        protected List<double> Beta = new List<double>();
+        protected double eps = 0;
 
         public SimpleIterationMethod(Matrix m, double e)
         {
@@ -37,10 +37,10 @@ namespace NMlab1
 
             Console.WriteLine("Выполнено достаточное условие сходимости метода простых итераций");
 
-            ItarationProcces();
+            IterationProcces();
         }
 
-        private void ItarationProcces()
+        virtual protected void IterationProcces()
         {
             var X = Beta;
             var X0 = new List<double>();
@@ -77,7 +77,7 @@ namespace NMlab1
             sys.PrintSolution();
         }
 
-        private double CalcEps(List<double> list)
+        virtual protected double CalcEps(List<double> list)
         {
             double max = 0;
 
