@@ -16,7 +16,7 @@ namespace NMlab1
         public double det;
         public double measure;
 
-        public Matrix ()
+        public Matrix()
         {
             rows = 0;
             columns = 0;
@@ -28,13 +28,13 @@ namespace NMlab1
             columns = b;
 
 
-            for (int i = 0; i < a; ++i) 
+            for (int i = 0; i < a; ++i)
             {
                 mtx.Add(new List<double>());
 
                 for (int j = 0; j < b; ++j)
                     mtx[i].Add(0);
-                
+
             }
 
         }
@@ -90,7 +90,7 @@ namespace NMlab1
             {
                 for (int j = 0; j < right.columns; ++j)
                     for (int k = 0; k < left.columns; ++k)
-                        res.SetElement(i, j, res.GetElement(i, j) + left.GetElement(i, k) * right.GetElement(k, j));
+                        res.mtx[i][j] += left.mtx[i][k] * right.mtx[k][j];
             }
             return res;
         }
@@ -110,13 +110,13 @@ namespace NMlab1
             {
                 res.Add(0);
                 for (int j = 0; j < left.columns; ++j)
-                        res[i] += left.mtx[i][j] * right[j];
+                    res[i] += left.mtx[i][j] * right[j];
 
             }
             return res;
         }
 
-        
+       
 
         #endregion
 
@@ -152,7 +152,7 @@ namespace NMlab1
             for (int i = 0; i < mtx.Count; ++i)
             {
                 for (int j = 0; j < mtx[i].Count; ++j)
-                    Console.Write("{0:0.00  }", mtx[i][j]);
+                    Console.Write("{0:0.0000  }", mtx[i][j]);
                 Console.WriteLine();
             }
 
@@ -232,10 +232,23 @@ namespace NMlab1
                     max = temp;
             }
 
-            measure =  max;
+            measure = max;
         }
-        
 
+        public Matrix FindTransparent()
+        {
+            var trans = new Matrix(columns, rows);
+
+            for (int i = 0; i < trans.rows; ++i)
+            {
+                for (int j = 0; j < trans.columns; ++j)
+                {
+                    trans.mtx[i][j] = mtx[j][i];
+                }
+            }
+
+            return trans;
+        }
 
 
 

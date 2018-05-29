@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Aviators.Bot.AviaBot">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAgAAACAAAAABAQAAAAAAAAMBAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bot\AviaBot.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Bot" />
+      <Field Name="Commands" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="Chats" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Telegram.Bot.TelegramBotClient" Collapsed="true">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Aviators.Chat">
+    <Position X="3.75" Y="2.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAACAAAAAAAAAAAEAAAAAAAAAAAAEAICAAAABA=</HashCode>
+      <FileName>Bot\Chat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Aviators.CommandProcessor">
+    <Position X="6.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AgAEAIAEQAAMAABAABCEAAAAAAJIACBAFAgAAAAAgBA=</HashCode>
+      <FileName>Bot\CommandProcessor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Gen" />
+      <Field Name="Bot" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Aviators.Randomiser">
+    <Position X="0.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAAAAAEIAgBAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Bot\Randomiser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
