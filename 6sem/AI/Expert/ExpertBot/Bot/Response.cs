@@ -31,11 +31,15 @@ namespace ExpertBot.Bot
                 {
                     var kek = line.Replace("Res = [", "");
                     var kek1 = kek.Replace("].", "");
-                    var kek2 = kek1.Replace(", ", ",");
+                    var kek11 = kek1.Replace("] ", "");
+                    var kek2 = kek11.Replace(", ", ",");
                     var kek3 = kek2.Replace("'", "");
 
 
+
                     Result = kek3.Split(',').ToList();
+
+                    
                 }
             }
         }

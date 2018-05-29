@@ -107,20 +107,26 @@ namespace ExpertBot
 
             if (resp.Title.Contains("ANSWER"))
             {
-                var res = resp.Result[0];
+                var res = "";
                 //TODO for few variants
 
+                foreach (var s in resp.Result)
+                {
+                    res += "\n\n" + s;
+                }
 
+                var text1 = QuetionFinder.Find(resp.Title);
 
-                await Bot.SendTextMessageAsync(cid, "Кажется, я подобрал!\n" +
-                    "Вот, что тебе подойдет ;)\n\n" + res +
-                    "\n\n Еще разок? /start");
+                await Bot.SendTextMessageAsync(cid, text1 + res + "\n\nЕще разок? /start");
 
                 return;
             }
 
             var keyboard = ButtonGen(resp.Result);
             var text = QuetionFinder.Find(resp.Title);
+
+            if (text == "")
+                text = "Zaglushka";
 
             await Bot.SendTextMessageAsync(cid, text, replyMarkup: keyboard);
         }
@@ -165,7 +171,11 @@ namespace ExpertBot
             var massiv = new List<InlineKeyboardButton[]>();
 
             foreach (var s in str)
-                massiv.Add(new[] { new InlineKeyboardButton(s, s) });
+            {
+                var tmp = Char.ToUpper(s[0]) + s.Substring(1);
+
+                massiv.Add(new[] { new InlineKeyboardButton(tmp, s) });
+            }
 
             var keyboard = new InlineKeyboardMarkup(massiv.ToArray());
             return keyboard;
