@@ -38,48 +38,39 @@ namespace NMLab3
 
         private static void MakeMatrixC()
         {
-            var n = X.Count - 2;
-
-            CMtx = new Matrix(X.Count - 1, X.Count);
+            CMtx = new Matrix(X.Count - 2, X.Count - 1);
 
             // H здесь номер берется как в методичке, у всех остальных переменных i сдвигается на один меньше
 
-            for (int i = 0; i < CMtx.rows; ++i)
-            {
-                if (i == 0)
-                {
-                    CMtx.mtx[0][0] = 2 * (H[1] + H[2]);
-                    CMtx.mtx[0][1] = H[2];
 
-                    var tmp = (F[2] - F[1]) / H[2] - (F[1] - F[0]) / H[1];
-                    CMtx.mtx[0][CMtx.columns - 1] = 3 * (tmp);
+            CMtx.mtx[0][0] = 2 * (H[1] + H[2]);
+            CMtx.mtx[0][1] = H[2];
 
-                    continue;
-                }
+            var tmp1 = (F[2] - F[1]) / H[2] - (F[1] - F[0]) / H[1];
+            CMtx.mtx[0][CMtx.columns - 1] = 3 * (tmp1);
 
-                if (i == n)
-                {
-                    CMtx.mtx[n][n-1] = H[n-1];
-                    CMtx.mtx[n][n] = 2 * (H[n - 1] + H[n]);
+            //for (int i = 1; i < n; ++i)
+            //{
+            //    // однако тут у  H на один больше, т.к. i с нуля...
+            CMtx.mtx[1][0] = H[2];
+            CMtx.mtx[1][1] = 2 * (H[2] + H[3]);
+            CMtx.mtx[1][2] = H[3];
 
-                    var tmp = (F[n + 1] - F[n]) / H[n] - (F[n] - F[n-1]) / H[n-1];
-                    CMtx.mtx[n][n + 1] = 3 * (tmp);
+            var tmp2 = (F[3] - F[2]) / H[3] - (F[2] - F[1]) / H[2];
+            CMtx.mtx[1][3] = 3 * (tmp2);
+            //}
 
-                    continue;
-                }
+            CMtx.mtx[2][1] = H[3];
+            CMtx.mtx[2][2] = 2 * (H[3] + H[4]);
 
-                // однако тут у  H на один больше, т.к. i с нуля...
-                var i_f = i + 2;
-                var i_h = i + 1;
-                CMtx.mtx[i][i - 1] = H[i_h - 1];
-                CMtx.mtx[i][i] = 2 * (H[i_h - 1] + H[i_h]);
-                CMtx.mtx[i][i + 1] = H[i_h];
+            var tmp3 = (F[4] - F[3]) / H[4] - (F[3] - F[2]) / H[3];
+            CMtx.mtx[2][3] = 3 * (tmp3);
 
-                var tmp1 = (F[i_f] - F[i_f - 1]) / H[i_h] - (F[i_f - 1] - F[i_f - 2]) / H[i_h - 1];
-                CMtx.mtx[n][n + 1] = 3 * (tmp1);
-            }
 
-            CMtx.Print("lel");
+            var ans = ThomasAlgorythm.TA(CMtx);
+
+            ans.
+
         }
 
         private static void FillH()
