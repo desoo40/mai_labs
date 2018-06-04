@@ -44,9 +44,11 @@
   <ItemGroup>
     <Compile Include="CubicSpline.cs" />
     <Compile Include="Lagrange.cs" />
+    <Compile Include="Matrix.cs" />
     <Compile Include="Newton.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThomasAlgorithm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -56,6 +58,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="312.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="32.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

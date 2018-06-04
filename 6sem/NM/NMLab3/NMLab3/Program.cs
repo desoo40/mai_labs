@@ -33,7 +33,7 @@ namespace NMLab3
                 if (ans == "2")
                 {
                     Console.WriteLine("\nCubic spline:");
-                    Lagrange.Start("32.txt");
+                    CubicSpline.Start("32.txt");
                 }
 
             }
