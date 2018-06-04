@@ -26,7 +26,9 @@ namespace NMlab1
             Console.WriteLine("Start iterations:");
 
             double eps0 = CalcEps();
-            var UList = new List<Matrix>();
+
+            var finalU = new Matrix(A.columns);
+            finalU.MakeUnitMatrix();
 
             for (int i = 0; eps0 > Eps; ++i)
             {
@@ -34,22 +36,34 @@ namespace NMlab1
                 Console.WriteLine(eps0 + " > " + Eps);
 
                 var U = MakeU();
-                U.Print();
+                U.Print("U");
 
                 A = U.FindTransparent() * A * U;
 
-                A.Print();
+                A.Print("A");
                 eps0 = CalcEps();
 
-                UList.Add(U);
+                Console.WriteLine("eps = " + eps0 + "\n");
+
+                finalU *= U;
             }
 
-            Matrix finalU = null;
+            WriteEigenvalues();
 
-            for(int i = 0; i < UList.Count - 1; ++i)
-                finalU = UList[i] * UList[i + 1];
+            Console.WriteLine("Eigenvectors:");
 
+            Console.WriteLine("x1       x2      x3");
             finalU.Print();
+        }
+
+        private static void WriteEigenvalues()
+        {
+            Console.WriteLine("Eigenvalues:");
+
+            for (int i = 0; i < A.columns; ++i)
+                Console.WriteLine("Lyambda" + (i + 1) + " = " + A.mtx[i][i]);
+
+            Console.WriteLine();
         }
 
         private static Matrix MakeU()
@@ -73,9 +87,9 @@ namespace NMlab1
             }
 
             double phi = FindPhi(iMax, jMax);
-            Console.WriteLine("\nPhi: " + phi + "\n");
-            Console.WriteLine("Sin: " + Math.Sin(phi));
+            Console.WriteLine("\nSin: " + Math.Sin(phi));
             Console.WriteLine("Cos: " + Math.Cos(phi));
+            Console.WriteLine("Phi: " + phi + "\n");
             Matrix U = new Matrix(N);
 
             U.mtx[iMax][jMax] = -Math.Sin(phi);
@@ -93,10 +107,6 @@ namespace NMlab1
             if (A.mtx[iMax][iMax] == A.mtx[jMax][jMax])
                 return Math.PI / 4;
 
-            Console.WriteLine("\n^ - " + 2 * A.mtx[iMax][jMax]);
-            Console.WriteLine("\n| - " + (A.mtx[iMax][iMax] - A.mtx[jMax][jMax]) + "\n");
-
-
             return 0.5 * Math.Atan(2.0 * A.mtx[iMax][jMax] / (A.mtx[iMax][iMax] - A.mtx[jMax][jMax]));
         }
 
@@ -111,8 +121,6 @@ namespace NMlab1
                     sum += Math.Pow(A.mtx[i][j], 2);
                 }
             }
-
-            Console.WriteLine("Sum: " + sum);
 
             return Math.Pow(sum, 0.5);
         }

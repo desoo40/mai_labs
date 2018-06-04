@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NMlab1
 {
-    class Matrix
+    public class Matrix
     {
 
         public List<List<double>> mtx = new List<List<double>>();
@@ -71,6 +71,20 @@ namespace NMlab1
             }
         }
 
+        public void MakeUnitMatrix()
+        {
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    if (i == j)
+                        mtx[i][j] = 1;
+                    else
+                        mtx[i][j] = 0;
+                }
+            }
+        }
+
         #region Math Operations
 
         // equalation
@@ -92,6 +106,50 @@ namespace NMlab1
                     for (int k = 0; k < left.columns; ++k)
                         res.mtx[i][j] += left.mtx[i][k] * right.mtx[k][j];
             }
+            return res;
+        }
+
+        public List<double> GetColumn(int i)
+        {
+            if (i + 1 > columns)
+                return null;
+
+            var col = new List<double>();
+
+            for (int j = 0; j < rows; j++)
+                col.Add(mtx[j][i]);
+
+            return col;
+        }
+
+        public static Matrix operator *(double digit, Matrix right)
+        {
+            Matrix res = new Matrix(right.rows, right.columns);
+
+            for (int i = 0; i < right.rows; ++i)
+            {
+                for (int j = 0; j < right.columns; ++j)
+                    res.mtx[i][j] = digit * right.mtx[i][j];
+            }
+            return res;
+        }
+
+        public static Matrix operator +(Matrix left, Matrix right)
+        {
+            if (left.columns != right.columns || left.rows != right.rows)
+            {
+                Console.WriteLine("Несовместимые матрицы!");
+                return null;
+            }
+
+            Matrix res = new Matrix(left.rows, left.columns);
+
+            for (int i = 0; i < left.rows; ++i)
+            {
+                for (int j = 0; j < left.columns; ++j)
+                    res.mtx[i][j] = left.mtx[i][j] + right.mtx[i][j];
+            }
+
             return res;
         }
 
@@ -142,17 +200,26 @@ namespace NMlab1
             columns = mtx[0].Count;
         }
 
-        public void Print()
+        public void Print(string str = " ")
         {
             if (mtx == null)
                 return;
 
+            if (str != " ")
+                Console.WriteLine("Matrix " + str + ":");
             Console.WriteLine("********************************");
 
             for (int i = 0; i < mtx.Count; ++i)
             {
                 for (int j = 0; j < mtx[i].Count; ++j)
-                    Console.Write("{0:0.0000  }", mtx[i][j]);
+                {
+                    double eps = 0.0001;
+                    if (mtx[i][j] + eps < 0)
+                        Console.Write("{0:0.000  }", mtx[i][j]);
+                    else
+                        Console.Write("{0:0.0000  }", mtx[i][j]);
+                }
+
                 Console.WriteLine();
             }
 
@@ -249,8 +316,5 @@ namespace NMlab1
 
             return trans;
         }
-
-
-
     }
 }
