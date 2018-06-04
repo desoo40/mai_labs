@@ -37,7 +37,7 @@ namespace NMlab1
 
             X[matr.rows - 1] = Q[matr.rows - 1];
 
-            for (int i = matr.rows - 2; i != 0; --i)
+            for (int i = matr.rows - 2; i >= 0; --i)
                 X[i] = P[i] * X[i + 1] + Q[i];
 
             Console.WriteLine("Ответ:");

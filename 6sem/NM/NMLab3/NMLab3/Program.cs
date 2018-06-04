@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NMlab1;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,16 @@ namespace NMLab3
                 {
                     Console.WriteLine("\nCubic spline:");
                     CubicSpline.Start("32.txt");
+                }
+
+                if (ans == "3")
+                {
+                    Console.WriteLine("\nTEst:");
+
+                    Matrix matr = new Matrix();
+                    matr.ReadFromFile("test.txt");
+
+                    ThomasAlgorythm.TA(matr);
                 }
 
             }

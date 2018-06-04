@@ -38,30 +38,45 @@ namespace NMLab3
 
         private static void MakeMatrixC()
         {
+            var n = X.Count - 2;
+
             CMtx = new Matrix(X.Count - 1, X.Count);
+
+            // H здесь номер берется как в методичке, у всех остальных переменных i сдвигается на один меньше
 
             for (int i = 0; i < CMtx.rows; ++i)
             {
                 if (i == 0)
                 {
-                    CMtx.mtx[0][0] = 2 * (H[0] + H[1]);
-                    CMtx.mtx[0][1] = H[1];
+                    CMtx.mtx[0][0] = 2 * (H[1] + H[2]);
+                    CMtx.mtx[0][1] = H[2];
 
-                    var tmp = (F[2] - F[1]) / H[1] - (F[1] - F[0]) / H[0];
+                    var tmp = (F[2] - F[1]) / H[2] - (F[1] - F[0]) / H[1];
                     CMtx.mtx[0][CMtx.columns - 1] = 3 * (tmp);
+
+                    continue;
                 }
 
-                if (i == CMtx.rows - 1)
+                if (i == n)
                 {
-                    CMtx.mtx[0][0] = 2 * (H[0] + H[1]);
-                    CMtx.mtx[0][1] = H[1];
+                    CMtx.mtx[n][n-1] = H[n-1];
+                    CMtx.mtx[n][n] = 2 * (H[n - 1] + H[n]);
 
-                    var tmp = (F[2] - F[1]) / H[1] - (F[1] - F[0]) / H[0];
-                    CMtx.mtx[0][CMtx.columns - 1] = 3 * (tmp);
+                    var tmp = (F[n + 1] - F[n]) / H[n] - (F[n] - F[n-1]) / H[n-1];
+                    CMtx.mtx[n][n + 1] = 3 * (tmp);
+
+                    continue;
                 }
 
+                // однако тут у  H на один больше, т.к. i с нуля...
+                var i_f = i + 2;
+                var i_h = i + 1;
+                CMtx.mtx[i][i - 1] = H[i_h - 1];
+                CMtx.mtx[i][i] = 2 * (H[i_h - 1] + H[i_h]);
+                CMtx.mtx[i][i + 1] = H[i_h];
 
-
+                var tmp1 = (F[i_f] - F[i_f - 1]) / H[i_h] - (F[i_f - 1] - F[i_f - 2]) / H[i_h - 1];
+                CMtx.mtx[n][n + 1] = 3 * (tmp1);
             }
 
             CMtx.Print("lel");
@@ -69,6 +84,8 @@ namespace NMLab3
 
         private static void FillH()
         {
+            H.Add(0);
+
             for (int i = 1; i < X.Count; ++i)
                 H.Add(X[i] - X[i - 1]);
         }
