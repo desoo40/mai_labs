@@ -1,0 +1,6 @@
+F:\Projects\DEN\Labs\NelineynyeUravneniya\NelineynyeUravneniya\bin\Debug\NelineynyeUravneniya.exe.config
+F:\Projects\DEN\Labs\NelineynyeUravneniya\NelineynyeUravneniya\bin\Debug\NelineynyeUravneniya.exe
+F:\Projects\DEN\Labs\NelineynyeUravneniya\NelineynyeUravneniya\bin\Debug\NelineynyeUravneniya.pdb
+F:\Projects\DEN\Labs\NelineynyeUravneniya\NelineynyeUravneniya\obj\Debug\NelineynyeUravneniya.csprojResolveAssemblyReference.cache
+F:\Projects\DEN\Labs\NelineynyeUravneniya\NelineynyeUravneniya\obj\Debug\NelineynyeUravneniya.exe
+F:\Projects\DEN\Labs\NelineynyeUravneniya\NelineynyeUravneniya\obj\Debug\NelineynyeUravneniya.pdb
