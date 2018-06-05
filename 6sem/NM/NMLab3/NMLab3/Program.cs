@@ -39,12 +39,16 @@ namespace NMLab3
 
                 if (ans == "3")
                 {
-                    Console.WriteLine("\nTEst:");
+                    Console.WriteLine("\nLeast Squares method:");
 
-                    Matrix matr = new Matrix();
-                    matr.ReadFromFile("test.txt");
+                    LeastSquares.Start("33.txt");
+                }
 
-                    ThomasAlgorythm.TA(matr);
+                if (ans == "4")
+                {
+                    Console.WriteLine("\nNumeric diff:");
+
+                    NumericDiff.Start("34.txt");
                 }
 
             }

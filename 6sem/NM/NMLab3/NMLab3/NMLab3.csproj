@@ -42,13 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LeastSquares.cs" />
     <Compile Include="CubicSpline.cs" />
     <Compile Include="Lagrange.cs" />
+    <Compile Include="LESystem.cs" />
+    <Compile Include="ListHelper.cs" />
+    <Compile Include="LUDecomposition.cs" />
     <Compile Include="Matrix.cs" />
+    <Compile Include="NumericDiff.cs" />
     <Compile Include="Newton.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThomasAlgorithm.cs" />
+    <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -58,6 +64,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="312.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="34.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="33.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="test.txt">

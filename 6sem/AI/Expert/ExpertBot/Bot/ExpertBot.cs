@@ -62,7 +62,7 @@ namespace ExpertBot
         {
             var cid = e.Message.Chat.Id;
 
-            Console.WriteLine("Request from: " + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName);
+            Console.WriteLine("Request from: " + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName)
 
             if (e.Message.Text == "/start")
             {

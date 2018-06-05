@@ -40,10 +40,10 @@ namespace NMlab1
             for (int i = matr.rows - 2; i >= 0; --i)
                 X[i] = P[i] * X[i + 1] + Q[i];
 
-            Console.WriteLine("Ответ:");
+            Console.WriteLine("Решение системы:");
             for (int i = 0; i < matr.rows; ++i)
             {
-                Console.WriteLine("x" + (i + 1) + " = " + X[i]);
+                Console.WriteLine("с" + (i + 2) + " = " + X[i]);
             }
 
             return X;
