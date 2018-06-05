@@ -51,7 +51,7 @@ namespace ExpertBot
 
                 //Nothing to do, just sleep 1 sec
                 //ctrl+c break cycle
-                Thread.Sleep(10000);
+                Thread.Sleep(100);
             }
 
             Console.WriteLine("StopReceiving...");
@@ -61,6 +61,8 @@ namespace ExpertBot
         private static async void Bot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
         {
             var cid = e.Message.Chat.Id;
+
+            Console.WriteLine("Request from: " + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName);
 
             if (e.Message.Text == "/start")
             {
@@ -74,7 +76,7 @@ namespace ExpertBot
                 var resp = new Response(outputPath);
                 var keyboard = ButtonGen(resp.Result);
 
-                var text = QuetionFinder.Find(resp.Title);
+                var text = TextHelper.FindText(resp.Title);
 
                 await Bot.SendTextMessageAsync(cid, text, replyMarkup: keyboard);
 
@@ -90,7 +92,8 @@ namespace ExpertBot
             var cid = e.CallbackQuery.Message.Chat.Id;
             var ans = e.CallbackQuery.Data;
 
-            Console.WriteLine("Incoming callback from: " + e.CallbackQuery.From);
+            Console.WriteLine("Incoming callback from: " + e.CallbackQuery.Message.Chat.FirstName 
+                + " " + e.CallbackQuery.Message.Chat.LastName);
 
             int msgid = Convert.ToInt32(e.CallbackQuery.InlineMessageId);
 
@@ -115,7 +118,7 @@ namespace ExpertBot
                     res += "\n\n" + s;
                 }
 
-                var text1 = QuetionFinder.Find(resp.Title);
+                var text1 = TextHelper.FindText(resp.Title);
 
                 await Bot.SendTextMessageAsync(cid, text1 + res + "\n\nЕще разок? /start");
 
@@ -123,7 +126,7 @@ namespace ExpertBot
             }
 
             var keyboard = ButtonGen(resp.Result);
-            var text = QuetionFinder.Find(resp.Title);
+            var text = TextHelper.FindText(resp.Title);
 
             if (text == "")
                 text = "Zaglushka";
@@ -172,7 +175,8 @@ namespace ExpertBot
 
             foreach (var s in str)
             {
-                var tmp = Char.ToUpper(s[0]) + s.Substring(1);
+                //var tmp = Char.ToUpper(s[0]) + s.Substring(1);
+                var tmp = TextHelper.Translate(s);
 
                 massiv.Add(new[] { new InlineKeyboardButton(tmp, s) });
             }
