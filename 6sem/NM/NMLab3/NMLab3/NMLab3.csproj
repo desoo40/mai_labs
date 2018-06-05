@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0196A041-76F0-488C-90DC-E1E992F1E017}</ProjectGuid>
+    <ProjectGuid>{3113063A-523B-45E7-B5CD-8D4FC220F1A7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>NMlab1</RootNamespace>
-    <AssemblyName>NMlab1</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>NMLab3</RootNamespace>
+    <AssemblyName>NMLab3</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
@@ -42,26 +42,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JacobiMethod.cs" />
-    <Compile Include="LESystem.cs" />
-    <Compile Include="LUDecomposition.cs" />
+    <Compile Include="CubicSpline.cs" />
+    <Compile Include="Lagrange.cs" />
     <Compile Include="Matrix.cs" />
+    <Compile Include="Newton.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QRAlgorythm.cs" />
-    <Compile Include="SeidelMethod.cs" />
-    <Compile Include="SimpleIterationMethod.cs" />
     <Compile Include="ThomasAlgorithm.cs" />
-    <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="11.txt">
+    <Content Include="311.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="12.txt">
+    <Content Include="312.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="test.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="32.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

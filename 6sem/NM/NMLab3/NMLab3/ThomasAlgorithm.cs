@@ -8,7 +8,7 @@ namespace NMlab1
 {
     static class ThomasAlgorythm
     {
-        public static void TA(Matrix matr)
+        public static List<double> TA(Matrix matr)
         {
             var P = new List<double>();
             var Q = new List<double>();
@@ -37,7 +37,7 @@ namespace NMlab1
 
             X[matr.rows - 1] = Q[matr.rows - 1];
 
-            for (int i = matr.rows - 2; i != 0; --i)
+            for (int i = matr.rows - 2; i >= 0; --i)
                 X[i] = P[i] * X[i + 1] + Q[i];
 
             Console.WriteLine("Ответ:");
@@ -45,6 +45,8 @@ namespace NMlab1
             {
                 Console.WriteLine("x" + (i + 1) + " = " + X[i]);
             }
+
+            return X;
         }
 
         private static double CalcP(double a, double b, double c, List<double> p, int i)

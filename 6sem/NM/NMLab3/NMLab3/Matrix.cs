@@ -206,13 +206,20 @@ namespace NMlab1
                 return;
 
             if (str != " ")
-                Console.WriteLine("Matrix: " + str);
+                Console.WriteLine("Matrix " + str + ":");
             Console.WriteLine("********************************");
 
             for (int i = 0; i < mtx.Count; ++i)
             {
                 for (int j = 0; j < mtx[i].Count; ++j)
-                    Console.Write("{0:0.0000  }", mtx[i][j]);
+                {
+                    double eps = 0.0001;
+                    if (mtx[i][j] + eps < 0)
+                        Console.Write("{0:0.000  }", mtx[i][j]);
+                    else
+                        Console.Write("{0:0.0000  }", mtx[i][j]);
+                }
+
                 Console.WriteLine();
             }
 
@@ -309,8 +316,5 @@ namespace NMlab1
 
             return trans;
         }
-
-
-
     }
 }

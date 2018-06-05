@@ -8,138 +8,147 @@ namespace NMlab1
 {
     class Program
     {
-        
+
         static void Main(string[] args)
         {
             while (true)
-            { 
-            Console.WriteLine("Choose part:\n" +
-                "1 - 1.1\n" +
-                "2 - 1.2\n" +
-                "3 - 1.3\n" +
-                "4 - 1.4\n" +
-                "5 - 1.5\n");
-
-            var ans = Console.ReadLine();
-            var matr = new Matrix();
-
-            if (ans == "1")
             {
-                matr.ReadFromFile("11.txt");
-                Console.WriteLine("Решаем систему LU - методом:");
+                Console.WriteLine("Choose part:\n" +
+                    "1 - 1.1\n" +
+                    "2 - 1.2\n" +
+                    "3 - 1.3\n" +
+                    "4 - 1.4\n" +
+                    "5 - 1.5\n");
 
-                matr.PrintLikeSystem();
+                var ans = Console.ReadLine();
+                var matr = new Matrix();
 
-                var sys = new LESystem(matr);
-                var LU = new LUDecomposition(sys);
-
-                LU.LU_Algorithm();
-
-                Console.WriteLine("L Matrix:");
-                LU.L.Print();
-
-                Console.WriteLine("U Matrix:");
-                LU.U.Print();
-
-                Console.WriteLine("Right side:");
-                sys.PrintRight();
-
-                Console.WriteLine();
-
-                sys.PrintSolution();
-                LU.FindDeter();
-                LU.FindInvertMtx();
-
-            }
-
-            if (ans == "2")
-            {
-                matr.ReadFromFile("12.txt");
-                Console.WriteLine("Решаем систему методом прогонки:");
-            
-                matr.PrintLikeSystem();
-                ThomasAlgorythm.TA(matr);
-            }
-
-            if (ans == "3")
-            {
-                matr.ReadFromFile("13.txt");
-                Console.WriteLine("Решаем систему методом простых итераций:");
-
-                matr.PrintLikeSystem();
-
-                var eps = 0.01;
-                Console.WriteLine("Введите точность:");
-                var s = Console.ReadLine();
-                s = s.Replace('.', ',');
-                try
+                if (ans == "1")
                 {
-                    eps = Convert.ToDouble(s);
+                    matr.ReadFromFile("11.txt");
+                    Console.WriteLine("Решаем систему LU - методом:");
+
+                    matr.PrintLikeSystem();
+
+                    var sys = new LESystem(matr);
+                    var LU = new LUDecomposition(sys);
+
+                    LU.LU_Algorithm();
+
+                    Console.WriteLine("L Matrix:");
+                    LU.L.Print();
+
+                    Console.WriteLine("U Matrix:");
+                    LU.U.Print();
+
+                    Console.WriteLine("Right side:");
+                    sys.PrintRight();
+
+                    Console.WriteLine();
+
+                    sys.PrintSolution();
+                    LU.FindDeter();
+                    LU.FindInvertMtx();
+
                 }
-                catch(Exception e)
+
+                if (ans == "2")
                 {
-                        
+                    matr.ReadFromFile("12.txt");
+                    Console.WriteLine("Решаем систему методом прогонки:");
+
+                    matr.PrintLikeSystem();
+                    ThomasAlgorythm.TA(matr);
                 }
-                var SIM = new SimpleIterationMethod(matr, eps);
 
-                Console.WriteLine("Решаем систему методом Зейделя:");
+                if (ans == "3")
+                {
+                    matr.ReadFromFile("13.txt");
+                    Console.WriteLine("Решаем систему методом простых итераций:");
 
-                matr.PrintLikeSystem();
+                    matr.PrintLikeSystem();
 
-                var Seidel = new SeidelMethod(matr, eps);
-                
+                    var eps = EnterEps();
+                    var SIM = new SimpleIterationMethod(matr, eps);
 
-            }
+                    Console.WriteLine("Решаем систему методом Зейделя:");
 
-            if (ans == "4")
-            {
-                matr.ReadFromFile("14.txt");
-                Console.WriteLine("Ищем собственные значения и собственные векторы методом вращений:");
+                    matr.PrintLikeSystem();
 
-                matr.Print();
-                    JacobiMethod.JM(matr, 0.3);
-            }
+                    var Seidel = new SeidelMethod(matr, eps);
+
+
+                }
+
+                if (ans == "4")
+                {
+                    matr.ReadFromFile("14.txt");
+                    Console.WriteLine("Ищем собственные значения и собственные векторы методом вращений:");
+
+                    var eps = EnterEps();
+
+                    matr.Print();
+                    JacobiMethod.JM(matr, eps);
+                }
+
+                if (ans == "5")
+                {
+                    matr.ReadFromFile("15.txt");
+                    Console.WriteLine("Ищем собственные значения и собственные векторы QR методом:");
+
+                    var eps = EnterEps();
+
+                    matr.Print();
+                    QRAlgorythm.QR(matr, eps);
+                }
+
+                if (ans == "6")
+                {
+                    matr.ReadFromFile("16.txt");
+                    Console.WriteLine("QR разложение матрицы:");
+
+                    matr.Print();
+
+                    QRAlgorythm.QR(matr);
+                }
 
                 if (ans == "9")
                 {
-                    //var test1 = new Matrix();
-                    //var test2 = new Matrix();
+                    List<double> v = new List<double>()
+                        {5.24, 1, 4};
 
-                    //test1.ReadFromFile("test1.txt");
-                    //test1.Print();
-                    //test2.ReadFromFile("14.txt");
-                    //test2.Print();
+                    QRAlgorythm.HouseholderCalc(v).Print();
+                }
+                if (ans == "9")
+                {
+                    List<double> v = new List<double>()
+                        {5.24, 1, 4};
 
-
-                    //var kek = test1.FindTransparent();
-                    ////kek.Print();
-
-                    //var res = kek * test2;
-
-                    //res.Print();
-
-                    var f = new List<double>()
-                    {
-                        1, 2 , 3
-                    };
-
-                    var s = new List<double>()
-                    {
-                        1, 2 , 3
-                    };
-
-                    var M = Vector.MultiplyVectors(f, s);
-
-                    M.Print();
-
+                    QRAlgorythm.HouseholderCalc(v).Print();
                 }
             }
 
-
         }
 
-        
 
-       
+
+        private static double EnterEps()
+        {
+            var eps = 0.01;
+            Console.WriteLine("Введите точность:");
+            var s = Console.ReadLine();
+            s = s.Replace('.', ',');
+            try
+            {
+                eps = Convert.ToDouble(s);
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            return eps;
+        }
+
     }
 }
