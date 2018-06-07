@@ -10,6 +10,27 @@ namespace NMLab4
     {
         static void Main(string[] args)
         {
+            while (true)
+            {
+                Console.WriteLine("Choose part:\n" +
+                    "1 - 4.1\n" +
+                    "2 - 2.2\n");
+
+                var ans = Console.ReadLine();
+
+                if (ans == "1")
+                {
+                    ERKA.Start();
+
+                    //Console.WriteLine("\nNewton method:");
+                    //Newton.Start("312.txt");
+                }
+
+                if (ans == "2")
+                {
+                    
+                }
+            }
         }
     }
 }
