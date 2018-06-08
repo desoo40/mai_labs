@@ -51,6 +51,14 @@ namespace NMLab3
                     NumericDiff.Start("34.txt");
                 }
 
+                if (ans == "5")
+                {
+                    Console.WriteLine("\nNumeric integration:");
+
+                    NumericIntegr.Start("35.txt");
+                }
+
+
             }
         }
     }

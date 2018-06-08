@@ -49,6 +49,7 @@
     <Compile Include="ListHelper.cs" />
     <Compile Include="LUDecomposition.cs" />
     <Compile Include="Matrix.cs" />
+    <Compile Include="NumericIntegr.cs" />
     <Compile Include="NumericDiff.cs" />
     <Compile Include="Newton.cs" />
     <Compile Include="Program.cs" />
@@ -64,6 +65,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="312.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="35.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="34.txt">

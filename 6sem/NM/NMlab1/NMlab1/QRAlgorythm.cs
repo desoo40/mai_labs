@@ -51,16 +51,38 @@ namespace NMlab1
             }
 
             A.Print("Final A");
+
+            var l1 = A.mtx[0][0];
+
+            var c = A.mtx[2][2] * A.mtx[1][1] - A.mtx[1][2] * A.mtx[2][1];
+            var b = -A.mtx[2][2] - A.mtx[1][1];
+
+            var l2R = -b / 2;
+            var l3R = l2R;
+
+            var l2I = Math.Sqrt(Math.Abs(b * b - 4 * c)) / 2;
+            var l3I = - l2I;
+
+            Console.WriteLine("Eigenvalues:");
+            Console.WriteLine("Lyambda 1 = " + l1);
+            Console.WriteLine($"Lyambda 2 = {l2R} + {l2I}i");
+            Console.WriteLine($"Lyambda 3 = {l3R} - {l2I}i");
+
+
+
+
         }
 
         public static double FindEps(List<double> l)
         {
             double sum = 0;
 
-            for (int i = 1; i < l.Count; i++)
-                sum += Math.Pow(l[i], 2);
+            //for (int i = 1; i < l.Count; i++)
+            //    sum += Math.Pow(l[i], 2);
 
-            return Math.Pow(sum, 0.5);
+            //return Math.Pow(sum, 0.5);
+
+            return l[l.Count - 1];
         }
 
         private static void FindQR()
