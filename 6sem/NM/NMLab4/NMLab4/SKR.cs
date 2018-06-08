@@ -4,10 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NMLab2
+namespace NMLab4
 {
-    class SimpleIterSys
+    static class SKR
     {
+
+        public static void Start()
+        {
+
+        }
 
     }
 }

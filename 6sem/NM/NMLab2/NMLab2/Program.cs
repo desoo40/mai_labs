@@ -32,6 +32,18 @@ namespace NMLab2
                     SimpleIteration.Start(eps);
                 }
 
+                if (ans == "2")
+                {
+                    Console.Write("Введите точность: ");
+
+                    var eps = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
+
+                    Systems sys = new Systems();
+                    sys.SimpleIteration(eps);
+                    sys.Newton(eps);
+
+                }
+
             }
         }
 

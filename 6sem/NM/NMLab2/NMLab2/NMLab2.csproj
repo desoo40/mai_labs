@@ -42,10 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Matrix.cs" />
     <Compile Include="SimpleIteration.cs" />
     <Compile Include="Newton.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Systems.cs" />
+    <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

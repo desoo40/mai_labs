@@ -14,21 +14,16 @@ namespace NMLab4
             {
                 Console.WriteLine("Choose part:\n" +
                     "1 - 4.1\n" +
-                    "2 - 2.2\n");
+                    "2 - 4.2\n");
 
                 var ans = Console.ReadLine();
 
                 if (ans == "1")
-                {
                     ERKA.Start();
-
-                    //Console.WriteLine("\nNewton method:");
-                    //Newton.Start("312.txt");
-                }
 
                 if (ans == "2")
                 {
-                    
+                    SKR.Start();
                 }
             }
         }
