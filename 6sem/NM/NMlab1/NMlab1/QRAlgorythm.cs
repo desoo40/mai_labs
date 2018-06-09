@@ -52,10 +52,10 @@ namespace NMlab1
 
             A.Print("Final A");
 
-            var l1 = A.mtx[0][0];
+            var l1 = A.mtx[2][2];
 
-            var c = A.mtx[2][2] * A.mtx[1][1] - A.mtx[1][2] * A.mtx[2][1];
-            var b = -A.mtx[2][2] - A.mtx[1][1];
+            var c = A.mtx[0][0] * A.mtx[1][1] - A.mtx[0][1] * A.mtx[1][0];
+            var b = -A.mtx[1][1] - A.mtx[0][0];
 
             var l2R = -b / 2;
             var l3R = l2R;
