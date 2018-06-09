@@ -81,7 +81,7 @@ namespace NMLab2
         private double[] phi(double[] x)
         {
             double[] res = new double[2];
-            res[0] = 2 * Math.Sqrt(Math.Abs(4 - x[1]*x[1]));
+            res[0] = 2 * Math.Sqrt(4 - x[1]*x[1]);
             res[1] = (x[0] + Math.Pow(Math.E, x[0])) / 4;
             return res;
         }
@@ -92,8 +92,8 @@ namespace NMLab2
             Console.WriteLine("Simple iteration method for system: ");
 
             double[] res = new double[2];
-            res[0] = 5.0;
-            res[1] = 0.0;
+            res[0] = 1.9;
+            res[1] = 2.0;
             double q = 0.99;
             double[] xk = new double[2];
 

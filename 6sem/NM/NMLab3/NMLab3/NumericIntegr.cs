@@ -43,30 +43,29 @@ namespace NMLab3
             Console.WriteLine("Runge-Romberg-Richardson method adjustment:");
 
             Console.WriteLine("Rectangle");
-            RRR(rect1, rect2);
+            RRR(rect1, rect2, 1);
             Console.WriteLine("Trapez");
-            RRR(trap1, trap2);
+            RRR(trap1, trap2, 2);
             Console.WriteLine("Simpson");
-            RRR(simps1, simps2);
+            RRR(simps1, simps2, 4);
 
             Console.WriteLine("*****************************************");
         }
 
-        private static void RRR(double x1, double x2)
+        private static void RRR(double x1, double x2, int p)
         {
             var k = 0.0;
-            var p = 2;
             var rrr = 0.0;
 
             if (H1 >= H2)
             {
                 k = H1 / H2;
-                rrr = x2 + (x2 - x1) / (Math.Pow(k, p) - 1);
+                rrr = (x2 - x1) / (Math.Pow(k, p) - 1);
             }
             else
             {
                 k = H2 / H1;
-                rrr = x1 + (x1 - x2) / (Math.Pow(k, p) - 1);
+                rrr = (x1 - x2) / (Math.Pow(k, p) - 1);
             }                
 
 
