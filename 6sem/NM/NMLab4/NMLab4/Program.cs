@@ -30,7 +30,7 @@ namespace NMLab4
                     double stepOfRg4 = 0.1;
                     var skr = new SKR(t0, tk, stepOfRg4);
                     int nnode = (int)((tk - t0) / stepOfRg4);
-                    double[,] tempXout = new double[nnode, 3];
+                    double[,] tempXout = new double[nnode + 1, 3];
                     double[,] tempRRpogr = new double[nnode / 2, 2];
 
                     skr.calcMS(tempXout, tempRRpogr);
@@ -46,11 +46,11 @@ namespace NMLab4
                     stepOfRg4 = Convert.ToDouble(0.1);
                     skr = new SKR(t0, tk, stepOfRg4);
                     nnode = (int)((tk - t0) / stepOfRg4);
-                    tempXout = new double[nnode + 1, 3];
                     tempRRpogr = new double[nnode / 2 + 1, 3];
 
                     skr.calcKR(tempXout, tempRRpogr);
 
+                    
                     PrintSol(tempXout, tempRRpogr);
                     Console.WriteLine("*****************************");
 
@@ -62,7 +62,7 @@ namespace NMLab4
         {
             Console.WriteLine("i\txi\tyi");
 
-            for (int i = 0; i < tempXout.Length / 3; ++i)
+            for (int i = 0; i < tempXout.Length / 3 - 1; ++i)
             {
                 Console.Write(i + "\t");
 
@@ -73,7 +73,7 @@ namespace NMLab4
                 Console.WriteLine();
             }
 
-            Console.WriteLine("i\trr\trreps");
+            Console.WriteLine("i\trreps");
 
             for (int i = 0; i < tempRRpogr.Length / 3; ++i)
             {
