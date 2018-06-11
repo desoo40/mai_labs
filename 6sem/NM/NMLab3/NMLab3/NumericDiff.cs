@@ -36,6 +36,120 @@ namespace NMLab3
 
 
             Console.WriteLine("*****************************************");
+
+            Console.WriteLine("*****************************************");
+            Console.WriteLine("By five dots:");
+            var KF = CalcKoef();
+            ByFiveDots(KF);
+        }
+
+        private static void ByFiveDots(List<double> kF)
+        {
+            var fd = FirstDirByFive(kF);
+
+            Console.WriteLine("First");
+            Console.WriteLine(fd);
+
+            var sd = SecondDirByFive(kF);
+
+            Console.WriteLine("Second");
+            Console.WriteLine(sd/2.45);
+        }
+
+        private static double FirstDirByFive(List<double> kF)
+        {
+            var sum1 = kF[1] * ((X_ - X[0]) + (X_ - X[1]));
+            var sum2 = kF[2] * ((X_ - X[0]) * (X_ - X[1]) + (X_ - X[0]) * (X_ - X[2]) + (X_ - X[1]) * (X_ - X[2]));
+            var sum3 = kF[2] * kF[3] * ((X_ - X[0]) * (X_ - X[1]) * (X_ - X[2]) +
+                                (X_ - X[0]) * (X_ - X[1]) * (X_ - X[3]) +
+                                (X_ - X[0]) * (X_ - X[2]) * (X_ - X[3]) +
+                                (X_ - X[1]) * (X_ - X[2]) * (X_ - X[3]));
+
+            return kF[0] + sum1 + sum2 + sum3;
+        }
+
+        private static double SecondDirByFive(List<double> kF)
+        {
+            var sum1 = -kF[2] * 2 * (-3 * X_ + X[0] + X[1] + X[2]);
+            var sum2 = kF[3] * 2 * (X[2] * (X[3] - 3 * X_ + X[0] + X[1]) +
+                                    X[3] * (-3 * X_ + X[0] + X[1]) + 6 * X_ * X_ - 3 * X_ * X[0] -
+                                    3 * X_ * X[1] + X[0] * X[1]);
+
+            return 2 * kF[1] + sum1 + sum2;
+        }
+
+        private static double DividedDifference(List<List<double>> l, int j)
+        {
+            if (l[0].Count < 2)
+                return 0.0;
+
+            if (l[0].Count == 2)
+                return (l[1][0] - l[1][1]) / (l[0][0] - l[0][1]);
+
+            var f = new List<List<double>>();
+
+            f.Add(new List<double>());
+            f.Add(new List<double>());
+
+            var s = new List<List<double>>();
+
+            s.Add(new List<double>());
+            s.Add(new List<double>());
+
+
+            for (int i = 0; i < l[0].Count - 1; ++i)
+            {
+                f[0].Add(l[0][i]);
+                f[1].Add(l[1][i]);
+            }
+
+            for (int i = 1; i < l[0].Count; ++i)
+            {
+                s[0].Add(l[0][i]);
+                s[1].Add(l[1][i]);
+            }
+
+            return (DividedDifference(f, j) - DividedDifference(s, j + 1)) / (l[0][0] - l[0][l.Count - 1]);
+        }
+
+        private static List<double> CalcKoef()
+        {
+            List<double> KF = new List<double>();
+
+            for (int i = 0; i < X.Count; ++i)
+            {
+                if (i == 0)
+                    continue;
+
+                var l = MakeLists(i);
+
+                if (i == 1)
+                {
+                    l[0].Reverse();
+                    l[1].Reverse();
+                }
+
+                var DD = DividedDifference(l, i);
+                KF.Add(DD);
+            }
+            return KF;
+        }
+
+        private static List<List<double>> MakeLists(int i)
+        {
+            var l = new List<List<double>>();
+
+            l.Add(new List<double>());
+            l.Add(new List<double>());
+
+
+            for (int j = 0; j <= i; ++j)
+            {
+                l[0].Add(X[j]);
+                l[1].Add(Y[j]);
+            }
+
+            return l;
         }
 
         private static double CalcSecondDerivative(int i, double left, double right)
