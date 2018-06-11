@@ -16,30 +16,36 @@ namespace NMLab2
         private double f1(double[] x)
         {
             return x[0] * x[0] / 16 + x[1] * x[1] / 4 - 1;
+            //return 0.1 * x[0] * x[0] + x[0] + 0.2 * x[1] * x[1] - 0.3;
         }
 
         private double f11(double[] x)
         {
+            //return 0.2 * x[0] + 1;
             return x[0] / 8;
         }
 
         private double f12(double[] x)
         {
+            //return 0.4 * x[1];
             return x[1] / 2;
         }
 
         private double f2(double[] x)
         {
+            //return 0.2 * x[1] * x[1] + x[1] - 0.1 * x[0] * x[1] - 0.7;
             return 4 * x[1] - Math.Pow(Math.E, x[0]) - x[0];
         }
 
         private double f21(double[] x)
         {
-            return - Math.Pow(Math.E, x[0]) - 1;
+            //return 0.4 * x[0] - 0.1 * x[1];
+            return -Math.Pow(Math.E, x[0]) - 1;
         }
 
         private double f22(double[] x)
         {
+            //return 1 - 0.1 * x[0];
             return 4;
         }
 
@@ -81,8 +87,12 @@ namespace NMLab2
         private double[] phi(double[] x)
         {
             double[] res = new double[2];
-            res[0] = 2 * Math.Sqrt(4 - x[1]*x[1]);
+            //res[0] = 0.3 - 0.1 * x[0]*x[0] - 0.2 * x[1] * x[1];
+            //res[1] = 0.7 - 0.2 * x[0] * x[0] + 0.1 * x[0] * x[1];
+            res[0] = 2 * Math.Sqrt(4 - x[1] * x[1]);
             res[1] = (x[0] + Math.Pow(Math.E, x[0])) / 4;
+            //res[0] = Math.Cos(x[1]) + 2;
+            //res[1] = Math.Sin(x[0]) + 2;
             return res;
         }
 
@@ -92,8 +102,8 @@ namespace NMLab2
             Console.WriteLine("Simple iteration method for system: ");
 
             double[] res = new double[2];
-            res[0] = 1.9;
-            res[1] = 2.0;
+            res[0] = 1;
+            res[1] = 2;
             double q = 0.99;
             double[] xk = new double[2];
 
@@ -131,8 +141,8 @@ namespace NMLab2
             Console.WriteLine("Newton method for system: ");
 
             double[] res = new double[2];
-            res[0] = 5.0;
-            res[1] = 0.0;
+            res[0] = 0.25;
+            res[1] = 0.75;
             double[] xk = new double[2];
 
             for (int i = 0;  Math.Max(Math.Abs(xk[0] - res[0]), Math.Abs(xk[1] - res[1])) >= eps; ++i)

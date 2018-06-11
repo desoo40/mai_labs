@@ -38,10 +38,11 @@ namespace NMLab2
 
                     var eps = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
 
-                    Systems sys = new Systems();
-                    sys.SimpleIteration(eps);
-                    sys.Newton(eps);
+                    Console.WriteLine("\nNewton method for system:");
+                    NewtonSys.Start(eps);
 
+                    Console.WriteLine("\nSimple iteration method for system:");
+                    SimpleIterationSys.Start(eps);
                 }
 
             }
