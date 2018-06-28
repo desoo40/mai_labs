@@ -12,9 +12,6 @@ namespace CP
 {
     class Program
     {
-        static Matrix Q;
-        static Matrix H;
-
         static void Main(string[] args)
         {
             while (true)
@@ -31,13 +28,84 @@ namespace CP
                 A.ReadFromFile("mtx.txt");
                 A.Print("A");
 
+                var H = Arnoldi(A);
 
+                for (int i = 0; i < 50; ++i)
+                {
+                    if (H == null)
+                    {
+                        Console.WriteLine("Неподходящая матрица");
+                        break;
+                    }
 
-                Arnoldi(A);
+                    H = QR(H);
+                }
+
+                if (H == null)
+                    continue;
+
+                H.Print("H after QR");
+
+                FindEigvalues(H);
             }
         }
 
-        private static void Arnoldi(Matrix A)
+        private static void FindEigvalues(Matrix H)
+        {
+            decimal eps = Convert.ToDecimal(0.000001);
+            var n = H.mtx.Count;
+
+            var eigvalues = new List<Complex>();
+
+            for (int i = 0; i < n - 1; ++i)
+            {
+                var lower = H.mtx[i + 1][i];
+
+                if (Math.Abs(lower) < eps)
+                {
+                    eigvalues.Add(new Complex(H.mtx[i][i], 0));
+                    continue;
+                }
+
+                var b = -H.mtx[i][i] - H.mtx[i + 1][i + 1];
+                var c =  H.mtx[i][i] * H.mtx[i + 1][i + 1] - H.mtx[i][i + 1] * H.mtx[i + 1][i];
+
+                var D = Convert.ToDouble(b * b - 4 * c);
+
+                var sqrtD = Convert.ToDecimal(Math.Sqrt(Math.Abs(D)));
+
+                if (D < 0)
+                {
+                    eigvalues.Add(new Complex(-b / 2,  sqrtD / 2));
+                    eigvalues.Add(new Complex(-b / 2, -sqrtD / 2));
+                }
+                else
+                {
+                    eigvalues.Add(new Complex(-b / 2 + sqrtD / 2, 0));
+                    eigvalues.Add(new Complex(-b / 2 - sqrtD / 2, 0));
+                }
+                ++i;
+            }
+
+
+            if (eigvalues.Count < n)
+                eigvalues.Add(new Complex(H.mtx[n - 1][n - 1], 0));
+
+            LambdaPrint(eigvalues);
+        }
+
+        private static void LambdaPrint(List<Complex> lambda)
+        {
+           for (int i = 0; i < lambda.Count; ++i)
+            {
+                if (lambda[i].I >= 0)
+                    Console.WriteLine($"l{i} = {lambda[i].R} + {lambda[i].I}i");
+                else
+                    Console.WriteLine($"l{i} = {lambda[i].R} - {Math.Abs(lambda[i].I)}i");
+            }
+        }
+
+        private static Matrix Arnoldi(Matrix A)
         {
             var n = A.mtx.Count();
 
@@ -48,8 +116,8 @@ namespace CP
             for (int i = 0; i < n - 2; ++i)
                 q.Add(0);
 
-            Q = new Matrix(n, n + 1);
-            H = new Matrix(n + 1, n);
+            var Q = new Matrix(n, n + 1);
+            var H = new Matrix(n + 1, n);
 
             Q.SetColumn(0, q);
 
@@ -70,7 +138,7 @@ namespace CP
                 H.mtx[i + 1][i] = Vector.Norm(v);
 
                 if (H.mtx[i + 1][i] == 0)
-                    return;
+                    return null;
 
                 H.Print("H");
 
@@ -86,6 +154,95 @@ namespace CP
 
             Q.Print("Result Q");
             H.Print("Result H");
+
+            H.mtx.RemoveAt(H.mtx.Count - 1);
+            --H.rows;
+            //var H1 = new Matrix();
+
+            //for (int i = 0; i < n; ++i)
+            //{
+            //    H1.mtx.Add(H.mtx[i]);
+            //}
+
+            H.Print("H1");
+
+            return H;
+        }
+
+        private static Matrix QR(Matrix A)
+        {
+            var R = new Matrix(A);
+            var Q = new Matrix(A.columns);
+            Q.MakeUnitMatrix();
+
+            for (int i = 0; i < R.rows - 1; i++)
+            {
+                var b = R.GetColumn(i);
+                var v = CalcV(b, i);
+                var H = HouseholderCalc(v);
+
+                if (H == null)
+                    return null;
+
+                Q *= H;
+
+                R = H * R;
+            }
+
+
+            //Q.Print("Q");
+            //R.Print("R");
+
+            return R * Q;
+        }
+
+        public static Matrix HouseholderCalc(List<decimal> v)
+        {
+            Matrix E = new Matrix(v.Count);
+            E.MakeUnitMatrix();
+
+            if (Vector.Scalar(v, v) == 0)
+                return null;
+
+
+            var koef = -2 / Vector.Scalar(v, v);
+
+            Matrix H = E + koef * Vector.MultiplyVectors(v, v);
+
+            return H;
+        }
+
+        public static decimal CalcNorm(List<decimal> b)
+        {
+            double norm = 0;
+
+            foreach (var el in b)
+                norm += Math.Pow(Convert.ToDouble(el), 2);
+
+            norm = Math.Pow(norm, 0.5);
+
+            return Convert.ToDecimal(norm);
+        }
+
+        public static List<decimal> CalcV(List<decimal> b, int i)
+        {
+            var e = new List<decimal>();
+            var v = b;
+
+            for (int j = 0; j < b.Count; j++)
+            {
+                if (i > j)
+                    v[j] = 0;
+
+                if (i == j)
+                    e.Add(1);
+                else
+                    e.Add(0);
+            }
+
+            var res = Vector.SumVec(v, Vector.DigitOnVector(Math.Sign(b[i]) * CalcNorm(b), e));
+
+            return res;
         }
 
         private static void GenerateMatrix()
