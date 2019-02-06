@@ -1,0 +1,13 @@
+﻿#include @"main.ph"
+
+% privately used packages
+#include @"pfc\console\console.ph"
+#include @"pfc\core.ph"
+
+% private interfaces
+
+% private classes
+
+% implementations
+#include @"main.pro"
+
