@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace NMlab1
 {
-    static class JacobiMethod
+    class JacobiMethod
     {
         static Matrix A;
         static Matrix finalU;
-        static List<List<double>> eigVectors;
-        static List<double> eigValues;
+        public List<List<double>> eigVectors;
+        public List<double> eigValues;
         static double Eps;
         static int N;
 
-        public static void JM(Matrix mtx, double e)
+        public void JM(Matrix mtx, double e)
         {
             A = mtx;
             Eps = e;
@@ -24,7 +24,7 @@ namespace NMlab1
             IterationProccess();
         }
 
-        private static void IterationProccess()
+        private void IterationProccess()
         {
             Console.WriteLine("Start iterations:");
 
@@ -56,17 +56,33 @@ namespace NMlab1
             Console.WriteLine("Eigenvectors:");
 
             Console.WriteLine("x1       x2      x3");
+
+            eigVectors = new List<List<double>>();
+
+            for (int i = 0; i < finalU.columns; i++)
+            {
+                eigVectors.Add(new List<double>());
+
+                for (int j = 0; j < finalU.columns; j++)
+                {
+                    eigVectors[i].Add(finalU.mtx[j][i]);
+                }
+            }
+
+
             finalU.Print();
         }
 
-        private static void WriteEigenvalues()
+        private void WriteEigenvalues()
         {
+            eigValues = new List<double>();
+
             Console.WriteLine("Eigenvalues:");
 
             for (int i = 0; i < A.columns; ++i)
             {
                 Console.WriteLine("Lyambda" + (i + 1) + " = " + A.mtx[i][i]);
-
+                eigValues.Add(A.mtx[i][i]);
             }
 
             Console.WriteLine();

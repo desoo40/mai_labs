@@ -18,6 +18,18 @@ namespace NMlab1
             return res;
         }
 
+        public static void Print(List<double> right, string s = "")
+        {
+            Console.WriteLine($"Vector {s}:");
+            Console.WriteLine("********************************");
+
+
+            foreach (var el in right)
+                Console.WriteLine(el);
+
+            Console.WriteLine("********************************");
+        }
+
         public static List<double> SumVec(List<double> left, List<double> right)
         {
             if (left.Count != right.Count)
