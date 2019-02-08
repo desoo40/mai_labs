@@ -117,7 +117,7 @@ namespace SimpleGraph
 
             str.RemoveAt(0);
             //var strCount = str.Count;
-            var strCount = 6300000;
+            var strCount = 500000;
 
             var tmpFile = new List<string>();
 
@@ -146,7 +146,7 @@ namespace SimpleGraph
                 clientsIdList.Add(receiver);
             }
 
-            File.WriteAllLines()
+            File.WriteAllLines("cutData.txt", tmpFile);
 
             clientsIdList = clientsIdList.Distinct().ToList();
 
