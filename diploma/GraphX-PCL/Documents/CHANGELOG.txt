@@ -1,0 +1,646 @@
+﻿RELEASE 2.3.8
+- Implemented multiple labels logic for edges. Now you can display multiple labels across the edge
+- Added LabelHorizontalOffset property for labels which offsets labels along the edge given some offset value in total edge length percent
+- Improved graph print logic to work with ulong dimensions instead of int
+
+CODE CHANGES:
+- Properties ShowLabel,LabelVerticalOffset,AlignLabelsToEdges moved from EdgeControlBase to EdgeLabelControl class
+	- Property AlignLabelsToEdges renamed to AlignToEdge
+- Property EdgeControlBase.EdgeLabelControl renamed to EdgeLabelControls and now has IList<IEdgeLabelControl> type
+- Added new method IList<SysRect> EdgeControlBase.GetLabelSizes()
+- Added new method IList<IEdgeLabelControl> EdgeControlBase.GetLabelControls()
+- GraphArea.ShowAllEdgesLabels() method now has one-time effect and will not be reapplied after relayout
+- GraphArea.ShowAllEdgesLabels() method now has one-time effect and will not be reapplied after relayout
+- GraphArea.EdgeLabelFactory is now setup up with default factory generating one AttachableEdgeLabelControl
+- Label factory method CreateLabel() now returns IEnumerable<TResult> to accomodate multiple labels generation during single factory pass
+
+OBSOLETE AND REMOVED STUFF:
+General
+- Old style arrows are now not supported
+- Old style edge labels (EdgeLabelControl) are now not supported, make sure to remove it from XAML templates and update your code to use AttachableEdgeLabelControl
+
+EdgeControlBase
+- LabelAngle
+- GetLabelSize()
+- SetCustomLabelSize()
+
+EdgeControl
+- LabelMouseDown event removed
+
+Other:
+- showLabel parameter has been removed from all EdgeControl constructors and factories
+
+
+RELEASE 2.3.7
+- Added edge drag functionality to be able to reattach edge to another vertex (thanks to LaborJos)
+- Fixed SimpleTreeLayout vertex sizes supplement (thanks to edgardozoppi)
+- Fixed and improved parallel edge handling (thanks to perturbare)
+- Fixed RemoveEdge() method were not removing edges from data graph (thanks to perturbare)
+- Removed METRO support and example
+- Added UAP (UWP) support for Windows 10+ platform (VS2017)
+- Minor bugfixes
+
+RELEASE 2.3.6
+DETAILED CHANGELOG:
+- Added edge endpoint calculation for rotated vertex that use ellipse, circle and rectangle math shape
+- Added VertexControl::LabelAttached and LabelDetached events which fires when new label is attached to VertexControl or detached from it
+- Added new parameter to GraphArea::UpdateParallelEdgesData(Dictionary<TEdge, EdgeControl> edgeList) to be able to specify edges list to parse for parallelization instead of full edge list parse
+- Added support for object visbility and attachable labels to GraphX serialization data
+- Added ZoomControl::ResetKeyBindings() method to clear all (incl default) set key bindings
+- Fixed ZoomControl dynamic content switch to corectly refresh viewfinder
+- Improved ZoomControl handling with disabled animation
+- Renamed ZoomControl::IsAnimationDisabled to IsAnimationEnabled and changed the logic according the modification
+- Renamed ZoomControl::MaximumZoomStep to ZoomStep and updated description
+- Implemented easy ZoomControl key bindings with BindKey() method and exposed base commands for zoom and pan actions to be able to bind keys for them 
+- Some class refactoring
+
+RELEASE 2.3.5
+FEATURES HIGHLIGHT:
+ - Added new awesome vertex snapping feature on vertex drag. Many thanks to perturbare for this wonderful contibution! The feature is implemented around DragBehaviour class 
+ and is represented in several new settings allowing the drag to be perform around some sort of virtual snap grid. Please read the comment for the DragBehaviour class for detailed info.
+ - Added new feature & example preview in showcase app: graph data filtering. This feature allows you to filter the graph prior to layout generation or relayout based on the pipeline of 
+ LogicCore::Filters that are processed sequentially. These filters can modify graph using custom logic. The output graph will be available for interaction along with the copy of the original 
+ graph. User then may choose if he wish to revert graph to the original state or apply filtering results permanently.
+ Please read the details at: http://panthernet.ru/forum/index.php/topic/346-235-graph-data-filtering-features/
+
+DETAILED CHANGELOG:
+ - Added Universal Windows Application support and example project
+ - Added StateStorage::ImportState() method to allow state import/export logic between several graphs
+ - Added GraphArea::IsDisposed property that indicated that GraphArea object has been disposed and shouldn't be used anymore
+ - Added GraphArea::CreateNewStateStorage() protected method to be able to implement custom state storage logic for GraphArea
+ - Added ParameterizedLayoutAlgorithmBase::EnsureUniqueRandomInitialPositions property that enables unique random positions generation for layout algorithms. False by default, True for LinLog algorithm.
+ - Added VertexControl::VCPRoot property whcih represents the VCP root container for easier runtime VCP management. To be able to use it you have to define PART_vcproot template element as Panel descendant.
+ - Added new awesome vertex snapping feature on vertex drag (thanks to perturbare)
+ - Added GraphArea::EnableVisualsRenewOnFiltering property which is True by default. Specifies if visual graph should be updated up on relayout method call.
+ - Added methods LogicCore::PushFilters(), LogicCore::ApplyFilters() and LogicCore::PopFilters along with LogicCore::Filters property which implements graph data filtering feature
+ - Added LogicCore::IsFiltered property to identify graph filtering state. If graph is filtered the filter results can be applied or popped back.
+ - Added new porperty EdgeControlBase::HideEdgePointerOnVertexOverlap which can hide edge pointer on zero length edge
+ - Added new property EdgeControlBase::HideEdgePointerByEdgeLength to be able to hide edge pointers if edge length is less than or equal to the specified value. Off by default (0 value).
+ - Fixed LogicCore::GetVertexSizeRectangles() method input params and description
+ - Fixed incorrect edge pointer position on zero length edge
+ - Fixed Avalon Dock interaction which caused strange exception by skipping ZooomControl viewfinder unnecessary refresh pass in some cases
+ - Fixed edge label positioning, now it is more accurate for pathed edges
+ - Fixed LinLog negative energy issue (thanks to Katya)
+ - Fixed one vertex ISOM algorithm exception (thanks to jorgensigvardsson)
+ - Fixed external alg vertex sizes grab logic (thanks to ValentinMarinov)
+ - Made StateStorage class extensible by adding virtual modifiers to methods
+ - Improved algorithm factory logic to avoid graph type cast exceptions in some class declaration cases
+ - Improved calc performance for large graphs that use both OR and ER algorithms
+ - Moved code extensions to GraphX.PCL.Common library thus eliminating the need for GraphX.PCL.Logic for *.Controls libraries 
+ - Removed GraphArea::EnableWinFormsHostingMode property as it is not needed any more. The WF checks has been automated.
+
+
+RELEASE 2.3.4
+DETAILED CHANGELOG:
+ - Further improvements to printing logic. GraphArea::PrintDialog() method now takes print DPI as the first parameter and always fit content int page.
+
+RELEASE 2.3.3
+DETAILED CHANGELOG:
+ - Exposed internal PrintHelper class with new CalculateEstimatedDPI() method which can calculate DPI required for image export based on specified criterias
+ - Fixed arrows display issue when printing 
+
+RELEASE 2.3.2
+DETAILED CHANGELOG:
+ - Added GraphArea::ExportAsImageDialog() method which act as old ExportAsImage and the ExportAsImage() method now accepts filename to work without the dialog
+
+BREAKING CHANGES:
+ - GraphArea::ExportAsImage() now takes filename as the first parameter and don't have save file dialog (use GraphArea::ExportAsImageDialog() instead)
+
+RELEASE 2.3.1
+DETAILED CHANGELOG:
+ - Added default templates for attached vertex and edge labels
+ - Added HighlightBehavior::HighlightedEdgeType attached property that indicates In or Out edge is currently highlighted. Default value is None.
+ - Added GraphArea::GetRelatedVertexControls() and GraphArea::GetRelatedEdgeControls() methods to fetch corresponding objects faster and easily
+ - Added new printing logic. Now you can use GraphArea::PrintDialog() and GraphArea::PrintVisibleAreaDialog() methods with extended optional parameters
+ - Added new image export logic. Now GraphArea::ExportToImage() method allows graph image export in original size via optional parameter
+ - Added GraphArea::SetPrintMode() method which is used internally by print and image export methods but can be useful to override due to complex GraphArea print preparation logic.
+ - Fixed excessive rendering issue when ZoomControl viewfinder is hidden. Should significantly increase performance of the viewfinder in this case.
+ - Fixed showcase app edge example graph
+ - Fixed ZoomControl viewbox logic to correctly react on zoom control background change
+ - Improved attachable labels logic. Simplified base classes, added checks for mandatory base classes
+ - Improved attachable labels customization possibilities by making several methods virtual
+
+BREAKING CHANGES:
+ - Made DefaultLabelFactory class abstract and it is now accepts only one generic param (output object type)
+ - GraphAreaBase now has new abstract members needed to be overriden in derived controls: GetRelatedVertexControls(), GetRelatedEdgeControls(), SetPrintMode()
+ 
+KNOWN ISSUES:
+ - Graph image export may throw OutOfMemoryError for large graphs
+
+
+RELEASE 2.3.0
+
+HIGHLIGHTS:
+	* Added new layout algorithm GroupingLayoutAlgorithm which allows to layout graph vertices by different groups each using its own sublayout algorithm. You can see it in action using new feature highlight in showcase app.
+      Currently there are two modes supported:
+		- Layout groups to predefined bounds, when you can specify rectangular bounds in which vertices are layed (Bounds must be supported by algorithm used to layout vertices group)
+		- Generate bounds from groups, when each group is layouted using its algorithm and bounds are automatically calculated to fit all vertices in the group and then group bounds overlaps can be removed.
+	* Added two new label controls AttachedEdgeLabelControl and AttachedVertexLabelControl which acts like separate entities in GraphArea visual tree and have weak references to graphx controls. Default EdgeLableControl and VertexLabelControl are designed to act as the part of their parent classes and this approach impacts their customization possibilities when these parent classes are limited in size. So with the new labels you can mitigate following restrictions:
+		- No more label cuts when vertex is strictly limited in width or height
+		- No more jerky edge endpoints when edge label is too large
+		- No more labels behind edges or vertices. You can control how to inject them		
+	To use new labels you have to add AttachableVertexLabelControl and/or AttachableEdgeLabelControl XAML templates and also set GraphArea::VertexLabelFactory / EdgeLabelFactory.
+
+DETAILED CHANGELOG:
+	+ Added GroupId property to IGraphXVertex interface
+	+ Added parameters class RandomLayoutAlgorithmParams for corresponding algorithm. It contains Bounds property which can restrict vertex coordinates to respect provided bounds.
+	+ Added two methods to EdgeControl: GetEdgePointerForSource() and GetEdgePointerForTarget() which allows to get to edge pointer objects manualy
+	+ Added VertexShape.Ellipse math shape
+	+ Added support for reversing the geometry. This is required for animating shapes along a path where the direction needs to be reversed without using the Storyboard.AutoReverse property (thanks to bleibold)
+	+ Added two new attached label classes for Edge and Vertex controls.
+	+ Added EdgeControl::LabelMouseDown event
+	+ Added separate ID counter for edges while autoresolving missing ids 
+	+ Added EdgeControl::UpdateLabel() method to be able to update attached edge label manually (tech means to overcome some template quizes)
+	+ Added GraphArea::GetChildControls() method to easily fetch any child objects (incl. custom) by condition or just get all of them
+	+ Added GraphArea::VertexLabelFactory and GraphArea::EdgeLabelFactory properties for corresponding label factories. Will generate labels automatically after the graph layout if defined
+	+ Added GraphArea::MoveToFront() and GraphArea::MoveToBack() methods that will move specified GraphArea child to the top/bottom of the visual tree respectively
+	+ Added MouseEventArgs for VertexDoubleClick event to be able to correctly block click event when you're dragging vertex and open dialog window at once
+	+ Added VertexControl::HideWithEdges() and VertexControl::ShowWithEdges() methods to hide/show the control and all related edges at once
+	+ Added new optional parameters for GraphArea add/remove objects methods to allow vertex/edge data to be added to data graph in a single method call
+	+ Added integer seed to ILayoutParameters to be used by alogrithms in order to get deterministic output.
+	+ Fixed id autoresolve issue when calling GraphArea::GenerateAllEdges() after manual edge data compilation (thanks to Hannes Hasenauer)
+	+ Fixed edge label visibility when hideing/showing edges through Visibility property [WPF]
+	+ Fixed some METRO code not that hasn't been ported correctly
+	+ Fixed an exception in ZoomControl caused by Ctrl + Alt + DblClick combination (thanks to persalmi)
+	+ Fixed NaN result for FR algorithms calc (thanks to bleibold)
+	+ Fixed edge bundling in the case when empty Control points are present that would sometimes cause exceptions.(thanks to bleibold)
+	+ Fixed bindings to DefaultEdgePointer::Visibility property
+	+ Fixed numerous event issues with graphX controls where events wasn't passed down the hierarchy tree
+	+ Fixed edge label size on some template manipulations by adding additional update on label size change event. You can turn it off using EdgeLabelControl::UpdateLabelOnSizeChange property.
+	+ Fixed vertex and edge display when directly manipulating Visibility property
+	+ Fixed edge labels display when they there generated hidden by default and then are displayed using ShowLabel property change
+	+ Fixed edge routing counting deleted vertices as obstacles for an edge
+	+ Improved styles flexibility by working with dependency values instead of straight assignment in some places
+	+ Improved random layout algorithm randomness by seeding new Guid hash which fixes some odd behavior in rare cases
+	+ Improved overall graph cleaning in different areas allowing to easily clean graph data and fix potentional memory leaks
+	+ Improved general graph showcase for Sugiyama like algorithms
+	+ Improved graph area control removal logic to be more extensible and allow to handle attached controls
+	+ Implemented edge cut logic for EdgePointer placed at edge 'source' to gain better visual quality like its 'target' counterpart
+	+ Implemented many changes in algorithm base classes, mainly in AlgorithmLayoutBase: made VisitedGraph and VertexPositions props assignable externally
+	+ Implemented RandomLayoutAlgorithm to derive from LayoutAlgorithmBase class
+	+ Made many methods virtual/protected for easier derived classes customization
+	+ Merged GraphArea code for WPF & METRO into the shared files
+	+ Merged EdgeControl and VertexControl code for WPF & METRO into the shared files
+
+
+BREAKING CHANGES:
+	* Changed Vertex and Edge ID type to Int64 (long) by default for easier id handling when working with databases and huge datasets. Was Int32.
+	
+	* IExternalLayoutAlgorithm interface now demands TEdge generic specification and have one new method ResetGraph().
+	* All built-in algorithms now use IMutableVertexAndEdgeSet<TVertex, TEdge> for TGraph generic specification to be able to modify Graph data on demand.
+	* Added mandatory IOverlapRemovalAlgorithm::Initialize() method for all OR algorithms to be able to initialize initial data not only when you instantiate class but at any time
+	* IZoomControl interface now must implement Width and Height properties
+	* IOneWayControlAnimation interface methods AnimateVertex/AnimateEdge now has an additional parameter which flags if data vertex/edge should be deleted after animation is complete.
+		Any custom delete animations should be updated to handle this additional property.
+	* HighlightBehaviour::HighlightStrategy property has been removed due to redundancy
+
+
+RELEASE 2.2.0
+NEW TERMS: 
+	VAESPS - vertex and edge skip processing support
+	VCP - vertex connection point
+
+HIGHLIGHTS:
+	* VCPs has been added into GraphX making edge endpoint fixation(binding) possible. By default GraphX automaticaly calculates edge endpoint position relative to vertex dimensions 
+	   and approximate math shape, but with this feature on you'll be able to bind edge endpoint to a separate customizable object. This will allow you to create static edge fixation
+	   endpoints on the vertex and give you full control over edge endpoints positioning.
+	* Now you can easily customize edge pointers with the help of DefaultEdgePointer class which can host any content including Image/Path and supports rotation. Changes include more 
+	   precious edge endpoint calculations so the edge will overlap with the edge pointer no more. Because of these changes the old logic that utilizes direct Path object in EdgeControl 
+	   template will be removed completely in favor of notable performance improvements.
+	* Now GraphX for WPF requires only .NET Framework 4.0 to build & run. Deprecated all code that required .NET 4.0.3.
+	* Now you can use "http://schemas.panthernet.ru/graphx/" XAML namespace in GraphX for WPF for all its visual content. Additionaly, output filenames for WPF/METRO dlls are both changed to 
+		GraphX.Controls.dll so Post-Build process copies output files to GraphX/Bin folder with distinct filenames reflecting the platform as before.
+	* Performance improvements are always welcome. In this release the whole layout calculation logic has been revisited in terms of both performance and code quality gains. We've also eliminated
+		some redundant layout updates, moved all math & algorithms handling from GraphArea directly to LogicCore under better async implementation, cleaned up ZoomControl logic,
+		revisited edges & edge labels code to remove redundant calculation passes.
+
+DETAILED CHANGELOG:
++ Added support for custom VCP [WPF, METRO]
+	* New control class added: StaticVertexConnectionPoint. It represents ContentControl which can host virtualy any valid object
+	* VCP support the same math shapes as VertexShape property or can use VertexShape::None value to disable roundtrip calculations	
++ Added vertex and edge skip processing support to METRO version (VAESPS) [METRO]
++ Added VAESPS for following algorithms: Circular [ALL]
++ Added VertexShape::None enum option, currently affecting only VCP logic [ALL]
++ Added different layout options to EfficientSugiyama algorithm using new Direction param [ALL]
++ Added true orthogonal edge routing for EfficientSugiyama algorithm using EdgeRouting param [ALL]
++ Added new property GraphArea::ControlsDrawOrder which defines vertex or edges should be drawn topmost [WPF, METRO]
++ Added GraphArea::PreloadGraph() method for manual graph rendering which generate vertices and edges from GraphArea::LogicCore.Graph property 
+	w/o any algorithms and also sets custom vertices positions if needed [WPF, METRO]
++ Added new EdgeControl template PART (PART_SelfLoopedEdge) for custom self looped edge indicator visualization. It represents FrameworkElement and if specified in the template
+	will be positioned in the top left vertex corner. Also made indicator settings more flexible by implementing some dependency props [WPF, METRO]
++ Added StateStorage::SaveOrUpdateState() method for easier use [WPF,METRO]
++ Added new readonly property EdgeControl::IsParallel that identifies edge as currently parallel to other edge. Made GraphArea::ParalellizeEdges() method public to be able to refresh IsParallel property on manual graph operations [METRO, WPF]
++ Added EdgeLabelControl::FlipOnRotation dependency property which controls if label should be flipped when axis is changed while rotating [WPF, METRO]
++ Fixed parallel edges labels handling. Now edge labels are more readable when there are two of them [WPF, METRO]
++ Fixed edge routing when graph state has been loaded. Graph state now stores AlgorithmStorage too [ALL]
++ Fixed ZoomControl zoom out to the value equal to zoom in resulting in similar smooth zoom [WPF, METRO]
++ Fixed ZoomControl::Zoom cproperty change not firing [WPF, METRO]
++ Fixed manual graph composition routines in case of ER algorithm is set [ALL]
++ Fixed first time solution rebuild problems by referencing new QuickGraphPCL nuget [ALL] 
++ Fixed layout algorithm calculations to always receive actual vertex positions as input parameter
+	This will fix VAESPS for default algorithms. [WPF, METRO]
++ Fixed edge pointer positioning bug [METRO]
++ Fixed redundant edge rendering in some cases when vertex coordinates are changed manualy [WPF, METRO]
++ Fixed edge overlapping edge pointers [WPF, METRO]
++ Fixed use of ControlFactory for edge deserialization [WPF, METRO] thanks to perturbare
++ Fixed some algorithm calculation problems, especial FR [ALL]
++ Fixed EdgeControl.ShowArrows to implement DependencyProperty [WPF, METRO]  thanks to perturbare
++ Fixed minor performance problems in ZoomControl [METRO]
++ Fixed and enhanced automatic data object Id resolve logic [WPF,METRO] thanks to perturbare
++ Fixed ZoomControl zoom sometimes not firing from code call after control is loaded [WPF]
++ Fixed VB sample project dependencies and refactored code a bit
++ Fixed Fade Move animation logic to report OnCompleted event correctly [WPF]
++ Made EdgeControlBase::UpdateEdge() method public. It can be used now to fully update edge visual on custom edge-related modifications [WPF, METRO]
++ Improved main layout calculation logic to gain performance improvements [WPF, METRO]
++ Reorganized Example apps namespaces and code for greater good :)
++ Merged EdgePointerImage and EdgePointerPath into one universal DefaultEdgePointer class [WPF, METRO]
++ Improved edge and its template parts rendering/calc performance [WPF, METRO]
++ Enhanced edge labels logic so now it don't require additional template bindings and modifications (Angle or RenderTransform) [WPF]
++ GraphArea::PreloadVertexes() now accepts graph param as optional (null by default) and uses LogicCore.Graph in that case [WPF, METRO]
++ Decoupled serialization logic from GraphX completely [ALL]  thanks to perturbare
++ Adjusted FR and BoundedFR default values for random initial positions [All]
++ Now GraphX for WPF requires only .NET Framework 4.0 to build & run [WPF]
++ Refactored almost all of the GraphX code for improvements and code quality. Changed many namespaces for better name reflection [ALL]
+
+BREAKING CHANGES:
+* !!!WARNING!!! This GraphX version has fallen under the heavy hand of code refactoring and along with the numerous code improvements 
+	almost ALL of the namespaces has been changed to better reflect logical code grouping and ease additional platform support through code reusability. 
+	Also i've get rid of the several different XAML xmlns usings in favor of single one. I'm very sorry that this changes will force you to update your 
+	GraphX projects but i realy felt that i must do it once and for all. You will have to change most of the usings in code and XAML templates: i strongly
+    recommend you to use Resharper or any other code quality tool which will help to do this in minutes (or even seconds).
+
+	Core changes:
+	- All controls, behaviours and their interfaces are moved to GraphX.Controls namespace
+	- All algorithms are spreaded across GraphX.PCL.Logic.Algorithms namespace with additional OverlapRemoval, LayoutAlgorithms, EdgeRouting endings
+	- All base models and interfaces are now in GraphX.PCL.Common.Models namespace
+	- All GraphX primitives (Point, Rect, etc.) are left in GraphX.Measure for better code readability in cases when they are intersected with System.Windows namespace twins
+
+* IGXLogicCore now include ExternalLayoutAlgorithm, ExternalOverlapRemovalAlgorithm, ExternalEdgeRoutingAlgorithm for simplier external algo assignment
+* Now GraphX for WPF requires only .NET Framework 4.0 to build & run
+* EdgeLabelControl no longer needs default Angle binding and RenderTransformOrigin setup. They are processed internally [WPF]
+* GraphArea::GenerateGraph() method now has generateAllEdges param True by default.
+* Renamed following peoperties, moved them to EdgeControlBase and implemented them as DependencyProperty:
+	* LogicCore::EdgeSelfLoopCircleOffset -> SelfLoopIndicatorOffset
+	* LogicCore::EdgeSelfLoopCircleRadius -> SelfLoopIndicatorRadius
+	* LogicCore::EdgeShowSelfLooped -> ShowSelfLoopIndicator
+* Renamed following ZoomControl properties:
+	* ZoomDeltaMultiplier -> ZoomSensitivity
+	* MaxZoomDelta -> MaximumZoomStep
+* Completely deprecated EdgeControl::PART_edgeArrowPath template PART in favor of the new DefaultEdgePointer (PART_EdgePointerForSource & PART_EdgePointerForTarget). 
+	Please renew your custom templates. You can find an example in Generic.XAML template.
+* Self looped edges display logic has been slightly changed with the introduction of custom template PART (PART_SelfLoopedEdge). Now LogicCore::SelfLoopIndicatorOffset
+is (0,0) by default and indicator is shown in the top left vertex corner minus indicator size. You can change this behavior by overriding EdgeControl::PrepareSelfLoopedEdge() method.
+* GetVertexSizeRectangles() method moved from GraphArea to LogicCore.
+* Edge labels placement logic has been slightly changed when they are applied to parallel edges. Labels offset now translates them into different directions, for ex. one up, one down, one up.. etc. 
+	This behavior helps to better place labels for double parallels. Also parallel edge labels now are not flipped when axis changes during label rotation. If you're uncomfortable with these changes, 
+	please let me know!
+
+RELEASE 2.1.8
++ Added basic support for Image based edge pointers. Introduced new object for EdgeControl template: [WPF, METRO(bugged)]
+	1. EdgePointerImage class with name "PART_EdgePointerImageForSource" - marks edge source pointer (new!)
+	2. EdgePointerImage class with name "PART_EdgePointerImageForTarget" - marks edge target pointer
+	Look in GeneralTemplate.xaml of ShowcaseApp.WPF project.
+	Added rotation support for image based edge pointers
++ Added extensibility to corresponding controls by inheriting from IEdgeLabelControl and IEdgePointer [WPF, METRO]
++ Added extensibility to corresponding controls by inheriting from IVertexLabelControl [WPF, METRO]
++ Added support method GraphArea::GetVertexControlAt(Point position) to get VC by coordinates [METRO, WPF]
++ Added VertexControl::GetCenterPosition() method to get vertex center position instead the default top-left [WPF, METRO]
++ Added new showcase example: Templates/Graph editor [WPF]
++ Added new option GraphArea::LogicCoreChangeAction which defines what action will be taken on LogicCore property change. You can rebuild graph now. [WPF, METRO]
++ Added new sync calculation cancellation feature [WPF, METRO] thanks to jorgensigvardsson
++ Added new property EdgeLabelControl::DisplayForSelfLoopedEdges which is self explaining [WPF, METRO]
++ Fixed edge labels display for self looped edges [WPF, METRO]
++ Fixed annoying data binding error in ZoomControl slider binding [METRO, WPF]
++ Fixed ZoomControl unresponsivness after startup (prev needed to change zoom/translation first to work fine) [WPF,METRO]
++ Fixed ZoomControl::Zoom property bug on empty content window resize [WPF, METRO]
++ Fixed dynamic graph showcase example first vertex auto zooming onto [WPF]
++ Fixed some issues in ShowcaseApp.WPF
++ Fixed GraphArea::DeserializeFromFile() logic and filestorage logic to properly restore internal data for loaded graphs [WPF, METRO]
++ Fixed calculation of label control position and angle [WPF, METRO] thanks to jorgensigvardsson
++ Implemented EdgeControl::LabelVerticalOffset property as dependecy [WPF, METRO]
++ Updated default control templates to include some new properties setup by default [WPF, METRO]
++ Optimized showcase app media files
++ Improved extensibility by making some methods virtual for EdgeLabelControl, VertexLabelControl, EdgeControl
+
+!Breaking changes
++ Renamed and changed to Enum - ZoomControl::UseAbsoluteZoomOnMouseWheel to MouseWheelZoomingMode [METRO, WPF]
++ Expanded EdgeControl event args with mouse and keyboard modifiers [WPF]
++ Moved all WPF interfaces to GraphX.Controls.Models.Interfaces namespace and all METRO interfaces to GraphX.Controls.Models.Interfaces [WPF, METRO]
++ Edge rotation now needs additional modification for all custom EdgeLabelControl templates. Please add: <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />[WPF, METRO]
++ Due to new calc cancelation feature the following has been changed:
+	- IExternalEdgeRouting, IExternalLayout, IExternalOverlapRemoval interfaces and different algorithm base classes now implement Compute(CancellationToken cancellationToken) method with an additional param
+	- METRO now works only in async mode. Postfix Async has been added for GraphArea graph generation and relayout methods.
+
+RELEASE 2.1.7
++ Added new ShowcaseApp.WPF with mostly the same functionality as before but in a new nutshell and with refactored code. Expect new showcases soon.
+
++ Added some new exceptions for GraphArea on invalid or insufficient data [WPF,METRO]
++ Addded automatic default params generation for GXLogicCore if default algorithm was changed and default params property is null
++ Fixed async calc not being aborted on invalid data (can cause crash) [WPF,METRO]
++ Implemented VertexControl::ShowLabel property as dependecy for templating purpose [WPF]
++ Fixed vertex label display [WPF]
++ Implemented IOverlapRemovalParameters properties setters to be able to change params easily[ALL]
++ Made EdgeBase::RoutingPoints property virtual in case you want to override it and add custom serialization attributes (as was the issue with YAXLib)[ALL]
+
+!Breaking changes
++ Renamed VertexControl::MathShape property to VertexShape for template bindings to work [WPF, METRO]
++ Removed YAXLib project from solution and its dependencies from GraphX projects except showcase project. This will make GraphX independent from this 3rd party lib. [WPF]
+  The cost is that there is no built in FileServiceProvider anymore but you can easily create your own using provided interface or use YAXLib example from showcase app.
+  One less additional dll file :)
+  
+RELEASE 2.1.6
++ [DELAYED] New shiny ShowcaseApp for WPF that includes new interface and code refactoring [WPF]
++ Fixed unique id problems when building graph manualy using AddVertex() and AddEdge() method [WPF, METRO]
++ Fixed critical bug with auto id generation that prevented some custom graph logic to work as intended [ALL]
++ Fixed some derelict dependencies
++ Some code refactoring
++ Updated licenses list [WPF]
+
+!Breaking changes
++ Introduced GraphArea.AutoAssignMissingDataId property that is now responsible for auto unique id generation for vertex and edge data objects if they miss it [WPF,METRO]
+
+RELEASE 2.1.5 WIP
++ Added selective vertex and edge support for calculations. Use ProcessingMode property on vertex or edge data object to include/exclude it in calculations and visualization.
+	Supported options:
+		> Default
+		> Freeze - freeze object position and use it in consequent calculations to pin the object (limited algorithms support)
+		> Exclude - exclude object from calculations completely though it will remain in supplied graph (supported everywhere)
+	Limitations:
+		> Works only in WPF version.
+		> Freeze supported algs: SimpleRandom
+
++ WPF: Fixed major memory leak in WPF version when regenerating visual edges
++ METRO: Fixed edge labels placement w/o edge routing
++ Changed CopyToBidirectionalGraph() extension method
++ Fixed rectangular selection logic
++ Some code refactoring, including
+	> Class base (T) members adjusts
+	> Code case refactoring of older code
+	> More commments
+
+RELEASE 2.1.4 WIP
++ Fixed dynamic Showcase example when only one vertex was added
++ Misc project fixes including build type and information
+
+RELEASE 2.1.3 WIP
+
++ Added experimental METRO support
+
++ Redesigned libraries for PCL implementation
+	This shouldn't lead to major problems but some breaks will definetly occur:
+	- All routines in Logic library now operates with custom System.Windows types (platform-specific libraries operates (externaly) with System.Windows types). This includes any custom algorithms. 
+	- DataSaveModel class renamed to GraphSerializationData 
+	- Althought file operations such as Save/load layout remains the same for the end user the background logic of this features has been changed:
+		- Implemented IFileServiceProvider interface and corresponding property in GXLogicCore class
+		- When you assign GraphArea::LogicCore property the new default (platform-specific) FileServiceProvider is created and assigned to LogicCore automaticaly (if corresponding property is null)
+		- You can create custom FileServiceProviders to work with 3rd party serialization libraries or code your own file operations logic
+
++ Added example project for VB.NET
++ Added method to GraphArea to show/hide vertex labels
++ Added MouseUp event global handling for VertexControl
++ Improvement: GXLogicCore expected concrete class as TGraph (thanks to stefanpe)
++ Removed redundant dependencies (reworked some dependencies)
++ Implemented many small tweaks and optimizations during the port process
++ Implemented ITrackableContent interface that helps to abstract from direct GraphArea links in ZoomControl
++ GraphArea::ComputeEdgeRoutesByVertex() method made internal. If you still need it please use LogicCore::ComputeEdgeRoutesByVertex().
++ Renamed method SaveIntoFile to SerializeToFile
++ Renamed method LoadFromFile to DeserializeFromFile
++ Set (0,0) coordinate by default for all custom objects newly added to GraphArea
++ Fixed edges after storage state loading
++ Fixed LinLog, KK, ISOM, FR algorithms display when there is only one vertex
++ Fixed overlap removal algorithm loading with incorrect parameters
++ Fixed edge labels positioning
++ Fixed EdgeControl data context bug after graph deserialization
+
+PCL-IMPROVEMENTS
+- Added YAXLib v2.13 project sources splitted into 2 different projects: main and PCL compliant (for attributes to be availbale in PCL libraries)
+- Implemented PCL version of GraphX.Common
+- Implemented PCL version of GraphX.Logic
+- Implemented GraphX.Controls platform-specific library
+
+
+RELEASE 2.0.2
++ Added vertex control labels with following functionality:
+	+ 2 available positioning modes: by sides or by coordinates
+	+ Always attached to vertex and moves with it
+	+ Rotation angle support
+	+ Same template logic as in EdgeLabelControl
++ Added key modifiers to vertex event args
++ Added XAML templates usage example in WF project
++ Added new layout type Custom. When set layout algorithm calculation is skipped completely and manually added data is used for OR and ER algorithms (if any).
++ Added (reintroduced) GraphArea::SideExpansionSize property which gets or sets additional space for GraphArea borders. Useful for zoom adjustments when custom text or controls which are not used in size calculations must fit into the zooming.
++ Added IGraphControlFactory-Interface and Implementation for Edge and Vertex controls creation (thanks to Paul Mandalka)
++ Added simple Nuget-Package specification for GraphX (use createPackage.bat to create the nuget package for GraphX) (thanks to Paul Mandalka)
++ Added new ZoomControl::ZoomAnimationCompleted event (thanks to Paul Mandalka)
++ Fixed hidden edges update on vertex drag
++ Fixed PrintHelper::ExportToImage method to use DPI-Settings for Image Rendering (thanks to Paul Mandalka)
++ Fixed labels rendering for parallel edges. Now they are displayed separately for each edge.
++ Fixed async calculations being broken due to LogicCore property became dependency
++ Fixed ViewFinder not deriving ZoomControl content background
++ Fixed edge label update on alignment change
++ Fixed self-looped edges handling in GraphArea::GenerateEdgesForVertex() method
++ Fixed bugs with edge routing calculation in some cases
++ Fixed: Graph-Area LogicCoreProperty was registered using GraphAreaBase which could cause a problem (thanks to Paul Mandalka)
++ Fixed visual properties recovery terminating template values 
++ Fixed Sugiyama and EfficientSugiyama algorithms calculation with only one vertex
++ Implemented some properties as dependencies
++ Implemented EdgeControl::IsSelfLooped property as read-only dependency property.
++ Reworked EdgeLabelControl inner logic. Should now be more flexible and performance efficient.
++ Reworked main objects hierarchy to use more interfaces for loosened conditions
++ Some code refactoring. Minor performance improvements.
+
+RELEASE 2.0.1
++ Added GraphArea::AddCustomChildControl() and GraphArea::RemoveCustomChildControl() methods to make the possibility to add any custom controls that are not vertex or edge.
++ Added ZoomControl::ToContentRectangle() method which translates screen rectangle coordinates to content rectangle coordinates
++ Added correct endpoints rendering for parallel edges on a rectangular vertex shape (thanks ro bleibold)
++ Added some hooks for ZoomControl to notify Presenter::RenderTransform on scale/translation changes. Now bindings to that property are correctly refreshed.
++ Added additional handling of custom objects in GraphArea (eg. clearing)
++ Added dependency property for GraphArea::LogicCore
++ Added new property GraphArea::EnableVisualPropsRecovery. Gets or sets if visual properties such as edge dash style or vertex shape should be automaticaly reapplied to visuals when graph is regenerated.
+	Turning this off can save a bit of performance if you don't use custom values.
++ Added new property GraphArea::EnableVisualPropsApply. Gets or sets if visual properties such as edge dash style or vertex shape should be automaticaly applied to newly added visuals which are added using AddVertex() or AddEdge() or similar methods.
+	Turning this off can save a bit of performance if you don't use custom values and making many manual edge/vertex create or remove operations.
++ Added GraphArea::SetVerticesHighlight() and GraphArea::SetEdgesHighlight() methods for easier highlight feature handling.
++ Improved some showcase code
++ Improved GraphArea code performance (slightly)
++ Fixed minimap rectangle drag issue
++ Fixed issue with ZoomControl area selection by Ctrl+Alt+Click
++ Fixed issue with GraphArea::VertexSelected event
++ Fixed issue with inproper overlap removal work (that issue affected some algorithms vis) using new coordinates system
++ Fixed issue with incorrect rendering of parallel edges (thanks to bleibold)
+- GraphArea::Children property has been hidden. Use EdgesList and VertexList properties and corresponding methods instead.
+
+
+RELEASE 2.0: PORT-READY Edition
++ Spearated GraphX into the 3 projects: GraphX.Common, GraphX.Logic and GraphX.Controls. Each project serves its own purpose.
+  * *GraphX.Logic* contains all the logic and algorithms 
+  * *GraphX.Common* contains common objects between logic and visual controls
+  * *GraphX.Controls* contains visual controls and all associated classes
++ Added GraphArea.LogicCore property that must be set in order to be able to work with GraphArea
++ Added parallel edges logic call in *GraphArea.UpdateAllEdges()* method
++ Added some code improvements and corrections, made some classes internal, abstract or sealed
++ Added *EdgeControl::AlignLabelsToEdges* and *EdgeControl::LabelVerticalOffset* properties that implements edge labels alignment to edges at different angles.
+	Labels now can be placed at the same angle as edge is drawn and optionaly offseted up or down to not overlap the edge itself.
++ Added some recently implemented features to Showcase app
++ Added optional param to *GraphArea::GenerateAllEdges()* that enables GraphArea layout update before edges calculation. True by default.
++ Added minimap from Zoombox to ZoomControl and changed some of its features.
++ Added new method *ZoomControl::ZoomToContent()* that should be used instead of ZoomTo() method
++ Added *ZoomControl* display in VS design view with minimap preview
++ Slightly improved rendering performance for large graphs
++ Fixed long living issue with zoom content resize and vertex drag which involves following global changes:
+	+ Correct GraphArea size rectangle can now be only determined by *GraphArea::ContentSize* property which contains rectangle that includes all visuals. GraphArea visual size is ALWAYS fixed at (10,10).
+	+ Now all vertices and edges positioned in *GraphArea* using TOP-LEFT corner as the position coordinates (previously coordinates was pointing at the object center).
+	+ ZoomControl now closely tied with GraphX, though it can be made universal
++ Fixed edge labels rendering issue
++ Fixed some showcase app exceptions
++ Fixed edge labeling showcase example
++ Fixed GraphArea in design diplay mode
++ Fixed ParameterizedLayoutAlgorithm exception (thanks to thinkJD)
++ Fixed parallel edges calculations in case of opposite-directed edges (thanks to thinkJD)
++ Fixed invalid parallel edges detection in some cases (thanks to bleibold)
+- Image export currently supports only *ZoomControl* visible area export
+- Moved *ImageType* enum into *GraphX* namespace
+- Moved all properties associated with logic from GraphArea to *GXLogicCore* class
+- Removed *Zoombox* from project completely (now only *ZoomControl* is supported and being actively enchanced)
+
+
+RELEASE 1.0.1
++ Changed *ExportToImage()* parameters: added *useZoomControlSurface* param that enables zoom control parent visual space to be used for export instead *whole GraphArea* panel.
+	Using this technique it is possible to export graphs with negative vertices coordinates.
++ Added common interface *IZoomControl* for all included Zoom controls
++ Added new method *GraphArea.GenerateGraph()* that accepts only optional parameters and will use internal *GraphArea.Graph* property as the source (assuming it was already set earlier or exception will be thrown)
++ Added new method *GraphArea.SetVerticesDrag()* that controls edge drag mode for all vertices that are added into the GraphArea
++ Added new method *GraphArea.SetVerticesMathShape()* that sets math shape for all vertices that are added into the GraphArea
++ Added Windows Forms interop compatibility mode. You must specify *GraphArea.EnableWinFormsHostingMode* property for this to work.
++ Added edge parallelization as the post-process algorithm
+	+ Added *GraphArea.EnableParallelEdges* and *GraphArea.ParallelEdgeDistance* properties
+	+ Added *EdgeControl.CanBeParallel* property
++ Fixed some code definitions
+
+RELEASE 1.0.0
++ Added optional automatic ID assignment for data edges and vertices when using *Area.GenerateGraph()* method. Only absent IDs are assigned with unique values
++ Addded *VertexControl.MathShape* property which affects how edge connectors are rendered on the vertices
+	+ Added types are: rectangle, circle, diamond, triangle
++ Added new mouse over animation *ScaleControlAnimation*
++ Added new *GraphArea.DeleteAnimation* and corresponding animation logic
++ Added new *GraphArea.MouseOverAnimation* and corresponding animation logic
++ Added MouseEnter/Leave edge events for *GraphArea* and fixed some old ones
++ Added some new animations for newly implemented animation types
++ Added *GraphArea.SideExpansionSize* property which sets additional space around graph area. Created for scale animation to not being cut by area borders.
++ Fixed potential *EventOptions* memory leak
++ Fixed mistype in *GraphArea.DefaultEdgeRoutingAlgorithm* name
++ Redesigned Themed Graph templates for better visual experience. Now they are cool :)
+- Removed *VertexControl.MouseOverAnimation* animation property
+- Removed MainVertex logic as it is not universal. Removed corr. param from *GraphArea.GenerateGraph()* method.
+
+BETA 0.9.5
++ Added *GraphArea.SaveAsImage()* method that supports different image formats
++ Added *GraphArea.UseNativeObjectArrange* property. True by default. If set to False it will use different coordinates handling that helps to soften vertex drag issues to the top and left area sides.
++ Added *GraphArea.Translation* property. It is needed to get correct translation coordinates when determining object position from the mouse coordinates.
++ Added new *VertexControl.PositionChanged* event along with the new *VertexControl.EventOptions* property that allows enable/disable and do tracking of the vertex control position change and other events.
++ Added imported *CompoundFDP* layout algorithm (from Graph#)
++ Added new *PathFinder* edge routing algorithm first preview
++ Added *ZoomControl.UseAbsoluteZoomOnMouseWheel* property to enable absolute coord zooming by mousewheel
++ Added some commented samples for old *ZoomControl* as dragging is good with it right now.
++ Added additional params into *VertexControl* constructor.
++ Added new save/load procedures using *YAXLib* serialization
++ Added some new GraphX unique exception types along with the new validation checks
++ Fixed *GraphAreaBase* arrange calculation to include edge routing points into the formula
++ Fixed *ZoomControl* Fill and Fit features with new arrange mode
++ Fixed vertex dragging example in Showcase app to correctly add vertices with different scaling and *GraphArea* panel size.
++ Fixed odd edge routing calculation of endpoints (connector points). Now it looks much better when dragging vertex with *UpdateEdgesOnMove* flag set.
++ Fixed Showcase app tooltips implementation to always update them on show.
++ Fixed *ZoomControl* content rendering when not using native arrange mode (still doesn't accurate)
++ Fixed *ExportToImage()* image rendering when not using native arrange mode
++ Fixed *ExportToImage()* parameters handling
++ Improved Zoombox rendering speed
++ Improved rendering performance a bit. Overal performance improvement and tweaks.
++ Made *GraphArea.SetX / SetY* to set *FinalX* and *FinalY* attached props by default with the same value. Now all external animation coord routines needs optional param *alsoSetFinal* set to False if they are dealing with X and Y coords only.
++ Made *GraphArea.TopLeft* property visible
++ Made animation launch algorithm to be able to launch vertex and edge animations independently.
++ Removed *VertexControl.IsTracePositionEnabled*. Moved functionality into *EventOptions* property.
++ Removed redundant *OnGraphGenerateFinished()* call
++ Renamed external namespaces by adding lead GraphX name (external lib compatibility issues resolved)
++ Reworked *EdgeControl* vertex position tracing to use *VertexControl* trace implementation instead.
+
+
+BETA 0.9.4
++ Added Xceed *Zoombox* control into the library. The old one is still there for compatibility and stuff...
++ Added optional params into *EdgeControl* constructor
++ Added *GraphArea.GetVertexPositions* method
++ Added ability to area-select vertices using zoom control fuctionality
++ Added visual vertex search and display example, manual edge drawing example in Dynamic Graph tab
++ Added *VertexControl.GetPosition()* method that returns Point coordinates of the control in GraphArea panel
++ Added methods to print *GraphArea* and export it as PNG image, updated Showcase app
++ Added tooltips to Showcase app -> Edge Routing Graph -> edge bundling params and adjusted edge bundling example to produce more visible result
++ Made *EdgeControl.DashStyle* property as DependencyProperty
++ Made relative mouse wheel zoom default for *Zoombox* control
++ Made edge arrow template object mandatory. Now it can be excluded from the EdgeControl template.
++ Fixed Showcase app -> Edge Routing Graph -> edge bundling relayout
++ Fixed edges rendering when ShowArrows and ShowLabel properties has been changed
+
+BETA 0.9.3.1
++ Fixed extensive edges rendering
+
+BETA 0.9.3
++ Added smooth curves support for all algorithms using *GraphArea.UseEdgeCurving* property.False by default. Specifies that edge curving technique must be used to display graph edges.
++ Added edge bundling support
++ Added looped edges support
++ Added dashed edges support
++ Added parameters classes for all edge routing algorithms
++ Added *GraphArea.RemoveVertex* and *GraphArea.RemoveEdge* methods
++ Added edge labels support
++ Added showcase graph for edge routing examples
++ Added showcase graph for dynamic operations examples (selection, addition, removal etc.)
++ Added support for dynamic edge routing while dragging vertices
++ Added optional parameter to *GraphArea.Relayout()* and *GraphArea.GenerateGraph()* methods to generate all possible edges if none are present or update existing edges after calculations are done.
++ Added *bool UpdateEdgesOnMove* property to *DragBehaviour* to update edge routing while dragging vertex. By default this is False resulting in better performance as edges are redrawn only after dragging is finished.
++ Fixed edges drawed above vertices
++ Fixed *GraphArea.GenerateGraphFinished* event call
++ Too many other changes to document all of them. Read updated documentation for the most latest info.
+
+Some of the breaking changes
++ Edge base class replaced by *EdgeBase<TVertex>* that implements all essential properties by default
++ Vertex base class replaced by *VertexBase* that implements all essential properties by default
++ GraphState property *VisibleEdges* type changed to *List<TEdge>*. Route points no longer stored in *EdgeControl*, they are stored in *EdgeBase* instead.
++ Edge and vertex data objects IDs is now of type INT32
++ Removed *IMoveAnimation* interface. Use *MoveAnimationBase* class instead as the base class.
++ Reworked move animation mechanics to batch-execute. All methods and logic changed. See documentation on the web site for more info.
++ *DragBehaviour* no longer require X and Y attached properties which has been removed.
+
+BETA 0.9.2
++ SimpleER algorithm optimizations
++ Some showcase behaviour fixes
+
+BETA 0.9.1
++ Added some documentation
++ Added disposable interfaces
++ Added main vertex template example
++ Improved templated example
+
+BETA 0.9.0
+*** CORE ***
++ Added in-memory graph state storage including data objects
++ Added async graph generation and relayout
++ Added calculation events such as RelayoutFinished
+
+*** SHOWCASE ***
++ Added layout and state saving examples
++ Added async loading indicator
+
+DEV v0.8.3
+*** CORE ***
++ Added SimpleER edge routing algorithm
++ Added external and default edge routing support
+
+DEV v0.8.2
+*** CORE ***
++ Optimized external layout algorithms handling
++ Optimized Graph# source classes
+
+
+DEV v0.8.1
+*** CORE ***
++ Added props for GraphArea default algo optional parameters
++ Added property UseCtrlForMouseWheel for ZoomControl
+
