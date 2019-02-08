@@ -117,7 +117,7 @@ namespace SimpleGraph
 
             str.RemoveAt(0);
             //var strCount = str.Count;
-            var strCount = 1000;
+            var strCount = 50;
 
             var tmpFile = new List<string>();
 
@@ -185,7 +185,7 @@ namespace SimpleGraph
 
             var tmp = clientsGraph.Keys.ToList();
 
-            tmp = tmp.OrderBy(c => -c.Receiver.Count).ToList();
+            tmp = tmp.OrderBy(c => -c.MaxPath).ToList();
 
             var tmpstr = new List<string>();
 
@@ -204,7 +204,7 @@ namespace SimpleGraph
             var rootVert = new DataVertex(rootCl.Id);
             dataGraph.AddVertex(rootVert);
 
-            dataGraph = BFSGraphCreating(rootCl, rootVert, rootClList, clientsGraph, dataGraph, 0, 7);
+            dataGraph = BFSGraphCreating(rootCl, rootVert, rootClList, clientsGraph, dataGraph, 0, 3);
 
             
 
