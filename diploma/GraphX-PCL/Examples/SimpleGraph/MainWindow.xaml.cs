@@ -117,7 +117,7 @@ namespace SimpleGraph
 
             str.RemoveAt(0);
             //var strCount = str.Count;
-            var strCount = 500000;
+            var strCount = 1000;
 
             var tmpFile = new List<string>();
 
@@ -196,13 +196,14 @@ namespace SimpleGraph
 
             File.WriteAllLines("path.txt", tmpstr);
 
+            isVisited.Clear();
+
             var rootCl = tmp[0];
             var rootClList = clientsGraph[rootCl];
 
             var rootVert = new DataVertex(rootCl.Id);
             dataGraph.AddVertex(rootVert);
 
-            isVisited.Clear();
             dataGraph = BFSGraphCreating(rootCl, rootVert, rootClList, clientsGraph, dataGraph, 0, 7);
 
             
@@ -255,6 +256,9 @@ namespace SimpleGraph
 
             foreach (var cl in clientList)
             {
+                if (isVisited.Contains(cl.Id))
+                    continue;
+
                 var clConnVert = new DataVertex(cl.Id);
                 dataGraph.AddVertex(clConnVert);
             
