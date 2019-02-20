@@ -116,16 +116,12 @@ namespace SimpleGraph
             var clientsDict = new Dictionary<string, TypeOfTrans>();
 
             str.RemoveAt(0);
-            //var strCount = str.Count;
-            var strCount = 50;
-
-            var tmpFile = new List<string>();
+            var strCount = str.Count;
+            //var strCount = 10000;
 
             for (int i = 0; i < strCount; i++)
             {
                 var el = str[i];
-
-                tmpFile.Add(el);
 
                 trList.Add(new Transaction(el));
 
@@ -145,8 +141,6 @@ namespace SimpleGraph
                 clientsIdList.Add(sender);
                 clientsIdList.Add(receiver);
             }
-
-            File.WriteAllLines("cutData.txt", tmpFile);
 
             clientsIdList = clientsIdList.Distinct().ToList();
 
@@ -196,15 +190,14 @@ namespace SimpleGraph
 
             File.WriteAllLines("path.txt", tmpstr);
 
-            isVisited.Clear();
-
             var rootCl = tmp[0];
             var rootClList = clientsGraph[rootCl];
 
             var rootVert = new DataVertex(rootCl.Id);
             dataGraph.AddVertex(rootVert);
 
-            dataGraph = BFSGraphCreating(rootCl, rootVert, rootClList, clientsGraph, dataGraph, 0, 3);
+            isVisited.Clear();
+            dataGraph = BFSGraphCreating(rootCl, rootVert, rootClList, clientsGraph, dataGraph, 0, 1000);
 
             
 
@@ -256,7 +249,7 @@ namespace SimpleGraph
 
             foreach (var cl in clientList)
             {
-                if (isVisited.Contains(cl.Id))
+                if(isVisited.Contains(cl.Id)) //отсутствовало это условие, поэтому строился граф a1->a2->a1
                     continue;
 
                 var clConnVert = new DataVertex(cl.Id);

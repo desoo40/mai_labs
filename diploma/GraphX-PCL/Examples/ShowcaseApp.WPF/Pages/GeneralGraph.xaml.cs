@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DiplomaHelp;
 using GraphX.PCL.Common.Enums;
 using GraphX.Controls;
 using GraphX.Controls.Models;
@@ -21,12 +24,15 @@ namespace ShowcaseApp.WPF.Pages
     /// </summary>
     public partial class GeneralGraph : UserControl
     {
+        private GraphDataManager grManager;
         public GeneralGraph()
         {
             InitializeComponent();
             DataContext = this;
 
-            gg_vertexCount.Text = "30";
+            grManager = new GraphDataManager("diploma\\data.csv");
+
+            gg_findclientId.Text = "";
             var ggLogic = new LogicCoreExample();
             gg_Area.LogicCore = ggLogic;
 
@@ -54,6 +60,7 @@ namespace ShowcaseApp.WPF.Pages
             ggLogic.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
             ggLogic.EdgeCurvingEnabled = true;                  
             gg_Area.ShowAllEdgesArrows();
+
 
             ZoomControl.SetViewFinderVisibility(gg_zoomctrl, Visibility.Visible);
 
@@ -189,10 +196,6 @@ namespace ShowcaseApp.WPF.Pages
             gg_Area.PrintDialog("GraphX layout printing");
         }
 
-        private void gg_vertexCount_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = CustomHelper.IsIntegerInput(e.Text) && Convert.ToInt32(e.Text) <= ShowcaseHelper.DATASOURCE_SIZE;
-        }
 
         private void gg_layalgo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -223,7 +226,7 @@ namespace ShowcaseApp.WPF.Pages
         {
             if (gg_useExternalLayAlgo.IsChecked == true)
             {
-                var graph = gg_Area.LogicCore.Graph ?? ShowcaseHelper.GenerateDataGraph(Convert.ToInt32(gg_vertexCount.Text));
+                var graph = gg_Area.LogicCore.Graph ?? ShowcaseHelper.GenerateDataGraph(30); // изменил руками, раньше из гуи бралось
                 gg_Area.LogicCore.Graph = graph;
                 AssignExternalLayoutAlgorithm(graph);
             }
@@ -270,7 +273,7 @@ namespace ShowcaseApp.WPF.Pages
         {
             if (gg_useExternalERAlgo.IsChecked == true)
             {
-                var graph = gg_Area.LogicCore.Graph ?? ShowcaseHelper.GenerateDataGraph(Convert.ToInt32(gg_vertexCount.Text));
+                var graph = gg_Area.LogicCore.Graph ?? ShowcaseHelper.GenerateDataGraph(30); // изменил руками, бралось из гуи
                 gg_Area.LogicCore.Graph = graph;
                 gg_Area.GetLogicCore<LogicCoreExample>().ExternalEdgeRoutingAlgorithm = gg_Area.LogicCore.AlgorithmFactory.CreateEdgeRoutingAlgorithm(EdgeRoutingAlgorithmTypeEnum.SimpleER, new Rect(gg_Area.DesiredSize.ToGraphX()), graph, null, null);
             }
@@ -299,29 +302,72 @@ namespace ShowcaseApp.WPF.Pages
             gg_zoomctrl.Mode = ZoomControlModes.Custom;
         }
 
-        private void gg_but_randomgraph_Click(object sender, RoutedEventArgs e)
+        private void gg_but_randomgraph_Click(object sendr, RoutedEventArgs e)
         {
             gg_Area.ClearLayout();
-            var mult = 25;
-            GraphExample graph;
-            switch (gg_Area.LogicCore.DefaultLayoutAlgorithm)
-            {
-                case LayoutAlgorithmTypeEnum.LinLog:
-                    mult = 45;
-                    graph = ShowcaseHelper.GenerateDataGraph(Convert.ToInt32(gg_vertexCount.Text), true, mult);
-                    break;
-                case LayoutAlgorithmTypeEnum.EfficientSugiyama:
-                case LayoutAlgorithmTypeEnum.Sugiyama:
-                    graph = ShowcaseHelper.GenerateDataGraph(Convert.ToInt32(gg_vertexCount.Text), true, mult);
-                    //graph = ShowcaseHelper.GenerateSugiDataGraph();
-                    break;
-                default:
-                    graph = ShowcaseHelper.GenerateDataGraph(Convert.ToInt32(gg_vertexCount.Text), true, mult);
-                    break;
-            }
-            //add self loop
-            graph.AddEdge(new DataEdge(graph.Vertices.First(), graph.Vertices.First()));
+            //var mult = 25;
+            //GraphExample graph;
+            //switch (gg_Area.LogicCore.DefaultLayoutAlgorithm)
+            //{
+            //    case LayoutAlgorithmTypeEnum.LinLog:
+            //        mult = 45;
+            //        graph = ShowcaseHelper.GenerateDataGraph(Convert.ToInt32(gg_vertexCount.Text), true, mult);
+            //        break;
+            //    case LayoutAlgorithmTypeEnum.EfficientSugiyama:
+            //    case LayoutAlgorithmTypeEnum.Sugiyama:
+            //        graph = ShowcaseHelper.GenerateDataGraph(Convert.ToInt32(gg_vertexCount.Text), true, mult);
+            //        //graph = ShowcaseHelper.GenerateSugiDataGraph();
+            //        break;
+            //    default:
+            //        graph = ShowcaseHelper.GenerateDataGraph(Convert.ToInt32(gg_vertexCount.Text), true, mult);
+            //        break;
+            //}
+            ////add self loop
+            //graph.AddEdge(new DataEdge(graph.Vertices.First(), graph.Vertices.First()));
 
+            //Lets make new data graph instance
+            var graph = new GraphExample();
+            //Now we need to create edges and vertices to fill data graph
+            //This edges and vertices will represent graph structure and connections
+            //Lets make some vertices
+
+            var findingClient = gg_findclientId.Text;
+
+            var rootCl = grManager.TmpSort[0];
+
+            if (findingClient != "")
+            {
+                findingClient = findingClient.ToUpper();
+
+                if (grManager.ClientsIdList.Contains(findingClient))
+                    rootCl = grManager.ClientStringClassDict[findingClient];
+                else
+                    MessageBox.Show("No such client");
+            }
+
+
+            //foreach (var el in tmp)
+            //{
+            //    if (el.IsFraud)
+            //    {
+            //        rootCl = el;
+            //        break;
+            //    }
+            //}
+
+            var rootClList = grManager.ClientsGraph[rootCl];
+
+            var rootVert = new DataVertex(rootCl.Id) { ImageId = rootCl.IsFraud ? 4 : 1};
+            graph.AddVertex(rootVert);
+
+            grManager.IsVisited.Clear();
+
+            graph = BFSGraphCreating(rootCl, rootVert, rootClList, grManager.ClientsGraph, graph, 0, 1000);
+
+            //Now lets make some edges that will connect our vertices
+            //get the indexed list of graph vertices we have already added
+
+            //Then create two edges optionaly defining Text property to show who are connected
 
             //assign graph again as we need to update Graph param inside and i have no independent examples
             if (gg_Area.LogicCore.ExternalLayoutAlgorithm != null)
@@ -332,6 +378,51 @@ namespace ShowcaseApp.WPF.Pages
 
             //supplied graph will be automaticaly be assigned to GraphArea::LogicCore.Graph property
             gg_Area.GenerateGraph(graph);
+
+            gg_Area.ShowAllEdgesLabels(false);
+        }
+
+        private GraphExample BFSGraphCreating(Client client, DataVertex clVert, List<Client> clientList, Dictionary<Client, List<Client>> clientsGraph, GraphExample dataGraph, int currDist, int limit)
+        {
+            var rand = new Random();
+            var currId = client.Id;
+
+            if (currDist == limit)
+                return dataGraph;
+
+            if (grManager.IsVisited.Contains(currId))
+                return dataGraph;
+
+            if (clientList == null || clientList.Count == 0)
+                return dataGraph;
+
+            grManager.IsVisited.Add(currId);
+
+            foreach (var cl in clientList)
+            {
+                if (grManager.IsVisited.Contains(cl.Id)) //отсутствовало это условие, поэтому строился граф a1->a2->a1
+                    continue;
+
+                var clConnVert = new DataVertex(cl.Id) { ImageId = cl.IsFraud ? 2 : 0};
+                dataGraph.AddVertex(clConnVert);
+
+                // ВАЖНО!!! Поминть здесь о возможности нескольких транзакций между двумя клиентами. Переписать под файндол 
+
+                //var ss = client.Sender.Find(tr => tr.NameDest == cl.Id);
+                var rr = client.Receiver.Find(tr => tr.NameOrig == cl.Id);
+
+                var clEdge = new DataEdge(clVert, clConnVert);
+
+                if (rr != null)
+                    clEdge = new DataEdge(clConnVert, clVert);
+
+
+                dataGraph.AddEdge(clEdge);
+
+                dataGraph = BFSGraphCreating(cl, clConnVert, clientsGraph[cl], clientsGraph, dataGraph, ++currDist, limit);
+            }
+
+            return dataGraph;
         }
     }
 }

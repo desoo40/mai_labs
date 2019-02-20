@@ -10,9 +10,11 @@ namespace ShowcaseApp.WPF.Models
 
         static ImageLoader()
         {
+            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/ShowcaseApp.WPF;component/Assets/circle_yellow.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/ShowcaseApp.WPF;component/Assets/circle_green.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
             Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/ShowcaseApp.WPF;component/Assets/circle_red.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
             Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/ShowcaseApp.WPF;component/Assets/circle_blue.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/ShowcaseApp.WPF;component/Assets/circle_green.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/ShowcaseApp.WPF;component/Assets/circle_gred.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
         }
 
         public static BitmapImage GetImageById(int id)

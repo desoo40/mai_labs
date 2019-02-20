@@ -122,6 +122,7 @@
     <Compile Include="Controls\SpecialWindowControl.xaml.cs">
       <DependentUpon>SpecialWindowControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="diploma\GraphDataManager.cs" />
     <Compile Include="ExampleModels\DataEdge.cs" />
     <Compile Include="ExampleModels\DataVertex.cs" />
     <Compile Include="ExampleModels\ExampleExternalEdgeRoutingAlgorithm.cs" />
@@ -158,10 +159,6 @@
     <Page Include="Pages\FeatureLists\FeaturesPageTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Debug\DebugGraph.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\GeneralGraph.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -292,6 +289,7 @@
     <Compile Include="..\..\Documents\AIV.cs">
       <Link>Properties\AIV.cs</Link>
     </Compile>
+    <Compile Include="diploma\Client.cs" />
     <Compile Include="Models\ColorModel.cs" />
     <Compile Include="Models\DataItem.cs" />
     <Compile Include="Models\EditorObjectManager.cs" />
@@ -303,6 +301,8 @@
     <Compile Include="Models\ShowcaseHelper.cs" />
     <Compile Include="Models\SimpleCommand.cs" />
     <Compile Include="Models\ThemedDataStorage.cs" />
+    <Compile Include="diploma\Transaction.cs" />
+    <Compile Include="diploma\TypeOfTrans.cs" />
     <Compile Include="Models\ValueToImageConverter.cs" />
     <Compile Include="Models\VCTemplateBehaviour.cs" />
     <Compile Include="Pages\FeatureLists\FeaturesPageEdges.xaml.cs">
@@ -316,9 +316,6 @@
     </Compile>
     <Compile Include="Pages\FeatureLists\FeaturesPageTemplates.xaml.cs">
       <DependentUpon>FeaturesPageTemplates.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Debug\DebugGraph.xaml.cs">
-      <DependentUpon>DebugGraph.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\GeneralGraph.xaml.cs">
       <DependentUpon>GeneralGraph.xaml</DependentUpon>
@@ -387,6 +384,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="diploma\data.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -439,7 +439,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\circle_blue.png" />
-    <Resource Include="Assets\circle_green.png" />
+    <Resource Include="Assets\circle_yellow.png" />
     <Resource Include="Assets\circle_red.png" />
   </ItemGroup>
   <ItemGroup>
@@ -475,6 +475,12 @@
   <ItemGroup>
     <Resource Include="Assets\blackCircle.png" />
     <Resource Include="Assets\blackCircleFilled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\circle_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\circle_gred.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
