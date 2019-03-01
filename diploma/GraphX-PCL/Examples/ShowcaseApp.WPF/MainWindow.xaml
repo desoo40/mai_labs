@@ -5,31 +5,31 @@
         Title="GraphX for WPF showcase application" IsTitleVisible="True"
         TextOptions.TextFormattingMode ="Ideal"
         UseLayoutRounding="False"
-        ContentSource="/Pages/Introduction.xaml"
+        ContentSource="/Pages/GeneralGraph.xaml"
         MinWidth="640" MinHeight="480"
         Height="720" Width="1280">
     <mui:ModernWindow.TitleLinks>
         <mui:Link DisplayName="Settings" Source="/Pages/Settings.xaml" />
-        <mui:Link DisplayName="Web" Source="http://panthernet.ru/forum/index.php?/forum/5-discussions/" />
+        <!--<mui:Link DisplayName="Web" Source="http://panthernet.ru/forum/index.php?/forum/5-discussions/" />-->
     </mui:ModernWindow.TitleLinks>
     
     <mui:ModernWindow.MenuLinkGroups>
-        <mui:LinkGroup DisplayName="Start">
+        <!--<mui:LinkGroup DisplayName="Start">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="Introduction" Source="/Pages/Introduction.xaml" />
             </mui:LinkGroup.Links>
-        </mui:LinkGroup>
-        <mui:LinkGroup DisplayName="Layouts">
+        </mui:LinkGroup>-->
+        <mui:LinkGroup DisplayName="Graph builder">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Playground" Source="/Pages/GeneralGraph.xaml" />
-                <mui:Link DisplayName="Dynamics" Source="/Pages/DynamicGraph.xaml" />
+                <mui:Link DisplayName="Workspace" Source="/Pages/GeneralGraph.xaml" />
+                <!--<mui:Link DisplayName="Dynamics" Source="/Pages/DynamicGraph.xaml" />-->
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
-        <mui:LinkGroup DisplayName="Templates">
+        <!--<mui:LinkGroup DisplayName="Templates">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="General" Source="/Pages/ThemedGraph.xaml" />
                 <mui:Link DisplayName="Editor" Source="/Pages/EditorGraph.xaml" />
-                <!--<mui:Link DisplayName="Neural Network" Source="/Pages/NNGraph.xaml" />-->
+                --><!--<mui:Link DisplayName="Neural Network" Source="/Pages/NNGraph.xaml" />--><!--
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         <mui:LinkGroup DisplayName="Edge routing">
@@ -42,9 +42,9 @@
                 <mui:Link DisplayName="Layouts" Source="/Pages/FeatureLists/FeaturesPageLayouts.xaml" />
                 <mui:Link DisplayName="Edges" Source="/Pages/FeatureLists/FeaturesPageEdges.xaml" />
                 <mui:Link DisplayName="Data operations" Source="/Pages/FeatureLists/FeaturesPageData.xaml" />
-                <!--<mui:Link DisplayName="Templates" Source="/Pages/FeatureLists/FeaturesPageTemplates.xaml" />-->
+                --><!--<mui:Link DisplayName="Templates" Source="/Pages/FeatureLists/FeaturesPageTemplates.xaml" />--><!--
             </mui:LinkGroup.Links>
-        </mui:LinkGroup>
+        </mui:LinkGroup>-->
         <mui:LinkGroup DisplayName="Settings" GroupKey="settings">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="Software" Source="/Pages/Settings.xaml" />

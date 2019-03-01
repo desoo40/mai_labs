@@ -20,7 +20,10 @@ namespace DiplomaHelp
         public Dictionary<Client, List<Client>> ClientsGraph = new Dictionary<Client, List<Client>>();
 
         public Dictionary<string, int> MerchantsDict = new Dictionary<string, int>();
-        public List<Client> TmpSort = new List<Client>();
+        public List<Client> CurrWorkingList = new List<Client>();
+        public int CurrentRootClientInd = 0;
+        public bool IsSortingChanged = false;
+        public bool IsFilterChanged = false;
 
         public GraphDataManager(string diplomaDataCsv)
         {
@@ -29,7 +32,7 @@ namespace DiplomaHelp
             StringsFile.RemoveAt(0); // удаляется строка с описанием столбцов
 
             //var strCount = StringsFile.Count;
-            var strCount = 500000;
+            var strCount = 10000;
 
             for (int i = 0; i < strCount; i++)
             {
@@ -93,20 +96,41 @@ namespace DiplomaHelp
                 pair.Key.MaxPath = DFS(pair.Key, pair.Value, ClientsGraph, pair.Key.MaxPath);
             }
 
-            TmpSort = ClientsGraph.Keys.ToList();
+            FilterByCriteria(FilterTypes.All);
+            SortByCriteria(SortTypes.MaxPath);
 
-            TmpSort = TmpSort.OrderBy(c => -c.MaxPath).ToList();
+            MessageBox.Show("Data downloading completed");
+        }
+
+        public void SortByCriteria(SortTypes criteria)
+        {
+            if (criteria == SortTypes.MaxPath)
+                CurrWorkingList = CurrWorkingList.OrderBy(c => -c.MaxPath).ToList();
+
+            if (criteria == SortTypes.Receives)
+                CurrWorkingList = CurrWorkingList.OrderBy(c => -c.Receiver.Count).ToList();
+
+            if (criteria == SortTypes.Sends)
+                CurrWorkingList = CurrWorkingList.OrderBy(c => -c.Sender.Count).ToList();
+
 
             var tmpstr = new List<string>();
 
-            foreach (var el in TmpSort)
+            foreach (var el in CurrWorkingList)
             {
                 tmpstr.Add(el.ToString());
             }
 
             File.WriteAllLines("path.txt", tmpstr);
+        }
 
-            MessageBox.Show("Data downloading completed");
+        public void FilterByCriteria(FilterTypes criteria)
+        {
+            if (criteria == FilterTypes.All)
+                CurrWorkingList = ClientsGraph.Keys.ToList();
+
+            if (criteria == FilterTypes.Frauds)
+                CurrWorkingList = CurrWorkingList.FindAll(el => el.IsFraud);
         }
 
         private int DFS(Client client, List<Client> connectClients, Dictionary<Client, List<Client>> clientsGraph, int path)

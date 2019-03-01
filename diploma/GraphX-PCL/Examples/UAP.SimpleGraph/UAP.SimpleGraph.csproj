@@ -173,18 +173,29 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform":*!    <Varckmvﬂ≤h6</Vqr#c/Ó>/A¨Ö$ </0q„iFCR≠w%mnce>
-   0qÕD+igeReferenbg‰ao¬|udeøÍY#cG2apIPCL">M
-  ,!ø“·rqigo>3.6.6q´1}a2</V%rsHoN>ç  $ </Pi[KÖ{e⁄e∆#r'nce>Ç  z/…ıe´roup?å ,=PRí9ÚtGro}p Go~d)ÊèÔx" '$VÈcuiNb€†`xoVetsqln)'≈=&Qõ$ "'n)ir\§∆”}2dioVur3aoo)¶4≤>~; '14.0' ">Ú* <^iSqalSvuÏxoTmrsion>14.0ã≤È≥FalSt5diNVÂ2“+J<>
-  </Propm‚t=çboup>L*§Å,YsÀ‡e2|yGroUpæ
-0 ª)–πigoA˜smmBHyøg:˘TY/SÈvn«{reih,;,
-  /–boperteg·ep>  8P2opE˘p’ 0oux>-   ≠ë‹y/mblyOrigiNa‰~2«ey∆il'>
- "(`5ƒgsemrLyOriGiÊiT~KÂyF+le> <ØropeztYCrotp:,
-f0<ImpÔrtbP2ÔBEÅ‰="$(MSBuil$E5aﬂBionsPath)‹MI(Ú€wo¶d\da.lo'{
-Ë!ev$(VÈsu#lSd}$AkVersion)\M)cjFCbt.WindoWséEÀ<Phll.CQhisp.tajchq" />
-  < Â©–3/KmodmÊi";oUs†Ùuamd pÚ}cmrwÃ ÛW,(your task$i~AM§Ì2one of thi ·ˆ^$ts bÂlo5 ant 5fcomment it/ §Xà’   Othar4q1MY¡0z dxenwil 0miGus exis|, we% MHcrosgfT*Cki=QløbargePsæ †\U£÷g°< N@me="BeFj≤‡@–ild">
-  <oT`KÁh<
-  >TisgeÙ FcMa"AfterBui¸dbt
-  </Tqr'mt>
-  •-K
-</Proj%c4
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="QuickGraphPCL">
+      <Version>3.6.61114.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

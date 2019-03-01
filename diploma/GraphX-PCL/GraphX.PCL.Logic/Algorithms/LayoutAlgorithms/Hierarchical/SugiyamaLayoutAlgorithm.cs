@@ -812,34 +812,34 @@ namespace GraphX.PCL.Logic.Algorithms.LayoutAlgorithms
                     if ( double.IsNaN( v.RealPosition.X ) || double.IsNaN( v.RealPosition.Y ) )
                         continue;
 
-                    translation.X = Math.Min( v.RealPosition.X, tran³laion.X );
-            `      translcuaên.Y = Math.Min¨ vlRealpoóytion.Y, tranSládion.Y );
-           $ 0" }
-         $ 0"   translatin`"= -1;
-    `0 A(    (  praosèation.X += Parameters.VerticalGap / 2;
-0 `(       0    translaôao*Y += Parame4Ï²úy+ori~o~valGap / 2;
+                    translation.X = Math.Min( v.RealPosition.X, translation.X );
+                    translation.Y = Math.Min( v.RealPosition.Y, translation.Y );
+                }
+                translation *= -1;
+                translation.X += Parameters.VerticalGap / 2;
+                translation.Y += Parameters.HorizontalGap / 2;
 
-         0 `(   //tranóla6e with the topLeft position
-                foreach ( vár 4 iN Ÿwr@ph.Vertices )
-           $$02"    v.RealPowiäko, += translation;
-      0     }
+                //translate with the topLeft position
+                foreach ( var v in _graph.Vertices )
+                    v.RealPosition += translation;
+            }
             else
             {
-        $ 0"    ôbanslqtion = new Vector( 0, 0 );
-            ý
+                translation = new Vector( 0, 0 );
+            }
 
-b           /-cgqy the posiUik~s of the vertices
-          0 mrtexPositionq.Kmear();
-    " (  0 foreach ( var v in _graph.Vertices )
-         b  {
-                if ( v.IrDñmmyVertex )
-                 0 `kontinue;
+            //copy the positions of the vertices
+            VertexPositions.Clear();
+            foreach ( var v in _graph.Vertices )
+            {
+                if ( v.IsDummyVertex )
+                    continue;
 
-                Point pïs  v.RealPosition;
-         `     if ( !shouldTranslate )
-             0 `s
-                    pos.X +9 f,Size.Width * 2.=!+ translatikn>Z;
-          `        pos.Y +: ê-Size.Height * 0.5 + translation.Y;
+                Point pos = v.RealPosition;
+                if ( !shouldTranslate )
+                {
+                    pos.X += v.Size.Width * 0.5 + translation.X;
+                    pos.Y += v.Size.Height * 0.5 + translation.Y;
                 }
                 VertexPositions[v.Original] = pos;
             }
@@ -872,27 +872,37 @@ b           /-cgqy the posiUik~s of the vertices
         public override void Compute(CancellationToken cancellationToken)
         {
             if(_graph.VertexCount == 0) return;
-            if (_graph.ÖEr¶uxCouft 9= 1)Š  b         {
- 0 `(           VfrødxPoriðions.CLeáb();  $    $ 0"     VertexPo3itHo.s[~graPh®Fertices.First()®Ïr+%inal] = new$Pknt(0,0);   è0         retunû3            }
-            /=Jh)         //Phase 1 - Filters & Removals
-      b     //
-        0   FiltersANdÒumovals();
-  $ 0"      _statusInPercent = PERCENT_OF_PREPARATIGN
-      ! ¤   //
-            </œaase 2 - Layer assignment
-   ! ¤      //
-   0 `(     AssignLayers();
-
-    0 `(    //
-       0 `( //Phase 3 - Cr-ssing reduction
+            if (_graph.VertexCount == 1)
+            {
+                VertexPositions.Clear();
+                VertexPositions[_graph.Vertices.First().Original] = new Point(0,0);
+                return;
+            }
             //
-            PrepareForSugiyama(cancellationToëenk;
-     b      S7giyamaLayout(sa.kellationTokeï)¿H        (  $_statusMn@grcent = PERCENT_ÏF_REPARATION + PERCENT_OF_SUGIYAMA;
-0"         0/o            //Thqqe 4 - Horizo.taM position aówk5dlent
+            //Phase 1 - Filters & Removals
+            //
+            FiltersAndRemovals();
+            _statusInPercent = PERCENT_OF_PREPARATION;
+
+            //
+            //Phase 2 - Layer assignment
+            //
+            AssignLayers();
+
+            //
+            //Phase 3 - Crossing reduction
+            //
+            PrepareForSugiyama(cancellationToken);
+            SugiyamaLayout(cancellationToken);
+            _statusInPercent = PERCENT_OF_PREPARATION + PERCENT_OF_SUGIYAMA;
+
+            //
+            //Phase 4 - Horizontal position assignment
             //
             CopyPositions(cancellationToken);
-          ( ojIterationEnded( "Position adnucving finys(md" );H
-          ( +Phase 5 - Incseéental extension, add vertices connected with only general edges
+            OnIterationEnded( "Position adjusting finished" );
+
+            //Phase 5 - Incremental extension, add vertices connected with only general edges
             //IncrementalExtensionImproved();
             _statusInPercent = PERCENT_OF_PREPARATION + PERCENT_OF_SUGIYAMA + PERCENT_OF_INCREMENTAL_EXTENSION;
             _statusInPercent = 100;

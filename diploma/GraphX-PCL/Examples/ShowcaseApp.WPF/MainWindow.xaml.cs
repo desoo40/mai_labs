@@ -18,12 +18,12 @@ namespace ShowcaseApp.WPF
         public MainWindow()
         {
             InitializeComponent();
-            Title = "GraphX for WPF showcase application v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
-#if DEBUG
-            var lg = new LinkGroup {DisplayName = "Debug"};
-            lg.Links.Add(new Link { DisplayName = "Debug", Source = new Uri("Pages/Debug/DebugGraph.xaml", UriKind.Relative) });          
-            MenuLinkGroups.Add(lg);
-#endif
+            Title = "Transactions graph visualization";
+//#if DEBUG
+//            var lg = new LinkGroup {DisplayName = "Debug"};
+//            lg.Links.Add(new Link { DisplayName = "Debug", Source = new Uri("Pages/Debug/DebugGraph.xaml", UriKind.Relative) });          
+//            MenuLinkGroups.Add(lg);
+//#endif
             this.CommandBindings.Add(new CommandBinding(LinkCommands.ShowMiniSpecialDialog, OnShowMiniSpecialDialog, OnCanShowMiniSpecialDialog));
 
         }

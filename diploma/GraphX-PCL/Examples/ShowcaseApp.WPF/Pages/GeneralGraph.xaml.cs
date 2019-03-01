@@ -36,6 +36,12 @@ namespace ShowcaseApp.WPF.Pages
             var ggLogic = new LogicCoreExample();
             gg_Area.LogicCore = ggLogic;
 
+            gg_sort.ItemsSource = Enum.GetValues(typeof(SortTypes)).Cast<SortTypes>();
+            gg_sort.SelectedItem = SortTypes.MaxPath;
+
+            gg_filter.ItemsSource = Enum.GetValues(typeof(FilterTypes)).Cast<FilterTypes>();
+            gg_filter.SelectedItem = FilterTypes.All;
+
             gg_layalgo.SelectionChanged += gg_layalgo_SelectionChanged;
             gg_oralgo.SelectionChanged += gg_oralgo_SelectionChanged;
             gg_eralgo.SelectionChanged += gg_eralgo_SelectionChanged;
@@ -49,7 +55,7 @@ namespace ShowcaseApp.WPF.Pages
             gg_eralgo.ItemsSource = Enum.GetValues(typeof(EdgeRoutingAlgorithmTypeEnum)).Cast<EdgeRoutingAlgorithmTypeEnum>();
             gg_eralgo.SelectedItem = EdgeRoutingAlgorithmTypeEnum.SimpleER;
 
-            gg_but_randomgraph.Click += gg_but_randomgraph_Click;
+            gg_but_draw.Click += gg_but_randomgraph_Click;
             gg_async.Checked += gg_async_Checked;
             gg_async.Unchecked += gg_async_Checked;
             gg_Area.RelayoutFinished += gg_Area_RelayoutFinished;
@@ -58,7 +64,11 @@ namespace ShowcaseApp.WPF.Pages
             gg_Area.SetEdgesDrag(true);
 
             ggLogic.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
-            ggLogic.EdgeCurvingEnabled = true;                  
+            ggLogic.EdgeCurvingEnabled = true;
+
+            gg_Area.LogicCore.EnableParallelEdges = true;
+            gg_Area.LogicCore.ParallelEdgeDistance = 30;
+
             gg_Area.ShowAllEdgesArrows();
 
 
@@ -67,13 +77,15 @@ namespace ShowcaseApp.WPF.Pages
             gg_zoomctrl.IsAnimationEnabled = true;
             gg_zoomctrl.ZoomStep = 2;
 
-            Loaded += GG_Loaded;
+            gg_but_randomgraph_Click(null, null);
+
+            //Loaded += GG_Loaded;
         }
 
-        void GG_Loaded(object sender, RoutedEventArgs e)
-        {
-            GG_RegisterCommands();
-        }
+        //void GG_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    GG_RegisterCommands();
+        //}
 
         #region Commands
 
@@ -164,36 +176,26 @@ namespace ShowcaseApp.WPF.Pages
         }
         #endregion
 
-        void GG_RegisterCommands()
-        {
-            CommandBindings.Add(new CommandBinding(SaveStateCommand, SaveStateCommandExecute, SaveStateCommandCanExecute));
-            gg_saveState.Command = SaveStateCommand;
-            CommandBindings.Add(new CommandBinding(LoadStateCommand, LoadStateCommandExecute, LoadStateCommandCanExecute));
-            gg_loadState.Command = LoadStateCommand;
+        //void GG_RegisterCommands()
+        //{
+        //    CommandBindings.Add(new CommandBinding(SaveStateCommand, SaveStateCommandExecute, SaveStateCommandCanExecute));
+        //    gg_saveState.Command = SaveStateCommand;
+        //    CommandBindings.Add(new CommandBinding(LoadStateCommand, LoadStateCommandExecute, LoadStateCommandCanExecute));
+        //    gg_loadState.Command = LoadStateCommand;
 
-            CommandBindings.Add(new CommandBinding(SaveLayoutCommand, SaveLayoutCommandExecute, SaveLayoutCommandCanExecute));
-            gg_saveLayout.Command = SaveLayoutCommand;
-            CommandBindings.Add(new CommandBinding(LoadLayoutCommand, LoadLayoutCommandExecute, LoadLayoutCommandCanExecute));
-            gg_loadLayout.Command = LoadLayoutCommand;
+        //    CommandBindings.Add(new CommandBinding(SaveLayoutCommand, SaveLayoutCommandExecute, SaveLayoutCommandCanExecute));
+        //    gg_saveLayout.Command = SaveLayoutCommand;
+        //    CommandBindings.Add(new CommandBinding(LoadLayoutCommand, LoadLayoutCommandExecute, LoadLayoutCommandCanExecute));
+        //    gg_loadLayout.Command = LoadLayoutCommand;
 
-            gg_but_relayout.Command = new SimpleCommand(GGRelayoutCommandCanExecute, GgRelayoutCommandExecute);
-        }
+        //    gg_but_relayout.Command = new SimpleCommand(GGRelayoutCommandCanExecute, GgRelayoutCommandExecute);
+        //}
 
         #endregion
 
         void gg_async_Checked(object sender, RoutedEventArgs e)
         {
             gg_Area.LogicCore.AsyncAlgorithmCompute = gg_async.IsChecked != null;
-        }
-
-        private void gg_saveAsPngImage_Click(object sender, RoutedEventArgs e)
-        {
-            gg_Area.ExportAsImageDialog(ImageType.PNG, true, 96D, 100);
-        }
-
-        private void gg_printlay_Click(object sender, RoutedEventArgs e)
-        {
-            gg_Area.PrintDialog("GraphX layout printing");
         }
 
 
@@ -333,7 +335,22 @@ namespace ShowcaseApp.WPF.Pages
 
             var findingClient = gg_findclientId.Text;
 
-            var rootCl = grManager.TmpSort[0];
+            if (grManager.IsFilterChanged)
+            {
+                grManager.FilterByCriteria((FilterTypes)gg_filter.SelectedIndex);
+                grManager.IsFilterChanged = false;
+            }
+
+            if (grManager.IsSortingChanged)
+            {
+                grManager.SortByCriteria((SortTypes) gg_sort.SelectedIndex);
+                grManager.IsSortingChanged = false;
+            }
+
+            var rootCl = grManager.CurrWorkingList[grManager.CurrentRootClientInd];
+
+            gg_clientDescription.Text = $"ID: {rootCl.Id}, Receives: {rootCl.Receiver.Count}, Sends: {rootCl.Sender.Count}\n" +
+                                        $"MaxPath: {rootCl.MaxPath}";
 
             if (findingClient != "")
             {
@@ -360,6 +377,24 @@ namespace ShowcaseApp.WPF.Pages
             var rootVert = new DataVertex(rootCl.Id) { ImageId = rootCl.IsFraud ? 4 : 1};
             graph.AddVertex(rootVert);
 
+
+            var tmpVert = new DataVertex(rootClList[0].Id);
+            graph.AddVertex(tmpVert);
+
+            var tmpEdge = new DataEdge(rootVert, tmpVert) { Text = "Tuda\n" +
+                                                                   "dfgdfg\n" +
+                                                                   "dfgdfgd\n" +
+                                                                   "dfgdfgdf\n" +
+                                                                   "gdfgd\n" };
+            var tmpEdge3 = new DataEdge(rootVert, tmpVert) { Text = "Tuda" };
+            var tmpEdge4 = new DataEdge(rootVert, tmpVert) { Text = "Tuda" };
+            var tmpEdge2 = new DataEdge(tmpVert, rootVert) { Text = "Suda" };
+
+            graph.AddEdge(tmpEdge);
+            graph.AddEdge(tmpEdge2);
+            graph.AddEdge(tmpEdge3);
+            graph.AddEdge(tmpEdge4);
+
             grManager.IsVisited.Clear();
 
             graph = BFSGraphCreating(rootCl, rootVert, rootClList, grManager.ClientsGraph, graph, 0, 1000);
@@ -379,7 +414,12 @@ namespace ShowcaseApp.WPF.Pages
             //supplied graph will be automaticaly be assigned to GraphArea::LogicCore.Graph property
             gg_Area.GenerateGraph(graph);
 
-            gg_Area.ShowAllEdgesLabels(false);
+            gg_Area.ShowAllEdgesLabels(true);
+
+            foreach (var item in gg_Area.VertexList)
+                HighlightBehaviour.SetIsHighlightEnabled(item.Value, true);
+            foreach (var item in gg_Area.EdgesList)
+                HighlightBehaviour.SetIsHighlightEnabled(item.Value, true);
         }
 
         private GraphExample BFSGraphCreating(Client client, DataVertex clVert, List<Client> clientList, Dictionary<Client, List<Client>> clientsGraph, GraphExample dataGraph, int currDist, int limit)
@@ -423,6 +463,38 @@ namespace ShowcaseApp.WPF.Pages
             }
 
             return dataGraph;
+        }
+
+        private void gg_nextbtn_Click(object sender, RoutedEventArgs e)
+        {
+            grManager.CurrentRootClientInd++;
+
+            if (grManager.CurrentRootClientInd == grManager.CurrWorkingList.Count)
+                grManager.CurrentRootClientInd = 0;
+
+            gg_but_randomgraph_Click(null, null);
+        }
+
+        private void gg_prevbtn_Click(object sender, RoutedEventArgs e)
+        {
+            grManager.CurrentRootClientInd--;
+
+            if (grManager.CurrentRootClientInd == -1)
+                grManager.CurrentRootClientInd = grManager.CurrWorkingList.Count - 1;
+
+            gg_but_randomgraph_Click(null, null);
+        }
+
+        private void gg_sort_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            grManager.IsSortingChanged = true;
+            grManager.CurrentRootClientInd = 0;
+        }
+
+        private void gg_filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            grManager.IsFilterChanged = true;
+            grManager.CurrentRootClientInd = 0;
         }
     }
 }

@@ -33,9 +33,10 @@ namespace GraphX.PCL.Logic.Algorithms.LayoutAlgorithms
 			}
 
 			public SugiEdge( TEdge original, SugiVertex source, SugiVertex target, EdgeTypes type )
-				: base( source, target, type )	I{
+				: base( source, target, type )
+			{
 				Original = original;
-		I}
-(	}
+			}
+		}
 	}
 }

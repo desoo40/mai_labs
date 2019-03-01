@@ -39,18 +39,45 @@ namespace DiplomaHelp
 
             var sumM = 0;
 
-
-
+            var kek = new Dictionary<string, int>();
             str.RemoveAt(0);
 
             Console.WriteLine("Загрузка данных:");
             var strCount = str.Count;
             //var strCount = 1000001;
+
+            var strFr = new List<string>();
+
             for (int i = 0; i < strCount; i++)
             {
                 var el = str[i];
 
                 trList.Add(new Transaction(el));
+
+                var s = "";
+
+                var lst = new List<string>();
+
+                lst.Add(trList[i].NameDest);
+                lst.Add(trList[i].NameOrig);
+
+                lst.Sort();
+
+                s = lst[0] + lst[1];
+
+                if (kek.ContainsKey(s))
+                    kek[s]++;
+                else
+                    kek[s] = 1;
+
+
+                continue;
+                //if (trList[i].isFraud)
+                //{
+                //    strFr.Add(el);
+                //    continue;
+                //}
+
 
                 #region counters
 
@@ -114,7 +141,16 @@ namespace DiplomaHelp
                 ProgressWriting(i, strCount);
             }
 
+            var slis = new List<string>();
 
+            foreach (var el in kek)
+            {
+                var s = el.Key + " " + el.Value;
+                slis.Add(s);
+            }
+
+            File.WriteAllLines("pairs.txt", slis);
+            return;
             clientsIdList = clientsIdList.Distinct().ToList();
 
             //clientsIdList.Sort();
