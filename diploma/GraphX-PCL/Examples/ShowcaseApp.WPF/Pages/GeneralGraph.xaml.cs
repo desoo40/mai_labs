@@ -30,6 +30,8 @@ namespace ShowcaseApp.WPF.Pages
             InitializeComponent();
             DataContext = this;
 
+            
+
             grManager = new GraphDataManager("diploma\\data.csv");
 
             gg_findclientId.Text = "";
@@ -349,8 +351,7 @@ namespace ShowcaseApp.WPF.Pages
 
             var rootCl = grManager.CurrWorkingList[grManager.CurrentRootClientInd];
 
-            gg_clientDescription.Text = $"ID: {rootCl.Id}, Receives: {rootCl.Receiver.Count}, Sends: {rootCl.Sender.Count}\n" +
-                                        $"MaxPath: {rootCl.MaxPath}";
+            gg_clientDescription.Text = $"ID: {rootCl.Id}, Receives: {rootCl.Receiver.Count}, Sends: {rootCl.Sender.Count}, MaxPath: {rootCl.MaxPath}";
 
             if (findingClient != "")
             {
@@ -378,22 +379,22 @@ namespace ShowcaseApp.WPF.Pages
             graph.AddVertex(rootVert);
 
 
-            var tmpVert = new DataVertex(rootClList[0].Id);
-            graph.AddVertex(tmpVert);
+            //var tmpVert = new DataVertex(rootClList[0].Id);
+            //graph.AddVertex(tmpVert);
 
-            var tmpEdge = new DataEdge(rootVert, tmpVert) { Text = "Tuda\n" +
-                                                                   "dfgdfg\n" +
-                                                                   "dfgdfgd\n" +
-                                                                   "dfgdfgdf\n" +
-                                                                   "gdfgd\n" };
-            var tmpEdge3 = new DataEdge(rootVert, tmpVert) { Text = "Tuda" };
-            var tmpEdge4 = new DataEdge(rootVert, tmpVert) { Text = "Tuda" };
-            var tmpEdge2 = new DataEdge(tmpVert, rootVert) { Text = "Suda" };
+            //var tmpEdge = new DataEdge(rootVert, tmpVert) { Text = "Tuda\n" +
+            //                                                       "dfgdfg\n" +
+            //                                                       "dfgdfgd\n" +
+            //                                                       "dfgdfgdf\n" +
+            //                                                       "gdfgd\n" };
+            //var tmpEdge3 = new DataEdge(rootVert, tmpVert) { Text = "Tuda" };
+            //var tmpEdge4 = new DataEdge(rootVert, tmpVert) { Text = "Tuda" };
+            //var tmpEdge2 = new DataEdge(tmpVert, rootVert) { Text = "Suda" };
 
-            graph.AddEdge(tmpEdge);
-            graph.AddEdge(tmpEdge2);
-            graph.AddEdge(tmpEdge3);
-            graph.AddEdge(tmpEdge4);
+            //graph.AddEdge(tmpEdge);
+            //graph.AddEdge(tmpEdge2);
+            //graph.AddEdge(tmpEdge3);
+            //graph.AddEdge(tmpEdge4);
 
             grManager.IsVisited.Clear();
 
@@ -415,6 +416,8 @@ namespace ShowcaseApp.WPF.Pages
             gg_Area.GenerateGraph(graph);
 
             gg_Area.ShowAllEdgesLabels(true);
+
+            gg_currIdText.Text = "Curr Id in list " + grManager.CurrentRootClientInd;
 
             foreach (var item in gg_Area.VertexList)
                 HighlightBehaviour.SetIsHighlightEnabled(item.Value, true);
@@ -444,6 +447,10 @@ namespace ShowcaseApp.WPF.Pages
                     continue;
 
                 var clConnVert = new DataVertex(cl.Id) { ImageId = cl.IsFraud ? 2 : 0};
+                if (cl.Id.Contains("M"))
+                {
+                    clConnVert.ImageId = 3;
+                }
                 dataGraph.AddVertex(clConnVert);
 
                 // ВАЖНО!!! Поминть здесь о возможности нескольких транзакций между двумя клиентами. Переписать под файндол 
@@ -451,11 +458,20 @@ namespace ShowcaseApp.WPF.Pages
                 //var ss = client.Sender.Find(tr => tr.NameDest == cl.Id);
                 var rr = client.Receiver.Find(tr => tr.NameOrig == cl.Id);
 
+               var ind = grManager.TransactionsList.FindIndex(el => el.NameOrig == clVert.Text && el.NameDest == clConnVert.Text);
+
                 var clEdge = new DataEdge(clVert, clConnVert);
 
                 if (rr != null)
-                    clEdge = new DataEdge(clConnVert, clVert);
+                {
+                    clEdge.Source = clConnVert;
+                    clEdge.Target = clVert;
+                    ind = grManager.TransactionsList.FindIndex(el => el.NameOrig == clConnVert.Text && el.NameDest == clVert.Text);
 
+                }
+
+                clEdge.Transaction = grManager.TransactionsList[ind];
+                clEdge.Text = ind.ToString();
 
                 dataGraph.AddEdge(clEdge);
 
@@ -496,5 +512,43 @@ namespace ShowcaseApp.WPF.Pages
             grManager.IsFilterChanged = true;
             grManager.CurrentRootClientInd = 0;
         }
+
+        private void gg_findTransBut_Click(object sender, RoutedEventArgs e)
+        {
+            var ind = 0;
+
+            try
+            {
+                ind = Convert.ToInt32(gg_findTrans.Text);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+           
+
+            if (ind >= grManager.TransactionsList.Count || ind < 0)
+            {
+                gg_transDescription.Text = "No such transaction";
+                return;
+            }
+
+            var tr = grManager.TransactionsList[ind];
+
+            gg_transDescription.Text = "";
+            gg_transDescription.Text += $"Index: {ind}, ";
+            gg_transDescription.Text += $"Is Fraud: {tr.isFraud}, ";
+            gg_transDescription.Text += $"Step: {tr.step}, ";
+            gg_transDescription.Text += $"Type: {tr.type}, ";
+            gg_transDescription.Text += $"Amount: {tr.amount},\n";
+            gg_transDescription.Text += $"Sender: {tr.NameOrig}, ";
+            gg_transDescription.Text += $"OBS: {tr.oldbalanceOrg}, ";
+            gg_transDescription.Text += $"NBS: {tr.newbalanceOrg},\n";
+            gg_transDescription.Text += $"Receiver: {tr.NameDest}, ";
+            gg_transDescription.Text += $"OBR: {tr.oldbalanceDest}, ";
+            gg_transDescription.Text += $"NBR: {tr.newbalanceDest}.";
+        }
+
+      
     }
 }

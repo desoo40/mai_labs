@@ -32,7 +32,8 @@ namespace DiplomaHelp
             StringsFile.RemoveAt(0); // удаляется строка с описанием столбцов
 
             //var strCount = StringsFile.Count;
-            var strCount = 10000;
+            var strCount = StringsFile.Count / 2;
+            //var strCount = 10000;
 
             for (int i = 0; i < strCount; i++)
             {

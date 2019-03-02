@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DiplomaHelp
 {
-    class Transaction
+    public class Transaction
     {
         public int step;
         public string type;

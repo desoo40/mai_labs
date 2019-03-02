@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using GraphX;
 using System;
+using DiplomaHelp;
 using GraphX.Measure;
 using GraphX.PCL.Common.Models;
 using ShowcaseApp.WPF.FileSerialization;
@@ -17,18 +18,14 @@ namespace ShowcaseApp.WPF
         public DataEdge(DataVertex source, DataVertex target, double weight = 1)
 			: base(source, target, weight)
 		{
-            Angle = 90;
 		}
 
         public DataEdge()
             : base(null, null, 1)
         {
-            Angle = 90;
         }
 
-        public bool ArrowTarget { get; set; }
 
-        public double Angle { get; set; }
 
         /// <summary>
         /// Node main description (header)
@@ -36,6 +33,7 @@ namespace ShowcaseApp.WPF
         private string _text;
         public string Text { get { return _text; } set { _text = value; OnPropertyChanged("Text"); } }
         public string ToolTipText {get; set; }
+        public Transaction Transaction { get; set; }
 
         public override string ToString()
         {

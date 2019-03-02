@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DiplomaHelp
 {
-    class Client
+    public class Client
     {
         public string Id;
         public List<Transaction> Sender; // транзакция, в которой отправитель
