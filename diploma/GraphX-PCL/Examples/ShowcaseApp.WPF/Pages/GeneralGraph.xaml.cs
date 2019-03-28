@@ -30,8 +30,6 @@ namespace ShowcaseApp.WPF.Pages
             InitializeComponent();
             DataContext = this;
 
-            
-
             grManager = new GraphDataManager("diploma\\data.csv");
 
             gg_findclientId.Text = "";
@@ -49,7 +47,7 @@ namespace ShowcaseApp.WPF.Pages
             gg_eralgo.SelectionChanged += gg_eralgo_SelectionChanged;
 
             gg_layalgo.ItemsSource = Enum.GetValues(typeof(LayoutAlgorithmTypeEnum)).Cast<LayoutAlgorithmTypeEnum>();
-            gg_layalgo.SelectedItem = LayoutAlgorithmTypeEnum.KK;
+            gg_layalgo.SelectedItem = LayoutAlgorithmTypeEnum.LinLog;
 
             gg_oralgo.ItemsSource = Enum.GetValues(typeof(OverlapRemovalAlgorithmTypeEnum)).Cast<OverlapRemovalAlgorithmTypeEnum>();
             gg_oralgo.SelectedIndex = 0;
@@ -398,7 +396,7 @@ namespace ShowcaseApp.WPF.Pages
 
             grManager.IsVisited.Clear();
 
-            graph = BFSGraphCreating(rootCl, rootVert, rootClList, grManager.ClientsGraph, graph, 0, 1000);
+            graph = BFSGraphCreating(rootCl, rootVert, rootClList, grManager.ClientsGraph, graph, 0, 3);
 
             //Now lets make some edges that will connect our vertices
             //get the indexed list of graph vertices we have already added
@@ -427,7 +425,6 @@ namespace ShowcaseApp.WPF.Pages
 
         private GraphExample BFSGraphCreating(Client client, DataVertex clVert, List<Client> clientList, Dictionary<Client, List<Client>> clientsGraph, GraphExample dataGraph, int currDist, int limit)
         {
-            var rand = new Random();
             var currId = client.Id;
 
             if (currDist == limit)
@@ -458,7 +455,8 @@ namespace ShowcaseApp.WPF.Pages
                 //var ss = client.Sender.Find(tr => tr.NameDest == cl.Id);
                 var rr = client.Receiver.Find(tr => tr.NameOrig == cl.Id);
 
-               var ind = grManager.TransactionsList.FindIndex(el => el.NameOrig == clVert.Text && el.NameDest == clConnVert.Text);
+
+                var ind = 0;
 
                 var clEdge = new DataEdge(clVert, clConnVert);
 
@@ -466,8 +464,12 @@ namespace ShowcaseApp.WPF.Pages
                 {
                     clEdge.Source = clConnVert;
                     clEdge.Target = clVert;
-                    ind = grManager.TransactionsList.FindIndex(el => el.NameOrig == clConnVert.Text && el.NameDest == clVert.Text);
+                    ind = grManager.StringTrDict[cl.Id + currId];
 
+                }
+                else
+                {
+                    ind = grManager.StringTrDict[currId + cl.Id];
                 }
 
                 clEdge.Transaction = grManager.TransactionsList[ind];

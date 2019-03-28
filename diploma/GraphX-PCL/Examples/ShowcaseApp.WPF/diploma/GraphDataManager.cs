@@ -13,6 +13,7 @@ namespace DiplomaHelp
 
         public List<string> StringsFile = new List<string>();
         public List<Transaction> TransactionsList = new List<Transaction>();
+        public Dictionary<string, int> StringTrDict = new Dictionary<string, int>();
 
         public List<string> ClientsIdList = new List<string>();
         public Dictionary<string, Client> ClientStringClassDict = new Dictionary<string, Client>();
@@ -32,14 +33,15 @@ namespace DiplomaHelp
             StringsFile.RemoveAt(0); // удаляется строка с описанием столбцов
 
             //var strCount = StringsFile.Count;
-            var strCount = StringsFile.Count / 2;
-            //var strCount = 10000;
+            //var strCount = StringsFile.Count / 2;
+            var strCount = 100000;
 
             for (int i = 0; i < strCount; i++)
             {
                 var el = StringsFile[i];
 
                 TransactionsList.Add(new Transaction(el));
+                StringTrDict.Add(TransactionsList[i].NameOrig + TransactionsList[i].NameDest, i);
 
                 var sender = TransactionsList[i].NameOrig;
                 var receiver = TransactionsList[i].NameDest;

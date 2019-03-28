@@ -25,8 +25,6 @@ namespace ShowcaseApp.WPF
         {
         }
 
-
-
         /// <summary>
         /// Node main description (header)
         /// </summary>
