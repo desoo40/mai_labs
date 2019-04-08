@@ -1,9 +1,11 @@
 import numpy as np
 from pandas import read_csv as read
 
-path = "data.csv"
-rows = 1000000
-data = read(path, delimiter=",", nrows=rows, usecols=[0,1,2,4,5,7,8,9])
+path = "new.csv"
+rows = 10000000
+data = read(path, delimiter=",", nrows=rows, usecols=[0,1,2,4,5,7,8,9,11,12])
+
+print(len(data))
 
 X = data.values[:, 0:6]
 y = data.values[:, 7]
@@ -24,11 +26,11 @@ print(len(y_train))
 print(len(X_test))
 print(len(y_test))
 
-# from sklearn.ensemble import RandomForestClassifier
-# clf = RandomForestClassifier(n_estimators=100, n_jobs=-1)
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+clf = RandomForestClassifier(n_estimators=100, n_jobs=-1)
+# from sklearn.tree import DecisionTreeClassifier
 
-clf = DecisionTreeClassifier()
+# clf = DecisionTreeClassifier()
 clf.fit(X_train, y_train)
 
 expected = y_test
@@ -46,7 +48,7 @@ conf_matrix = metrics.confusion_matrix(expected, predicted)
 
 print(report)
 print(conf_matrix)
-
+print(metrics.roc_auc_score(expected, predicted))
 # print(clf.score(X_test, y_test)) бесполезна в этой задаче
 
 # import matplotlib.pyplot as plt
