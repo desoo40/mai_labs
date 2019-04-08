@@ -19,7 +19,7 @@ X[:, 1] = le.fit_transform(X[:, 1])
 # from sklearn.cross_validation import train_test_split as train - changed to model selection
 from sklearn.model_selection import train_test_split as train
 
-X_train, X_test, y_train, y_test = train(X, y)
+X_train, X_test, y_train, y_test = train(X, y, shuffle=False)
 
 print(len(X_train))
 print(len(y_train))
