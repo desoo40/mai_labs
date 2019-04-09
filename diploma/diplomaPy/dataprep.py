@@ -2,51 +2,72 @@ import numpy as np
 from pandas import read_csv as read
 
 path = "data.csv"
-data = read(path, delimiter=",", nrows=1000)
+data = read(path, delimiter=",", nrows=2000000)
 
-uniq_cl = set()
-fraud_cl = set()
+senders = set()
+receivers = set()
+frauds = set()
 merchants = set()
-is_new = list()
 
-X = data.values[:, :]
+is_new_sender = list()
+is_new_receiver = list()
+merhants_list = list()
+frauds_early = list()
+
+X = data.values
 
 for trans in X:
     sender = trans[3]
     receiver = trans[6]
     is_fraud = trans[9]
 
-    is_new_app = 0
+    is_new_sender_app = 0
+    is_new_receiver_app = 0
     is_merchant_app = 0
     is_fraud_early_app = 0
+
     ## поиск уникальных
-    if  sender in uniq_cl or receiver in uniq_cl:
-        is_new_app = 1
-    else:
-        uniq_cl.add(trans[3])
-        uniq_cl.add(trans[6])
+    
+    if sender not in senders:
+        is_new_sender_app = 1
+        senders.add(sender)
+
+    if receiver not in receivers:
+        is_new_receiver_app = 1
+        receivers.add(receiver)
 
     ## магазины
 
-    if receiver.contains('M'):
+    if 'M' in receiver:
         is_merchant_app = 1
-    
+
+    ## frauds
+
+    if sender in frauds or receiver in frauds:
+        is_fraud_early_app = 1
+
     if is_fraud == 1:
-        fraud_cl.add(sender)
-        fraud_cl.add(receiver)
+        frauds.add(sender)
+        frauds.add(receiver)
+
     
-    is_new.append(is_new_app)
-    merchants.append(is_merchant_app)
     
+    is_new_sender.append(is_new_sender_app)
+    is_new_receiver.append(is_new_receiver_app)
+    merhants_list.append(is_merchant_app)
+    frauds_early.append(is_fraud_early_app) 
     
 
 hours = data.values[:, 0]
 
 hours %= 24
 data['hour'] = hours
-data['newClient'] = is_new
+data['newSender'] = is_new_sender
+data['newReceiver'] = is_new_receiver
+data['merchant'] = merhants_list
+data['fraudsEarly'] = frauds_early
 
 
-data.to_csv("new.csv", sep=",", index=False)
+data.to_csv("new.csv", index=False)
 
-print(sum(p == 1 for p in is_new))
+print(sum(p == 1 for p in frauds_early))

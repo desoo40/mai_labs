@@ -2,19 +2,33 @@ import numpy as np
 from pandas import read_csv as read
 
 path = "new.csv"
-rows = 10000000
-data = read(path, delimiter=",", nrows=rows, usecols=[0,1,2,4,5,7,8,9,11,12])
+rows = 2000000
+cols = ['step','type','amount','oldbalanceOrg','newbalanceOrig','oldbalanceDest','newbalanceDest','isFraud','hour','newSender','newReceiver','merchant','fraudsEarly']
+data = read(path, delimiter=",", nrows=rows, usecols=cols)
 
-print(len(data))
+print(data.head())
 
-X = data.values[:, 0:6]
-y = data.values[:, 7]
+X = data.loc[:, data.columns != 'isFraud'].values
+
+y = data.loc[:, 'isFraud'].values
+
+
+print(X[0])
+
 y=y.astype('int') # не совсем понял, почему https://stackoverflow.com/questions/45346550/valueerror-unknown-label-type-unknown
 
 from sklearn.preprocessing import LabelEncoder
 
 le = LabelEncoder()
 X[:, 1] = le.fit_transform(X[:, 1])
+
+# from sklearn import preprocessing
+# # normalize the data attributes
+# normalized_X = preprocessing.normalize(X)
+# # standardize the data attributes
+# standardized_X = preprocessing.scale(X)
+
+
 
 # from sklearn.cross_validation import train_test_split as train - changed to model selection
 from sklearn.model_selection import train_test_split as train
@@ -27,7 +41,7 @@ print(len(X_test))
 print(len(y_test))
 
 from sklearn.ensemble import RandomForestClassifier
-clf = RandomForestClassifier(n_estimators=100, n_jobs=-1)
+clf = RandomForestClassifier(n_jobs=-1)
 # from sklearn.tree import DecisionTreeClassifier
 
 # clf = DecisionTreeClassifier()
