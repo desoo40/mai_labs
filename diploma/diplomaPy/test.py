@@ -1,26 +1,30 @@
 import numpy as np
 from pandas import read_csv as read
+import pandas as pd
+import seaborn as sns; sns.set(color_codes=True)
+import matplotlib.pyplot as plt
 
 path = "new.csv"
 rows = 2000000
-cols = ['step','type','amount','oldbalanceOrg','newbalanceOrig','oldbalanceDest','newbalanceDest','isFraud','hour','newSender','newReceiver','merchant','fraudsEarly']
+cols = ['step','type','amount','oldbalanceOrg','newbalanceOrig','oldbalanceDest','newbalanceDest','isFraud','hour','newSender','newReceiver','merchant','fraudsEarly','LTS','LTR','IZoB']
 data = read(path, delimiter=",", nrows=rows, usecols=cols)
 
-print(data.head())
+# print(data.corr())
+# print(data.head())
+
+data = pd.get_dummies(data)
+# print(data.head())
 
 X = data.loc[:, data.columns != 'isFraud'].values
-
 y = data.loc[:, 'isFraud'].values
 
-
-print(X[0])
 
 y=y.astype('int') # не совсем понял, почему https://stackoverflow.com/questions/45346550/valueerror-unknown-label-type-unknown
 
 from sklearn.preprocessing import LabelEncoder
 
-le = LabelEncoder()
-X[:, 1] = le.fit_transform(X[:, 1])
+# le = LabelEncoder()
+# X[:, 1] = le.fit_transform(X[:, 1])
 
 # from sklearn import preprocessing
 # # normalize the data attributes
@@ -28,44 +32,49 @@ X[:, 1] = le.fit_transform(X[:, 1])
 # # standardize the data attributes
 # standardized_X = preprocessing.scale(X)
 
-
-
 # from sklearn.cross_validation import train_test_split as train - changed to model selection
 from sklearn.model_selection import train_test_split as train
 
 X_train, X_test, y_train, y_test = train(X, y, shuffle=False)
 
-print(len(X_train))
-print(len(y_train))
-print(len(X_test))
-print(len(y_test))
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import metrics
 
-from sklearn.ensemble import RandomForestClassifier
-clf = RandomForestClassifier(n_jobs=-1)
-# from sklearn.tree import DecisionTreeClassifier
+models = []
+models.append(RandomForestClassifier(n_estimators=165, n_jobs=-1))
+models.append(GradientBoostingClassifier(max_depth=4))
+models.append(GaussianNB())
+models.append(KNeighborsClassifier(n_neighbors=20))
+models.append(DecisionTreeClassifier())
 
-# clf = DecisionTreeClassifier()
-clf.fit(X_train, y_train)
+for model in models:
+    
+    model.fit(X_train, y_train)
+    expected = y_test
+    predicted = model.predict(X_test)
 
-expected = y_test
-predicted = clf.predict(X_test)
+    report = metrics.classification_report(expected, predicted)
+    conf_matrix = metrics.confusion_matrix(expected, predicted)
+
+    print(report)
+    print(conf_matrix)
+    print(metrics.roc_auc_score(expected, predicted))
+    print(metrics.auc)
 
 # lol = np.c_[expected, predicted]
 # np.savetxt('lol.txt', lol, fmt='%d')
 # print(expected[0])
 # print(lol[0])
 
-from sklearn import metrics
 
-report = metrics.classification_report(expected, predicted)
-conf_matrix = metrics.confusion_matrix(expected, predicted)
 
-print(report)
-print(conf_matrix)
-print(metrics.roc_auc_score(expected, predicted))
+
 # print(clf.score(X_test, y_test)) бесполезна в этой задаче
 
-# import matplotlib.pyplot as plt
+
 # import itertools
 # from matplotlib.pylab import rc, plot
 
