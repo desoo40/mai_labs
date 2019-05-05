@@ -9,11 +9,20 @@ rows = 10000000
 
 data = read(path, delimiter=",", nrows=rows)
 
+corr = data.corr()
+
+sns.heatmap(corr, 
+    vmin=-1, vmax=1, center=0,
+    cmap=sns.diverging_palette(20, 220, n=200),
+    square=True)
+    
+plt.savefig("hm.png")
+
 y = data['Temperature (C)'].values
 data.drop('Temperature (C)', axis=1, inplace=True)
 data.drop('Formatted Date', axis=1, inplace=True)
 data.drop('Cont', axis=1, inplace=True)
-# data.drop('Apparent Temperature (C)', axis=1, inplace=True)
+data.drop('Apparent Temperature (C)', axis=1, inplace=True)
 
 from sklearn.preprocessing import LabelEncoder
 

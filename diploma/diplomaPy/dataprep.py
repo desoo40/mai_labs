@@ -2,7 +2,7 @@ import numpy as np
 from pandas import read_csv as read
 
 path = "data.csv"
-data = read(path, delimiter=",", nrows=70000000)
+data = read(path, delimiter=",", nrows=2000000)
 
 senders = set()
 receivers = set()
