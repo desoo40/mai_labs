@@ -1,18 +1,19 @@
 import numpy as np
+import random
 from pandas import read_csv as read
 import pandas as pd
 import seaborn as sns; sns.set(color_codes=True)
 import matplotlib.pyplot as plt
 
-path = "new.csv"
-rows = 1500000
-data = read(path, delimiter=",", nrows=rows)
+path = "newFilt.csv"
+data = read(path, delimiter=",")
 
 print(data.corr())
 # print(data.head())
 
-data.drop(columns=['isFlaggedFraud', 'nameOrig', 'nameDest'], axis=1, inplace=True)
-
+data.drop('isFlaggedFraud', axis=1, inplace=True)
+data.drop('nameOrig', axis=1, inplace=True)
+data.drop('nameDest', axis=1, inplace=True)
 
 from sklearn.preprocessing import LabelEncoder
 
@@ -46,11 +47,11 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
 
 models = []
-# models.append(DecisionTreeClassifier())
+models.append(DecisionTreeClassifier())
 models.append(RandomForestClassifier(n_estimators=110, n_jobs=-1))
-# models.append(GradientBoostingClassifier(max_depth=4))
-# models.append(GaussianNB())
-# models.append(KNeighborsClassifier(n_neighbors=20))
+models.append(GradientBoostingClassifier(max_depth=4))
+models.append(GaussianNB())
+models.append(KNeighborsClassifier(n_neighbors=20))
 
 for model in models:
     
@@ -65,12 +66,12 @@ for model in models:
     roc_auc = metrics.auc(fpr, tpr)
 
     plt.title("ROC")
-    plt.plot(fpr, tpr, 'b', label='AUC = %0.2f' % roc_auc)
+    plt.plot(fpr, tpr, 'b', label=f'AUC{type(model).__name__}' + '= %0.2f' % roc_auc, color=(random.uniform(0,1), random.uniform(0, 1), random.uniform(0, 1)))
     plt.legend(loc = 'lower right')
     plt.plot([0, 1], [0, 1], 'r--')
     plt.xlabel('FP Rate')
     plt.ylabel('TP Rate')
-    plt.savefig("roc.png")
+    
 
     report = metrics.classification_report(expected, predicted)
     conf_matrix = metrics.confusion_matrix(expected, predicted)
@@ -79,4 +80,11 @@ for model in models:
     print(report)
     print(conf_matrix)
     print(metrics.roc_auc_score(expected, preds))
-    print(roc_auc)
+    # print(roc_auc)
+
+    # df = pd.DataFrame()
+    # df['Exp'] = expected
+    # df['pre'] = predicted
+    # df.to_csv('ep.csv', index=False)
+
+plt.savefig("roc.png")

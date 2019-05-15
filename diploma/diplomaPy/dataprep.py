@@ -1,8 +1,8 @@
 import numpy as np
 from pandas import read_csv as read
 
-path = "data.csv"
-data = read(path, delimiter=",", nrows=2000000)
+path = "filtData.csv"
+data = read(path, delimiter=",", nrows=70000000)
 
 senders = set()
 receivers = set()
@@ -91,4 +91,4 @@ data['LTR'] = last_trans_receiver
 data['IZoB'] = is_zero_on_balance
 
 
-data.to_csv("new.csv", index=False)
+data.to_csv("newFilt.csv", index=False)
