@@ -11,13 +11,6 @@ data = read(path, delimiter=",", nrows=rows)
 
 corr = data.corr()
 
-sns.heatmap(corr, 
-    vmin=-1, vmax=1, center=0,
-    cmap=sns.diverging_palette(20, 220, n=200),
-    square=True)
-    
-plt.savefig("hm.png")
-
 y = data['Temperature (C)'].values
 data.drop('Temperature (C)', axis=1, inplace=True)
 data.drop('Formatted Date', axis=1, inplace=True)
@@ -80,7 +73,7 @@ resid = expected - predicted
 
 import statsmodels.api as sm
 dw = sm.stats.stattools.durbin_watson(resid)
-
+print (dw)
 df = pd.DataFrame()
 df['Exp'] = expected
 df['pre'] = predicted
@@ -89,5 +82,5 @@ df.to_csv('ep.csv', index=False)
 
 
 
-# sns.distplot(df['Err'])
-# plt.savefig("err.png")
+sns.distplot(df['res'])
+plt.savefig("err.png")
