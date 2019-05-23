@@ -150,7 +150,7 @@ namespace DiplomaHelp
             }
 
             File.WriteAllLines("pairs.txt", slis);
-            return;
+            //return;
             clientsIdList = clientsIdList.Distinct().ToList();
 
             //clientsIdList.Sort();
