@@ -5,7 +5,7 @@ import pandas as pd
 import seaborn as sns; sns.set(color_codes=True)
 import matplotlib.pyplot as plt
 
-path = "newFilt.csv"
+path = "filtData.csv"
 data = read(path, delimiter=",")
 
 print(data.corr())
@@ -14,12 +14,15 @@ print(data.corr())
 data.drop('isFlaggedFraud', axis=1, inplace=True)
 data.drop('nameOrig', axis=1, inplace=True)
 data.drop('nameDest', axis=1, inplace=True)
+data.drop('newbalanceDest', axis=1, inplace=True)
+data.drop('oldbalanceDest', axis=1, inplace=True)
+data.drop('newbalanceOrig', axis=1, inplace=True)
+data.drop('step', axis=1, inplace=True)
 
 from sklearn.preprocessing import LabelEncoder
 
 le = LabelEncoder()
 data['type'] = le.fit_transform(data['type'])
-
 # data = pd.get_dummies(data)
 print(data.head())
 
@@ -62,4 +65,4 @@ export_graphviz(model, out_file=dot_data,
                 filled=True, rounded=True,
                 special_characters=True)
 graph = pydotplus.graph_from_dot_data(dot_data.getvalue())  
-graph.write_png('tree.png')
+graph.write_png('treeNoFeat.png')
