@@ -50,7 +50,6 @@ models = []
 models.append(DecisionTreeClassifier())
 models.append(RandomForestClassifier(n_estimators=110, n_jobs=-1))
 models.append(GradientBoostingClassifier(max_depth=4))
-models.append(GaussianNB())
 models.append(KNeighborsClassifier(n_neighbors=20))
 
 for model in models:
@@ -62,15 +61,7 @@ for model in models:
     pobas = model.predict_proba(X_test)
     preds = pobas[:, 1]
 
-    fpr, tpr, thershold = metrics.roc_curve(expected, preds)
-    roc_auc = metrics.auc(fpr, tpr)
-
-    plt.title("ROC")
-    plt.plot(fpr, tpr, 'b', label=f'AUC{type(model).__name__}' + '= %0.2f' % roc_auc, color=(random.uniform(0,1), random.uniform(0, 1), random.uniform(0, 1)))
-    plt.legend(loc = 'lower right')
-    plt.plot([0, 1], [0, 1], 'r--')
-    plt.xlabel('FP Rate')
-    plt.ylabel('TP Rate')
+    
     
 
     report = metrics.classification_report(expected, predicted)

@@ -10,7 +10,7 @@ drops = list()
 for i in range(0, len(X)):
     if (i % 500000 == 0):
         print(i)
-    if X[i][9] == 0 and random.randint(0, 60) < 60:
+    if X[i][9] == 0 and random.randint(0, 30) < 30:
         drops.append(i)
 
 new = data.drop(drops)
