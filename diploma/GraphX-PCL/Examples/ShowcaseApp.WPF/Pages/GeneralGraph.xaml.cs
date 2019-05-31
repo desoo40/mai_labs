@@ -30,7 +30,7 @@ namespace ShowcaseApp.WPF.Pages
             InitializeComponent();
             DataContext = this;
 
-            grManager = new GraphDataManager("diploma\\data.csv");
+            grManager = new GraphDataManager("diploma\\filtData500k.csv");
 
             gg_findclientId.Text = "";
             var ggLogic = new LogicCoreExample();
