@@ -1,0 +1,29 @@
+import matplotlib as mpl
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+import matplotlib.pyplot as plt
+
+mpl.rcParams['legend.fontsize'] = 10
+
+def u(r, phi):
+    return 2 * r * np.sin(phi)
+
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+
+dots = 5
+
+R = np.linspace(0, 1, dots)
+P = np.linspace(0, 2 * np.pi, dots)
+
+R, P = np.meshgrid(R, P)
+
+X = R * np.cos(P)
+Y = R * np.sin(P)
+Z = u(X, Y)
+
+ax = plt.axes(projection='3d')
+ax.plot_surface(X, Y, Z)
+
+
+plt.show()

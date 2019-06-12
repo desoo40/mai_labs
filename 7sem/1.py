@@ -2,9 +2,11 @@ import numpy as np
 
 k = 2
 delta = 0.01
+t = 0.028
+cnstant = [2, -4, 5, -1]
+vt = [1, 2, 3, 4]
 
 mtx = np.loadtxt("input.txt", dtype='i', delimiter=' ')
-
 #mtx = np.matrix(mtx)
 
 if np.linalg.det(mtx) == 0:
@@ -30,19 +32,9 @@ def A_wave():
 def vk():
 	return (F(delta) * np.linalg.inv(F(0)) * np.linalg.inv(mtx) - np.linalg.inv(mtx)) * np.transpose(np.matrix(vt))
 
-def yk1():
-	return A_wave() * xk_del() + vk()
-
-
-print("A:\n")
-print(mtx,"\n")
-print("v(t):\n")
-print(vt,"\n")
 print("A wave:\n")
 print(A_wave(),"\n")
 print("v_k:\n")
 print(vk(),"\n")
 print("y_k:\n")
 print(xk_del(),"\n")
-print("y_k+1:\n")
-print(yk1(),"\n")
