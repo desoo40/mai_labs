@@ -17,7 +17,7 @@ def gen_strings(qty):
 
 def add_to_tree(s, node):
     if (s == node):
-        print(f"\'{s}\' is already in tree")
+        print(f"'{s}' is already in tree")
         return
 
     if (s > node):
@@ -36,12 +36,12 @@ def add_to_tree(s, node):
 
 def find_nearest(f_str, node):
     if (f_str == node):
-        print(f"Find same word! \'{f_str}\' == \'{node}\''")
+        print(f"Find same word! '{f_str}' == '{node}'")
         return
 
     if (f_str > node):
         if (bin_tree[node][1] == None):
-            print(f"Nearest for \'{f_str}\' is \'{node}\''")
+            print(f"Nearest for '{f_str}' is '{node}'")
             return
         else:
             find_nearest(f_str, bin_tree[node][1])
