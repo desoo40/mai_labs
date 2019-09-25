@@ -1,0 +1,12 @@
+-- 1. Data definition language (DDL)
+Create table PERSON(
+    PERSON_ID INTEGER,
+    PERSON_NAME VARCHAR2(200),
+    BIRTH_DATE DATE
+);
+
+-- INTEGER
+-- NUMBER (38, 2) - фиксированнаая точка
+-- FLOAT - плавающая точка
+
+-- 2. Data manipulation language
