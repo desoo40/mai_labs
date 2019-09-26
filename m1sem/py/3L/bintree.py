@@ -40,9 +40,9 @@ class StrBinTree:
         elif self.node_string == s:
             return True
         elif s > self.node_string:
-            self.right_node.isin(s)
+            return self.right_node.isin(s)
         else:
-            self.left_node.isin(s)
+            return self.left_node.isin(s)
         
     def remove(self, s):
         '''
@@ -52,12 +52,17 @@ class StrBinTree:
         if self.node_string == None:
             return 1
         elif self.node_string == s:
-            self.node_string = None
+            
+            if self.left_node != None and self.right_node == None:
+                self.node_string = self.left_node.node_string
+                self.left_node = self.left_node.left_node
+                self.right_node = self.left_node.right_node
+
             return 0
         elif s > self.node_string:
-            self.right_node.remove(s)
+            return self.right_node.remove(s)
         else:
-            self.left_node.remove(s)
+            return self.left_node.remove(s)
         
     def get(self, str):
         '''
@@ -65,6 +70,15 @@ class StrBinTree:
         до нее
         '''
         pass
+
+    def print_tree(self, n):
+        if self.node_string == None:
+            return
+        
+        print('\t' * n, self.node_string)
+
+        self.right_node.print_tree(n + 1)
+        self.left_node.print_tree(n + 1)
 
     def __len__(self):
         '''
@@ -94,11 +108,38 @@ class StrBinTree:
     
         return l
 
+import random
+import string
+
+def gen_strings(qty):
+    l = []
+
+    for i in range(qty):
+        x = random.randint(3,8)
+        l.append(''.join(random.choices(string.ascii_lowercase, k=x)))
+
+    return l
+
+
 tree = StrBinTree()
 
-tree.add("sdfkksd")
-tree.add("e;llwfdsf")
-tree.add("e;sdfsdfllwfdsf")
+# list_str = list(string.ascii_lowercase)
+# random.shuffle(list_str)
+
+# print(list_str)
+
+# for i in list_str:
+#     tree.add(i)
+
+tree.add("8")
+tree.add("5")
+tree.add("2")
+tree.add("9")
+
 
 print(tree.to_list())
-print(len(tree))
+tree.print_tree(0)
+tree.remove("5")
+tree.print_tree(0)
+
+print(tree.to_list())
