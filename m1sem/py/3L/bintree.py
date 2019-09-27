@@ -13,15 +13,20 @@ class StrBinTree:
         '''
         if self.node_string == None:
             self.node_string = s
-            self.left_node = StrBinTree()
-            self.right_node = StrBinTree()
 
         elif s == self.node_string:
             print(f"{s} is already in tree")
             return
+        
         elif s > self.node_string:
+            if self.right_node == None:
+                self.right_node = StrBinTree()
+
             self.right_node.add(s)
         else:
+            if self.left_node == None:
+                self.left_node = StrBinTree()
+
             self.left_node.add(s)
     
     # Каков смысл этой функции?
@@ -40,9 +45,10 @@ class StrBinTree:
         elif self.node_string == s:
             return True
         elif s > self.node_string:
-            return self.right_node.isin(s)
+            
+            return self.right_node.isin(s) if self.right_node != None else False
         else:
-            return self.left_node.isin(s)
+            return self.left_node.isin(s) if self.left_node != None else False
         
     def remove(self, s):
         '''
@@ -87,7 +93,7 @@ class StrBinTree:
         if self.node_string == None:
             return 0
 
-        l = 1       
+        l = 1
         l += len(self.left_node)
         l += len(self.right_node)
     
@@ -97,14 +103,20 @@ class StrBinTree:
         '''
         возвращает все строки в виде упорядоченного списка
         '''
+        if (self == None):
+            return []
         if self.node_string == None:
             return []
         
         l = []
        
-        l += self.left_node.to_list()
+        if self.left_node != None:
+            l += self.left_node.to_list()
+        
         l.append(self.node_string)
-        l += self.right_node.to_list()
+        
+        if self.right_node != None:
+            l += self.right_node.to_list()
     
         return l
 
@@ -138,8 +150,7 @@ tree.add("9")
 
 
 print(tree.to_list())
-tree.print_tree(0)
-tree.remove("5")
-tree.print_tree(0)
+print(tree.isin("2"))
+print(tree.isin("3"))
 
 print(tree.to_list())
