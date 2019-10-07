@@ -6,8 +6,7 @@ create table CITY
     REGION    VARCHAR2(100),
     COUNTRY   VARCHAR2(100),
     CITY_NAME VARCHAR2(250)
-)
-/
+);
 
 create table OFFICE
 (
@@ -18,8 +17,7 @@ create table OFFICE
         constraint R_5
             references CITY,
     OFFICE_NAME VARCHAR2(200)
-)
-/
+);
 
 create table MANAGER
 (
@@ -31,8 +29,7 @@ create table MANAGER
         constraint R_4
             references OFFICE,
     MANAGER_LAST_NAME  VARCHAR2(250)
-)
-/
+);
 
 create table PRODUCT
 (
@@ -40,8 +37,7 @@ create table PRODUCT
         constraint XPKPRODUCT
             primary key,
     PRODUCT_NAME VARCHAR2(200)
-)
-/
+);
 
 create table SALES_ORDER
 (
@@ -52,8 +48,7 @@ create table SALES_ORDER
     MANAGER_ID     NUMBER
         constraint R_1
             references MANAGER
-)
-/
+);
 
 create table SALES_ORDER_LINE
 (
@@ -68,8 +63,7 @@ create table SALES_ORDER_LINE
             references PRODUCT,
     PRODUCT_QTY    NUMBER(32, 2),
     PRODUCT_PRICE  NUMBER(32, 2)
-)
-/
+);
 
 create table COMPANY
 (
@@ -83,8 +77,7 @@ create table COMPANY
     WARRANTS       VARCHAR2(3),
     MARKET_CAPITAL NUMBER(15, 10),
     MAIN_MARKET    VARCHAR2(100)
-)
-/
+);
 
 create table SALES_ORDER_LINE_EMPTY
 (
@@ -93,33 +86,28 @@ create table SALES_ORDER_LINE_EMPTY
     PRODUCT_ID     NUMBER not null,
     PRODUCT_QTY    NUMBER(32, 2),
     PRODUCT_PRICE  NUMBER(32, 2)
-)
-/
+);
 
 create table T1
 (
     T1_ID NUMBER
-)
-/
+);
 
 create table T2
 (
     T2_ID NUMBER
-)
-/
+);
 
 create table STUDENT_ACCOUNT
 (
     STUD_ID      NUMBER,
     STUD_ACCOUNT VARCHAR2(100)
-)
-/
+);
 
 create table STUDENT_NEW
 (
     STUD_ID   NUMBER,
     STUD_NAME VARCHAR2(100)
-)
-/
+);
 
 
