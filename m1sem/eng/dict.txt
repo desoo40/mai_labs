@@ -33,5 +33,29 @@ line drive -
 influence - влияние
 perceptions - восприятие
 
+-----
 
-
+untangling - распутывать
+caliber - калибр (значительность)
+how conﬁdent - насколько уверен
+claim - заявление (запрос)
+probability - вероятность
+random variables - случайные величины
+hypothetical - гипотетически
+inﬁnite - бесконечность
+precisely - точно
+estimate - оценивать
+Corresponding - соответствующий
+calibrate - калибровать
+occasionally - время от времени
+eligible - право
+randomness manifests - случайность проявляется
+Among other ﬂaws - среди прочих
+predict - прогнозировать (предсказывавть)
+unduly - чрезмерно
+ﬂuctuation - флуктуация (колебания)
+variations - вариации
+invalidate - аннулировать
+assumption - предположение
+simultaneous - одновременный
+implied - подразумеваемые
